@@ -1,0 +1,108 @@
+<%- include('partials/header') %>
+
+<main class="max-w-5xl mx-auto my-12 px-6 flex-grow">
+  <div class="bg-white rounded-2xl shadow-xl border border-gray-150 p-6 sm:p-10 relative overflow-hidden">
+    
+    <!-- Top Decorative Gradient Line -->
+    <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+
+    <!-- Header title -->
+    <div class="border-b border-gray-150 pb-6 mb-8 text-center sm:text-left">
+      <h2 class="text-3xl font-extrabold font-display text-gray-950 tracking-tight flex items-center justify-center sm:justify-start">
+        <i data-lucide="shield-check" class="w-8 h-8 mr-3 text-blue-600 animate-pulse"></i> Privacy Notice
+      </h2>
+      <p class="text-xs text-gray-500 mt-1">Last Updated: June 2026. We respect your digital boundaries and keep your personal data secure.</p>
+    </div>
+
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Quick Navigation Sidebar -->
+      <div class="lg:col-span-4 space-y-4">
+        <div class="bg-gray-50 border border-gray-200 p-5 rounded-2xl sticky top-6">
+          <h4 class="font-extrabold text-sm text-gray-950 border-b border-gray-200 pb-2 mb-3">Quick Navigation</h4>
+          <ul class="space-y-2.5 text-xs text-blue-700 font-medium">
+            <li><a href="#collected" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 1. Information Collected</a></li>
+            <li><a href="#howused" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 2. How We Use Information</a></li>
+            <li><a href="#cookies" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 3. Cookies Policy</a></li>
+            <li><a href="#sharing" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 4. Information Sharing</a></li>
+            <li><a href="#security" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 5. Data Security Standards</a></li>
+            <li><a href="#rights" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 6. Your Rights & Controls</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Main legal content -->
+      <div class="lg:col-span-8 space-y-8 text-sm text-gray-700 leading-relaxed font-sans">
+        
+        <section id="collected" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 1</span> Information We Collect
+          </h3>
+          <p>
+            We collect personal information that you provide voluntarily when using Shopzy. This includes details like your full name, email address, physical shipping address, billing details, and phone numbers when placing an order or registering an account.
+          </p>
+          <p class="mt-2 text-gray-500">
+            We also capture automated technical metadata, such as browser client agents, IP addresses, screen sizes, and navigation routes to optimize search parameters and page delivery.
+          </p>
+        </section>
+
+        <section id="howused" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 2</span> How We Use Your Information
+          </h3>
+          <p>
+            Your information helps us personalize and continuously enhance your shopping experience at Shopzy. Specifically, we use your data to:
+          </p>
+          <ul class="list-disc pl-5 mt-2 space-y-1.5">
+            <li>Process and fulfill orders, shipments, and payment processing.</li>
+            <li>Communicate with you regarding purchases, promotions, and customer service.</li>
+            <li>Analyze marketplace metrics and performance.</li>
+            <li>Detect, prevent, and mitigate fraudulent or malicious operations.</li>
+          </ul>
+        </section>
+
+        <section id="cookies" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 3</span> Cookies Policy
+          </h3>
+          <p>
+            Cookies are unique alphanumeric identifiers sent to your browser to identify your active session. We use cookies to keep track of your shopping cart entries, recognize you upon login, and prevent you from having to re-enter details repeatedly.
+          </p>
+        </section>
+
+        <section id="sharing" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 4</span> Sharing of Information
+          </h3>
+          <p>
+            Information about our customers is a vital asset of our business model, and we are not in the business of selling it to third-party ad brokers. We share customer information only with professional logistics and payment gateways (such as delivery agents and banks) necessary to process transactions.
+          </p>
+        </section>
+
+        <section id="security" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 5</span> Data Security Standards
+          </h3>
+          <p>
+            We deploy secure sockets layer (SSL) encryption protocol and strong industry-standard cryptographic techniques to safeguard data in transit. Standard physical, digital, and cloud verification gates are updated regularly to resist unauthorised breaches.
+          </p>
+        </section>
+
+        <section id="rights" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 6</span> Your Rights & Controls
+          </h3>
+          <p>
+            You have full entitlement to access, edit, or terminate your personal records. Simply navigate to your <a href="/profile" class="text-blue-600 underline font-medium">User Profile</a> to modify address profiles or password parameters anytime.
+          </p>
+        </section>
+
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<%- include('partials/footer') %>

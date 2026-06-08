@@ -1,0 +1,173 @@
+  <!-- Footer Section -->
+  <footer class="bg-amazon-navy text-gray-300 text-sm mt-auto">
+    <!-- Back to top banner -->
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" class="w-full bg-amazon-accent text-center text-xs py-3 text-white font-semibold hover:bg-opacity-90 transition">
+      Back to Top
+    </button>
+
+    <!-- Detailed Footer Links Grid -->
+    <div class="max-w-7xl mx-auto py-12 px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <h4 class="text-white font-bold mb-4 text-base font-display">Get to Know Us</h4>
+        <p class="text-xs text-gray-400 mb-2">Shopzy is a premier cloud commerce platform providing a fast, curated shopping playground imitating the world's finest marketplaces.</p>
+        <span class="text-amazon-orange text-xs font-semibold flex items-center mt-3">
+          <i data-lucide="shield-check" class="w-4 h-4 mr-1"></i> SSL Secure Gateway Verified
+        </span>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 text-base font-display">Shop by Categories</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="/products?category=Smartphones" class="hover:underline hover:text-white">Smartphones & Tech</a></li>
+          <li><a href="/products?category=Laptops" class="hover:underline hover:text-white">Laptops & Workstations</a></li>
+          <li><a href="/products?category=Mens+Clothing" class="hover:underline hover:text-white">Men's Garments</a></li>
+          <li><a href="/products?category=Furniture" class="hover:underline hover:text-white">Home & Living</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 text-base font-display">Let Us Help You</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="/profile" class="hover:underline hover:text-white">Your Account Panel</a></li>
+          <li><a href="/orders" class="hover:underline hover:text-white">Your Product Orders</a></li>
+          <li><a href="/contact" class="hover:underline hover:text-white">Help & Support Desk</a></li>
+          <li><a href="/contact" class="hover:underline hover:text-white">Raise Support Ticket</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-bold mb-4 text-base font-display">Newsletter Sign Up</h4>
+        <p class="text-xs text-gray-400 mb-3">Subscribe to get daily promotion newsletters, discount coupons, and hot deals.</p>
+        <form action="/newsletter/subscribe" method="POST" class="flex">
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="Your Email Address" 
+            required
+            class="bg-gray-805 bg-white text-gray-900 border border-transparent rounded-l-md px-3 py-2 text-xs w-full focus:ring-1 focus:ring-amazon-gold focus:outline-none"
+          />
+          <button type="submit" class="bg-amazon-gold text-amazon-navy px-4 py-2 text-xs font-extrabold rounded-r-md hover:bg-amazon-gold/90 transition">
+            Join
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright Information -->
+    <div class="border-t border-gray-800 text-center py-6 text-xs text-gray-500">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p>© 2026 Shopzy Marketplace Inc. Constructed for live Cloud Run demonstration.</p>
+        <div class="flex space-x-4 text-[10px]">
+          <a href="/conditions-of-use" class="hover:underline">Conditions of Use</a>
+          <a href="/privacy-notice" class="hover:underline">Privacy Notice</a>
+          <a href="/consumer-interest-ads" class="hover:underline">Consumer Interest Ads</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icon Trigger & Autocomplete JS Scripts -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Fire up Lucide Icon renderer nicely
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      } else {
+        console.warn('Lucide not loaded initially. Retrying replacement in 800ms...');
+        setTimeout(() => {
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }, 800);
+      }
+
+      // 2. Mobile Responsive Hamburguer Toggle Toggle
+      const mobileBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+          mobileMenu.classList.toggle('flex');
+        });
+      }
+
+      // 3. Global Instant Autocomplete/Search Popup
+      const searchInput = document.getElementById('globalSearchInput');
+      const popup = document.getElementById('searchResultsPopup');
+
+      if (searchInput && popup) {
+        let fetchTimeout;
+
+        searchInput.addEventListener('input', () => {
+          clearTimeout(fetchTimeout);
+          const term = searchInput.value.trim();
+
+          if (term.length < 2) {
+            popup.classList.add('hidden');
+            return;
+          }
+
+          // Debounce fetch requests by 150ms to keep it extremely fast and lightweight
+          fetchTimeout = setTimeout(async () => {
+            try {
+              const res = await fetch(`/api/suggestions?term=${encodeURIComponent(term)}`);
+              const suggestions = await res.json();
+
+              if (!suggestions || suggestions.length === 0) {
+                popup.classList.add('hidden');
+                return;
+              }
+
+              popup.innerHTML = '';
+              suggestions.forEach(item => {
+                const row = document.createElement('a');
+                row.href = `/products/${item.id}`;
+                row.className = "flex items-center space-x-3 p-3 hover:bg-gray-50 border-b border-gray-100 last:border-0 transition";
+                row.innerHTML = `
+                  <img src="${item.image}" alt="${item.title}" class="w-9 h-9 object-cover rounded shadow-inner" referrerPolicy="no-referrer" />
+                  <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-gray-900 truncate">${item.title}</p>
+                    <p class="text-xs text-green-600 font-mono font-bold">Rs. ${item.price}</p>
+                  </div>
+                `;
+                popup.appendChild(row);
+              });
+
+              popup.classList.remove('hidden');
+            } catch (err) {
+              console.error('Autocomplete query failed:', err);
+            }
+          }, 150);
+        });
+
+        // Close search popup if clicked outside
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !popup.contains(e.target)) {
+            popup.classList.add('hidden');
+          }
+        });
+      }
+    });
+
+    // Elegant helper to trigger alerts
+    function triggerNotification(type, message) {
+      const parent = document.createElement('div');
+      parent.className = `fixed bottom-5 right-5 z-50 p-4 rounded-xl shadow-2xl flex items-center space-x-3 transform transition-all duration-300 ring-1 ${
+        type === 'success' ? 'bg-emerald-50 ring-emerald-300 text-emerald-800' : 'bg-red-50 ring-red-300 text-red-800'
+      }`;
+      parent.innerHTML = `
+        <span class="p-1 rounded-full ${type === 'success' ? 'bg-emerald-550 text-emerald-600' : 'bg-red-550 text-red-605'}">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="${
+            type === 'success' ? 'M5 13l4 4L19 7' : 'M6 18L18 6M6 6l12 12'
+          }"></path></svg>
+        </span>
+        <p class="text-sm font-bold">${message}</p>
+      `;
+      document.body.appendChild(parent);
+      setTimeout(() => {
+        parent.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => parent.remove(), 350);
+      }, 3500);
+    }
+  </script>
+  <%- include('ai-assistant') %>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title : 'Shopzy - Premium Marketplace' %></title>
+  
+  <!-- Modern Font Pack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Client-side Tailwind Engine -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+            mono: ['Fira Code', 'monospace']
+          },
+          colors: {
+            amazon: {
+              navy: '#0f172a',      // slate-900
+              squid: '#1e293b',     // slate-800
+              accent: '#334155',    // slate-700
+              orange: '#FF9900',    // yellow-500
+              gold: '#f59e0b',      // amber-500
+              slate: {
+                50: '#f8fafc',
+                100: '#f1f5f9',
+                200: '#e2e8f0',
+                300: '#cbd5e1',
+                400: '#94a3b8',
+                500: '#64748b',
+                600: '#475569',
+                700: '#334155',
+                800: '#1e293b',
+                900: '#0f172a'
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Prevent FOUC and add nice smooth transitions */
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .font-display {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .font-mono {
+      font-family: 'Fira Code', monospace;
+    }
+    /* Simple custom zoom classes */
+    .zoom-container {
+      overflow: hidden;
+    }
+    .zoom-image {
+      transition: transform .3s ease;
+    }
+    .zoom-container:hover .zoom-image {
+      transform: scale(1.15);
+    }
+    /* Hide scrollbars cross-browser */
+    .scrollbar-none::-webkit-scrollbar,
+    .no-scrollbar::-webkit-scrollbar {
+      display: none !important;
+    }
+    .scrollbar-none,
+    .no-scrollbar {
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col font-sans">
+
+  <!-- Header Section -->
+  <header class="sticky top-0 z-50 shadow-md">
+    <%
+      const isActive = (catName) => {
+        const currentQuery = (typeof query !== 'undefined' && query.category) ? query.category.toLowerCase() : '';
+        const currentPath = (typeof path !== 'undefined') ? path.toLowerCase() : '';
+        const matchName = catName.toLowerCase();
+        
+        if (currentQuery === matchName || currentQuery === matchName.replace(/\s+/g, '+') || currentQuery === encodeURIComponent(catName).toLowerCase() || currentQuery === matchName.replace(/\s+/g, '-')) {
+          return true;
+        }
+        
+        if (currentPath === `/products/${matchName}` || currentPath === `/products/${matchName.replace(/\s+/g, '-')}` || currentPath.endsWith(`/${matchName.replace(/\s+/g, '-')}`)) {
+          return true;
+        }
+        
+        return false;
+      };
+
+      const isElectronicsActive = isActive('Smartphones') || isActive('Laptops') || isActive('Smart Watches') || isActive('Bluetooth Earbuds') || isActive('Speakers') || isActive('Headphones') || isActive('Cameras') || isActive('gaming-accessories') || isActive('monitors') || isActive('tablets') || isActive('Gaming Accessories') || isActive('Monitors') || isActive('Tablets');
+      const isFashionActive = isActive('Mens Clothing') || isActive("Men's Clothing") || isActive('Womens Clothing') || isActive("Women's Clothing") || isActive('Shoes') || isActive('Sports Wear');
+      const isHomeActive = isActive('Furniture') || isActive('Home Decor') || isActive('Kitchen Appliances');
+      const isSportsActive = isActive('Fitness Equipment') || isActive('Sports Equipment') || isActive('Fitness Accessories');
+      const isMoreActive = isActive('Bags and Travel Accessories') || isActive('Gaming Accessories') || isActive('Monitors') || isActive('Tablets') || isActive('Bags+and+Travel+Accessories');
+    %>
+
+    <!-- LEVEL 1: TOP BAR -->
+    <div class="bg-amazon-navy text-xs text-gray-300 h-10 border-b border-gray-800 flex items-center w-full select-none px-6">
+      <div class="w-full max-w-[1440px] mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-6">
+          <span class="flex items-center text-amazon-orange font-semibold animate-pulse">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 mr-1.5 shrink-0"></i> Special Launch Deals! Use Code: <strong class="ml-1 text-white">SHOPZY10</strong>
+          </span>
+          <span class="text-slate-700 hidden md:inline">|</span>
+          <span class="hidden md:flex items-center text-slate-300 whitespace-nowrap animate-fade-in">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 mr-1.5 text-slate-400 shrink-0"></i> Deliver to <span class="text-white font-semibold ml-1">Hyderabad 500043</span>
+          </span>
+        </div>
+        <div class="flex items-center gap-4 animate-fade-in">
+          <a href="/contact" class="hover:text-white transition">Customer Service</a>
+          <% if (user && user.role === 'admin') { %>
+            <span class="text-slate-700">|</span>
+            <a href="/admin" class="bg-red-650/90 text-white font-bold py-0.5 px-2.5 rounded-full flex items-center hover:bg-red-700 transition">
+              <i data-lucide="shield" class="w-3 h-3 mr-1"></i> Admin Panel
+            </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEVEL 2: MAIN HEADER -->
+    <div class="bg-[#0f172a] text-white py-3 md:py-0 md:h-[80px] border-b border-slate-800 flex items-center w-full px-6">
+      <div class="w-full max-w-[1440px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-6">
+        
+        <!-- Column 1: SHOPZY Logo (Width 220px, Gap 16px, vertically centered) -->
+        <div class="w-full md:w-[220px] flex items-center justify-between md:justify-start gap-4 shrink-0">
+          <div class="flex items-center gap-4">
+            <button id="mobileMenuBtn" class="md:hidden p-2 text-white hover:text-amazon-orange focus:outline-none transition-colors">
+              <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+            <a href="/" class="flex items-center gap-4 text-2xl font-bold font-display tracking-tight text-white select-none group">
+              <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center font-bold text-xl tracking-tighter text-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-indigo-500/30">
+                <i data-lucide="shopping-bag" class="w-5 h-5 text-white"></i>
+              </div>
+              <span class="text-2xl font-black tracking-tight uppercase bg-gradient-to-r from-white via-slate-100 to-slate-200 bg-clip-text text-transparent">Shopzy</span>
+            </a>
+          </div>
+
+          <!-- Mobile Cart Shortcut -->
+          <div class="flex items-center md:hidden shrink-0">
+            <a href="/cart" class="relative flex items-center p-2 hover:bg-slate-800/40 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="21" r="1"></circle>
+                <circle cx="19" cy="21" r="1"></circle>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+              </svg>
+              <span id="cartBadgeCountMobile" class="absolute top-0 right-0 bg-amber-500 text-slate-900 text-[10px] font-black rounded-full w-4.5 h-4.5 flex items-center justify-center ring-2 ring-slate-900">
+                <%= cartCount %>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Column 2: Search Bar (Slightly Reduced Width to 620px for Visual Excellence) -->
+        <div class="w-full md:flex-1 max-w-[620px] relative flex items-center bg-white rounded-[10px] h-[50px] border border-slate-700/50 shadow-inner group transition-all duration-300 focus-within:ring-2 focus-within:ring-amazon-orange shrink">
+          <form action="/products" method="GET" class="flex w-full h-[50px]" id="globalSearchForm">
+            <!-- Departments Dropdown -->
+            <button type="button" class="px-4 h-[50px] bg-slate-100 text-slate-700 text-xs font-semibold border-r border-slate-200 hover:bg-slate-200 transition-colors hidden lg:block shrink-0 rounded-l-[10px] select-none cursor-pointer">
+              All Departments
+            </button>
+            <!-- Search Input -->
+            <div class="flex-1 relative flex items-center h-[50px]">
+              <input 
+                type="text" 
+                name="search" 
+                id="globalSearchInput" 
+                placeholder="Search smartphones, laptops, clothing..." 
+                autocomplete="off"
+                value="<%= typeof query !== 'undefined' && query.search ? query.search : '' %>"
+                class="w-full px-4 text-slate-800 text-sm focus:outline-none bg-white border-0 h-[50px] rounded-l-[10px] lg:rounded-l-none"
+              />
+            </div>
+            <!-- Search Button (Width: 70px) -->
+            <button type="submit" class="w-[70px] h-[50px] bg-amazon-gold hover:bg-amazon-gold/90 text-slate-900 flex items-center justify-center transition-colors shrink-0 rounded-r-[10px]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </button>
+          </form>
+
+          <!-- Floating Autocomplete Suggestions Panel -->
+          <div id="searchResultsPopup" class="absolute left-0 right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-lg shadow-2xl hidden z-50 overflow-hidden text-gray-900 text-sm">
+            <!-- Dynamic items go here -->
+          </div>
+        </div>
+
+        <!-- Right Side Actions: Premium group to prevent cramped styling and spacing stretching -->
+        <div class="hidden md:flex items-center gap-[32px] lg:gap-[40px] shrink-0 select-none">
+          <!-- Account Section -->
+          <% if (user) { %>
+            <div class="relative group py-2">
+              <button class="flex items-center space-x-1 hover:text-amazon-orange transition focus:outline-none cursor-pointer">
+                <div class="text-left">
+                  <p class="text-[10px] text-gray-400 font-medium tracking-tight leading-3">Hello, <%= user.name.split(' ')[0] %></p>
+                  <p class="text-xs lg:text-sm font-bold flex items-center leading-4">
+                    Accounts & Lists <i data-lucide="chevron-down" class="w-3.5 h-3.5 ml-0.5 text-slate-400"></i>
+                  </p>
+                </div>
+              </button>
+              <div class="absolute right-0 w-48 mt-2 py-2 bg-white text-gray-800 rounded-lg shadow-xl border border-gray-100 hidden group-hover:block z-50">
+                <a href="/profile" class="block px-4 py-2 hover:bg-gray-100 text-sm flex items-center"><i data-lucide="user" class="w-4 h-4 mr-2 text-gray-400"></i> My Profile</a>
+                <a href="/orders" class="block px-4 py-2 hover:bg-gray-100 text-sm flex items-center"><i data-lucide="package" class="w-4 h-4 mr-2 text-gray-400"></i> Orders History</a>
+                <a href="/wishlist" class="block px-4 py-2 hover:bg-gray-100 text-sm flex items-center"><i data-lucide="heart" class="w-4 h-4 mr-2 text-gray-400"></i> Wishlist</a>
+                <hr class="border-gray-100 my-2">
+                <a href="/logout" class="block px-4 py-2 hover:bg-red-50 text-red-600 font-medium text-sm flex items-center"><i data-lucide="log-out" class="w-4 h-4 mr-2 text-red-500"></i> Log Out</a>
+              </div>
+            </div>
+          <% } else { %>
+            <a href="/login" class="flex flex-col items-start leading-none hover:text-amazon-orange transition select-none">
+              <span class="text-[10px] text-slate-400 uppercase tracking-widest leading-3">Hello, Sign In</span>
+              <span class="text-sm font-bold leading-4">Accounts & Lists</span>
+            </a>
+          <% } %>
+
+          <!-- Wishlist Direct Entry -->
+          <a href="/wishlist" class="flex flex-col items-start leading-none hover:text-amazon-orange transition relative select-none">
+            <span class="text-[10px] text-slate-400 uppercase tracking-widest leading-3">Returns</span>
+            <span class="text-sm font-bold leading-4">& Wishlist</span>
+          </a>
+
+          <!-- Cart Section -->
+          <a href="/cart" class="relative flex items-center gap-2 hover:text-amazon-orange transition select-none h-12 px-3 rounded-lg hover:bg-slate-800/40">
+            <div class="relative flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="21" r="1"></circle>
+                <circle cx="19" cy="21" r="1"></circle>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+              </svg>
+              <span id="cartBadgeCount" class="absolute -top-1 -right-2 bg-amber-500 text-slate-900 text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center ring-2 ring-slate-900">
+                <%= cartCount %>
+              </span>
+            </div>
+            <span class="text-sm font-bold text-white hidden xl:inline ml-1">Cart</span>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- LEVEL 3: CATEGORY NAVIGATION -->
+    <div class="bg-[#1f2937] text-white h-[64px] relative border-b border-slate-800 flex items-center w-full px-6">
+      <div class="w-full max-w-[1440px] mx-auto h-full flex items-center justify-between gap-6">
+        
+        <!-- Left Section: Navigation links with gap 32px (laptop 24px) -->
+        <div class="flex items-center gap-[16px] md:gap-[20px] lg:gap-[24px] xl:gap-[32px] h-full overflow-x-auto lg:overflow-visible no-scrollbar scrollbar-none whitespace-nowrap w-full lg:w-auto">
+          
+          <!-- Menu Item 1: All Categories (searchable menu) -->
+          <div class="relative group h-full flex items-center">
+            <button class="px-4 py-1.5 text-[14px] font-medium text-white flex items-center gap-1.5 hover:bg-[#2A3746] rounded-xl transition-all duration-300 cursor-pointer whitespace-nowrap bg-slate-700/50 border border-slate-700/70 shadow-sm focus:outline-none">
+              <i data-lucide="menu" class="w-4 h-4 text-slate-200 font-bold"></i> All Categories
+            </button>
+            
+            <div class="absolute left-0 top-full mt-0 w-80 bg-white text-slate-800 shadow-2xl rounded-b-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-50 p-4 flex flex-col gap-2">
+              <div class="font-bold text-xs text-slate-400 uppercase tracking-wider pb-1 flex justify-between items-center">
+                <span>Direct Search Portal</span>
+                <i data-lucide="search" class="w-3.5 h-3.5"></i>
+              </div>
+              
+              <!-- Search categories filter input -->
+              <div class="relative mb-2">
+                <input 
+                  type="text" 
+                  id="catMenuSearchInput" 
+                  placeholder="Type to filter categories..." 
+                  class="w-full px-3 py-2 pl-8 text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-orange focus:bg-white transition-colors"
+                />
+                <i data-lucide="sliders-horizontal" class="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-slate-400"></i>
+              </div>
+
+              <!-- List of ALL categories -->
+              <div id="catMenuList" class="max-h-60 overflow-y-auto pr-1 flex flex-col gap-0.5 custom-scrollbar text-sm">
+                <a href="/products" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition" data-name="all products browse core catalog">
+                  <span>Browse All Products</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Smartphones" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Smartphones') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="smartphones mobile phones cellular apple android samsung">
+                  <span>Smartphones</span>
+                  <i data-lucide="smartphone" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Laptops" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Laptops') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="laptops computers notebooks workspaces macbooks dell asus">
+                  <span>Laptops</span>
+                  <i data-lucide="laptop" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Smart+Watches" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Smart Watches') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="watches apple watch smart wear smartwatches wearables fitness">
+                  <span>Smart Watches</span>
+                  <i data-lucide="watch" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Bluetooth+Earbuds" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Bluetooth Earbuds') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="bluetooth earbuds ear buds headphones audio airpods jabra bose silence">
+                  <span>Bluetooth Earbuds</span>
+                  <i data-lucide="pocket" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Headphones" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Headphones') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="headphones sound headsets ear headset gaming air">
+                  <span>Headphones</span>
+                  <i data-lucide="headphones" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Speakers" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Speakers') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="speakers sound docks audio boom bar harman sony bluetooth flex text search speaker">
+                  <span>Speakers</span>
+                  <i data-lucide="speaker" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Cameras" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Cameras') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="cameras dslr photography video lenses dji canon nikon">
+                  <span>Cameras</span>
+                  <i data-lucide="camera" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Mens+Clothing" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Mens Clothing') || isActive("Men's Clothing") ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="mens clothing apparel garments shirts pants outerwear t-shirts zara raymond">
+                  <span>Men's Apparel</span>
+                  <i data-lucide="shirt" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Womens+Clothing" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Womens Clothing') || isActive("Women's Clothing") ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="womens clothing fashion dresses apparel ladies tops designer zara">
+                  <span>Women's Fashion</span>
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Shoes" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Shoes') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="shoes sneakers loafers boots athletic sports boots fit nike puma adidas">
+                  <span>Shoes</span>
+                  <i data-lucide="footprints" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Sports+Wear" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Sports Wear') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="sports wear athletic clothing gym jerseys activewear fitness fit workout nike">
+                  <span>Sports Wear</span>
+                  <i data-lucide="activity" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Furniture" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Furniture') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="furniture sofas chairs tables desks home office bed living room">
+                  <span>Furniture</span>
+                  <i data-lucide="armchair" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Home+Decor" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Home Decor') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="home decor decorations cushions mirrors paintings clocks living styling design luxury">
+                  <span>Home Decor</span>
+                  <i data-lucide="home" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Kitchen+Appliances" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Kitchen Appliances') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="kitchen appliances microwave blenders cookers pan kitchen tools ovens items prestige">
+                  <span>Kitchen Appliances</span>
+                  <i data-lucide="utensils" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Books" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Books') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="books paperbacks hardcovers story reading text novel reference libraries educational study code">
+                  <span>Books</span>
+                  <i data-lucide="book" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Fitness+Equipment" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Fitness Equipment') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="fitness equipment weight dumbbells gym cardio trainer bikes rollers equipment treadmill">
+                  <span>Fitness Equipment</span>
+                  <i data-lucide="dumbbell" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Gaming+Accessories" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Gaming Accessories') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="gaming accessories keyboard mouse headsets controllers lights cards console playstation xbox nintendo logitech">
+                  <span>Gaming Accessories</span>
+                  <i data-lucide="gamepad-2" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Monitors" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Monitors') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="monitors screens display desktop panels wide gaming panels lg ultra flex text search monitor">
+                  <span>Monitors</span>
+                  <i data-lucide="monitor" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Tablets" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Tablets') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="tablets ipad android slates view screen note tablet reader ereader">
+                  <span>Tablets</span>
+                  <i data-lucide="tablet" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Bags+and+Travel+Accessories" class="cat-menu-item flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg text-slate-700 hover:text-amazon-orange font-medium transition <%= isActive('Bags and Travel Accessories') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>" data-name="bags and travel accessories suitcases travel backpacks wallets purses cases luggage bags carry">
+                  <span>Bags & Travel Accessories</span>
+                  <i data-lucide="luggage" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+              </div>
+              <div id="catMenuNoResults" class="hidden text-xs text-slate-400 text-center py-4">No matching categories found</div>
+            </div>
+          </div>
+
+          <!-- Menu Item 2: All Products -->
+          <a href="/products" class="text-[14px] font-medium leading-[20px] text-slate-200 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-300">
+            All Products
+          </a>
+
+          <!-- Menu Item 3: Electronics (dropdown) -->
+          <div class="relative group h-full flex items-center">
+            <button class="text-[14px] font-medium leading-[20px] text-slate-200 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 cursor-pointer <%= isElectronicsActive ? 'bg-white/15 text-white font-semibold' : '' %>">
+              Electronics <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-hover:rotate-180 text-slate-400"></i>
+            </button>
+            <div class="absolute left-0 top-full mt-0 w-80 bg-white text-slate-800 shadow-2xl rounded-b-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-50 p-5 flex flex-col gap-2">
+              <div class="font-bold text-xs text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-100 flex justify-between items-center">
+                <span>Electronics Category</span>
+                <i data-lucide="cpu" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <div class="grid grid-cols-1 gap-1 text-sm">
+                <a href="/products?category=Smartphones" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Smartphones') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Smartphones</span>
+                  <i data-lucide="smartphone" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Laptops" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Laptops') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Laptops</span>
+                  <i data-lucide="laptop" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Smart+Watches" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Smart Watches') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Watches</span>
+                  <i data-lucide="watch" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Bluetooth+Earbuds" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Bluetooth Earbuds') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Bluetooth Earbuds</span>
+                  <i data-lucide="pocket" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Headphones" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Headphones') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Headphones</span>
+                  <i data-lucide="headphones" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Speakers" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Speakers') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Speakers</span>
+                  <i data-lucide="speaker" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Cameras" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Cameras') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Cameras</span>
+                  <i data-lucide="camera" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Item 4: Fashion (dropdown) -->
+          <div class="relative group h-full flex items-center">
+            <button class="text-[14px] font-medium leading-[20px] text-slate-200 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 cursor-pointer <%= isFashionActive ? 'bg-white/15 text-white font-semibold' : '' %>">
+              Fashion <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-hover:rotate-180 text-slate-400"></i>
+            </button>
+            <div class="absolute left-0 top-full mt-0 w-80 bg-white text-slate-800 shadow-2xl rounded-b-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-50 p-5 flex flex-col gap-2">
+              <div class="font-bold text-xs text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-100 flex justify-between items-center">
+                <span>Fashion Category</span>
+                <i data-lucide="swatchbook" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <div class="grid grid-cols-1 gap-1 text-sm">
+                <a href="/products?category=Mens+Clothing" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Mens Clothing') || isActive("Men's Clothing") ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Men's Apparel</span>
+                  <i data-lucide="shirt" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Womens+Clothing" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Womens Clothing') || isActive("Women's Clothing") ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Women's Fashion</span>
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Shoes" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Shoes') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Shoes</span>
+                  <i data-lucide="footprints" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Sports+Wear" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Sports Wear') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Sports Wear</span>
+                  <i data-lucide="activity" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Item 5: Home & Living (dropdown) -->
+          <div class="relative group h-full flex items-center">
+            <button class="text-[14px] font-medium leading-[20px] text-slate-200 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 cursor-pointer <%= isHomeActive ? 'bg-white/15 text-white font-semibold' : '' %>">
+              Home & Living <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-hover:rotate-180 text-slate-400"></i>
+            </button>
+            <div class="absolute left-0 top-full mt-0 w-80 bg-white text-slate-800 shadow-2xl rounded-b-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-50 p-5 flex flex-col gap-2">
+              <div class="font-bold text-xs text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-100 flex justify-between items-center">
+                <span>Home & Living Category</span>
+                <i data-lucide="armchair" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <div class="grid grid-cols-1 gap-1 text-sm">
+                <a href="/products?category=Furniture" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Furniture') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Furniture</span>
+                  <i data-lucide="armchair" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Home+Decor" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Home Decor') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Home Decor</span>
+                  <i data-lucide="home" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Kitchen+Appliances" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Kitchen Appliances') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Kitchen Appliances</span>
+                  <i data-lucide="utensils" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Item 6: Books -->
+          <a href="/products?category=Books" class="text-[14px] font-medium leading-[20px] text-slate-200 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-300 <%= isActive('Books') ? 'bg-white/15 text-white font-semibold' : '' %>">
+            Books
+          </a>
+
+          <!-- Menu Item 7: Sports (dropdown) -->
+          <div class="relative group h-full flex items-center">
+            <button class="text-[14px] font-medium leading-[20px] text-slate-200 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 cursor-pointer <%= isSportsActive ? 'bg-white/15 text-white font-semibold' : '' %>">
+              Sports <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-hover:rotate-180 text-slate-400"></i>
+            </button>
+            <div class="absolute left-0 top-full mt-0 w-80 bg-white text-slate-800 shadow-2xl rounded-b-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-50 p-5 flex flex-col gap-2">
+              <div class="font-bold text-xs text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-100 flex justify-between items-center">
+                <span>Sports & Fitness</span>
+                <i data-lucide="dumbbell" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <div class="grid grid-cols-1 gap-1 text-sm">
+                <a href="/products?category=Sports+Equipment" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Sports Equipment') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Sports Equipment</span>
+                  <i data-lucide="dumbbell" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Fitness+Equipment" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Fitness Equipment') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Fitness Accessories</span>
+                  <i data-lucide="activity" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Item 8: More (dropdown) -->
+          <div class="relative group h-full flex items-center">
+            <button class="text-[14px] font-medium leading-[20px] text-slate-200 hover:text-white hover:bg-white/10 px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 cursor-pointer <%= isMoreActive ? 'bg-white/15 text-white font-semibold' : '' %>">
+              More <i data-lucide="chevron-down" class="w-4 h-4 transition-transform group-hover:rotate-180 text-slate-400"></i>
+            </button>
+            <div class="absolute right-0 top-full mt-0 w-80 bg-white text-slate-800 shadow-2xl rounded-b-xl border border-slate-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-300 z-50 p-5 flex flex-col gap-2">
+              <div class="font-bold text-xs text-slate-400 uppercase tracking-wider pb-2 border-b border-slate-100 flex justify-between items-center">
+                <span>Discovery Hub</span>
+                <i data-lucide="layout-grid" class="w-4 h-4 text-slate-400"></i>
+              </div>
+              <div class="grid grid-cols-1 gap-1 text-sm">
+                <a href="/products?category=Bags+and+Travel+Accessories" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Bags and Travel Accessories') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Bags and Travel Accessories</span>
+                  <i data-lucide="luggage" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Gaming+Accessories" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Gaming Accessories') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Gaming Accessories</span>
+                  <i data-lucide="gamepad-2" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Monitors" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Monitors') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Monitors</span>
+                  <i data-lucide="monitor" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+                <a href="/products?category=Tablets" class="flex items-center justify-between p-2 hover:bg-slate-50 rounded-lg transition font-medium text-slate-700 hover:text-amazon-orange <%= isActive('Tablets') ? 'bg-[#FF9900] text-white hover:text-white rounded-[8px]' : '' %>">
+                  <span>Tablets</span>
+                  <i data-lucide="tablet" class="w-3.5 h-3.5 text-slate-400"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Side Container: Trending is h-9 (36px), px-3.5 (14px), font-600, amber rounded; Compare is h-9, min-w 140px, non-wrap -->
+        <div class="hidden lg:flex items-center gap-[16px] shrink-0 select-none">
+          <div class="flex items-center justify-center gap-1.5 bg-[#FF9900]/12 text-[#FF9900] h-[36px] px-[14px] rounded-[18px] font-semibold text-[13px] select-none shrink-0 whitespace-nowrap">
+            <i data-lucide="flame" class="w-3.5 h-3.5 animate-bounce"></i> Trending Today
+          </div>
+          <a href="/compare" class="flex items-center justify-center w-auto min-w-[140px] h-[36px] px-[18px] bg-transparent text-white border border-white/20 rounded-[18px] font-semibold text-xs hover:bg-white/10 transition-all duration-300 shrink-0 whitespace-nowrap">
+            Compare Models
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden mt-0 p-4 bg-[#0f172a] border-t border-slate-800 flex-col space-y-4 text-sm md:hidden animate-fade-in relative z-50">
+      <% if (user) { %>
+        <div class="flex items-center space-x-3 bg-slate-800/50 p-3 rounded-lg border border-slate-700/55">
+          <div class="bg-amazon-gold text-amazon-navy text-xs font-black h-8 w-8 rounded-full flex items-center justify-center">
+            <%= user.name.charAt(0).toUpperCase() %>
+          </div>
+          <div>
+            <p class="font-extrabold text-white text-xs"><%= user.name %></p>
+            <p class="text-[10px] text-gray-400"><%= user.email %></p>
+          </div>
+        </div>
+        <a href="/profile" class="block px-2 py-1.5 text-slate-200 hover:text-amazon-orange">Account settings</a>
+        <a href="/orders" class="block px-2 py-1.5 text-slate-200 hover:text-amazon-orange">Manage Orders</a>
+        <a href="/wishlist" class="block px-2 py-1.5 text-slate-200 hover:text-amazon-orange">My Wishlist</a>
+        <hr class="border-slate-800">
+        <a href="/logout" class="block px-2 py-1.5 text-red-400 hover:text-red-300 font-medium font-display">Sign Out</a>
+      <% } else { %>
+        <a href="/login" class="block bg-amazon-gold text-amazon-navy text-center font-bold py-2.5 rounded-lg font-display">Sign In Account</a>
+        <a href="/register" class="block text-center text-gray-300 py-1 hover:text-white">New Customer? Create Account</a>
+      <% } %>
+
+      <!-- Mobile Collapsible Category Accordions -->
+      <div class="border-t border-slate-800 pt-4">
+        <p class="font-bold text-xs uppercase text-slate-500 tracking-wider mb-2.5 px-2 flex items-center gap-1.5">
+          <i data-lucide="layers" class="w-3.5 h-3.5 text-slate-500"></i> Shop By Category
+        </p>
+        <div class="flex flex-col gap-1 text-slate-300">
+          
+          <!-- Accordion: Electronics -->
+          <div class="border-b border-slate-800/80 pb-1">
+            <button onclick="toggleMobileCategory('mob-el')" class="w-full flex justify-between items-center py-2 px-2 hover:bg-slate-800/50 rounded-lg text-slate-100 font-semibold transition focus:outline-none">
+              <span class="flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4 text-slate-400"></i> Electronics</span>
+              <i data-lucide="chevron-down" id="mob-el-icon" class="w-4 h-4 transition-transform duration-300"></i>
+            </button>
+            <div id="mob-el" class="hidden pl-8 pr-2 flex-col gap-1.5 mt-1.5 transition-all">
+              <a href="/products?category=Smartphones" class="block py-1 hover:text-amazon-orange transition text-sm">Smartphones</a>
+              <a href="/products?category=Laptops" class="block py-1 hover:text-amazon-orange transition text-sm">Laptops</a>
+              <a href="/products?category=Smart+Watches" class="block py-1 hover:text-amazon-orange transition text-sm">Watches</a>
+              <a href="/products?category=Bluetooth+Earbuds" class="block py-1 hover:text-amazon-orange transition text-sm">Bluetooth Earbuds</a>
+              <a href="/products?category=Speakers" class="block py-1 hover:text-amazon-orange transition text-sm">Speakers</a>
+              <a href="/products?category=Headphones" class="block py-1 hover:text-amazon-orange transition text-sm">Headphones</a>
+              <a href="/products?category=Cameras" class="block py-1 hover:text-amazon-orange transition text-sm">Cameras</a>
+            </div>
+          </div>
+
+          <!-- Accordion: Fashion -->
+          <div class="border-b border-slate-800/80 pb-1">
+            <button onclick="toggleMobileCategory('mob-fa')" class="w-full flex justify-between items-center py-2 px-2 hover:bg-slate-800/50 rounded-lg text-slate-100 font-semibold transition focus:outline-none">
+              <span class="flex items-center gap-2"><i data-lucide="swatchbook" class="w-4 h-4 text-slate-400"></i> Fashion</span>
+              <i data-lucide="chevron-down" id="mob-fa-icon" class="w-4 h-4 transition-transform duration-300"></i>
+            </button>
+            <div id="mob-fa" class="hidden pl-8 pr-2 flex-col gap-1.5 mt-1.5 transition-all">
+              <a href="/products?category=Mens+Clothing" class="block py-1 hover:text-amazon-orange transition text-sm">Men's Apparel</a>
+              <a href="/products?category=Womens+Clothing" class="block py-1 hover:text-amazon-orange transition text-sm">Women's Fashion</a>
+              <a href="/products?category=Shoes" class="block py-1 hover:text-amazon-orange transition text-sm">Shoes</a>
+              <a href="/products?category=Sports+Wear" class="block py-1 hover:text-amazon-orange transition text-sm">Sports Wear</a>
+            </div>
+          </div>
+
+          <!-- Accordion: Home & Living -->
+          <div class="border-b border-slate-800/80 pb-1">
+            <button onclick="toggleMobileCategory('mob-ho')" class="w-full flex justify-between items-center py-2 px-2 hover:bg-slate-800/50 rounded-lg text-slate-100 font-semibold transition focus:outline-none">
+              <span class="flex items-center gap-2"><i data-lucide="home" class="w-4 h-4 text-slate-400"></i> Home & Living</span>
+              <i data-lucide="chevron-down" id="mob-ho-icon" class="w-4 h-4 transition-transform duration-300"></i>
+            </button>
+            <div id="mob-ho" class="hidden pl-8 pr-2 flex-col gap-1.5 mt-1.5 transition-all">
+              <a href="/products?category=Furniture" class="block py-1 hover:text-amazon-orange transition text-sm">Furniture</a>
+              <a href="/products?category=Home+Decor" class="block py-1 hover:text-amazon-orange transition text-sm">Home Decor</a>
+              <a href="/products?category=Kitchen+Appliances" class="block py-1 hover:text-amazon-orange transition text-sm">Kitchen Appliances</a>
+            </div>
+          </div>
+
+          <!-- Direct link: Books -->
+          <a href="/products?category=Books" class="flex justify-between items-center py-2 px-2 hover:bg-slate-850 rounded-lg text-slate-100 font-semibold transition">
+            <span class="flex items-center gap-2"><i data-lucide="book" class="w-4 h-4 text-slate-400"></i> Books</span>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-slate-500"></i>
+          </a>
+
+          <!-- Accordion: Sports -->
+          <div class="border-b border-slate-800/80 pb-1">
+            <button onclick="toggleMobileCategory('mob-sp')" class="w-full flex justify-between items-center py-2 px-2 hover:bg-slate-800/50 rounded-lg text-slate-100 font-semibold transition focus:outline-none">
+              <span class="flex items-center gap-2"><i data-lucide="dumbbell" class="w-4 h-4 text-slate-400"></i> Sports</span>
+              <i data-lucide="chevron-down" id="mob-sp-icon" class="w-4 h-4 transition-transform duration-300"></i>
+            </button>
+            <div id="mob-sp" class="hidden pl-8 pr-2 flex-col gap-1.5 mt-1.5 transition-all">
+              <a href="/products?category=Sports+Equipment" class="block py-1 hover:text-amazon-orange transition text-sm">Sports Equipment</a>
+              <a href="/products?category=Fitness+Equipment" class="block py-1 hover:text-amazon-orange transition text-sm">Fitness Accessories</a>
+            </div>
+          </div>
+
+          <!-- Accordion: More -->
+          <div class="border-b border-slate-800 pb-1">
+            <button onclick="toggleMobileCategory('mob-mo')" class="w-full flex justify-between items-center py-2 px-2 hover:bg-slate-800/50 rounded-lg text-slate-100 font-semibold transition focus:outline-none">
+              <span class="flex items-center gap-2"><i data-lucide="layout-grid" class="w-4 h-4 text-slate-400"></i> More</span>
+              <i data-lucide="chevron-down" id="mob-mo-icon" class="w-4 h-4 transition-transform duration-300"></i>
+            </button>
+            <div id="mob-mo" class="hidden pl-8 pr-2 flex-col gap-1.5 mt-1.5 transition-all">
+              <a href="/products?category=Bags+and+Travel+Accessories" class="block py-1 hover:text-amazon-orange transition text-sm">Bags and Travel Accessories</a>
+              <a href="/products?category=Gaming+Accessories" class="block py-1 hover:text-amazon-orange transition text-sm">Gaming Accessories</a>
+              <a href="/products?category=Monitors" class="block py-1 hover:text-amazon-orange transition text-sm">Monitors</a>
+              <a href="/products?category=Tablets" class="block py-1 hover:text-amazon-orange transition text-sm">Tablets</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Responsive scripts self-contained for mobile category toggle & searchable Category Menu -->
+    <script>
+      function toggleMobileCategory(id) {
+        const el = document.getElementById(id);
+        const icon = document.getElementById(id + '-icon');
+        if (el) {
+          el.classList.toggle('hidden');
+          el.classList.toggle('flex');
+        }
+        if (icon) {
+          icon.classList.toggle('rotate-180');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const srcInput = document.getElementById('catMenuSearchInput');
+        const itemsList = document.getElementById('catMenuList');
+        const noResults = document.getElementById('catMenuNoResults');
+
+        if (srcInput && itemsList) {
+          srcInput.addEventListener('input', () => {
+            const queryTerm = srcInput.value.toLowerCase().trim();
+            const items = itemsList.getElementsByClassName('cat-menu-item');
+            let matchedAny = false;
+
+            for (let item of items) {
+              const names = item.getAttribute('data-name') || '';
+              if (names.includes(queryTerm)) {
+                item.classList.remove('hidden');
+                matchedAny = true;
+              } else {
+                item.classList.add('hidden');
+              }
+            }
+
+            if (noResults) {
+              if (matchedAny) {
+                noResults.classList.add('hidden');
+              } else {
+                noResults.classList.remove('hidden');
+              }
+            }
+          });
+        }
+      });
+    </script>
+  </header>

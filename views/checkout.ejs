@@ -1,0 +1,245 @@
+<%- include('partials/header') %>
+
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow select-none">
+  
+  <div class="border-b border-gray-200 pb-4 mb-8">
+    <h1 class="text-3xl font-bold font-display text-gray-950 tracking-tight flex items-center">
+      <i data-lucide="shield-check" class="w-7 h-7 mr-2 text-amazon-gold"></i> Secure Checkout Stage
+    </h1>
+    <p class="text-xs text-gray-500">Provide shipping directories, choose distribution speeds, and confirm payment modes.</p>
+  </div>
+
+  <% if (typeof errorMsg !== 'undefined' && errorMsg) { %>
+    <div class="bg-red-50 border border-red-200 text-red-755 text-xs font-semibold rounded-lg p-3.5 mb-6 flex items-center">
+      <i data-lucide="info" class="w-4 h-4 mr-2"></i> <%= errorMsg %>
+    </div>
+  <% } %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left checkout progress blocks (lg:col-span-8) -->
+    <div class="lg:col-span-8 space-y-6">
+      <form action="/checkout/order" method="POST" id="checkoutFlowForm" class="space-y-6">
+        
+        <!-- STEP 1: SHIPPING ADDRESSES PANEL -->
+        <fieldset class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-4">
+          <legend class="bg-white px-3 font-semibold text-sm text-gray-900 border border-gray-200 rounded-full py-0.5 select-none font-display">1. Shipping Destination Details</legend>
+          
+          <% if (addresses.length === 0) { %>
+            <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-xl text-yellow-850 text-xs text-center">
+              <i data-lucide="alert-triangle" class="w-5 h-5 mx-auto mb-1 text-yellow-600 animate-bounce"></i>
+              No synchronized shipping address files located in your account profile. You must create one below to unlock checkouts.
+            </div>
+          <% } else { %>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <% addresses.forEach((addr, idx) => { %>
+                <label class="relative border-2 border-gray-200 rounded-xl p-4 flex items-start space-x-3 hover:border-amazon-gold transition cursor-pointer hover:bg-gray-50/30">
+                  <!-- Radio select -->
+                  <input type="radio" name="addressId" value="<%= addr.id || addr._id %>" <%= idx === 0 || addr.isDefault ? 'checked' : '' %> class="text-amazon-orange focus:ring-amazon-gold mt-1" />
+                  <div class="text-xs space-y-0.5">
+                    <p class="font-bold text-gray-905"><%= addr.fullName %></p>
+                    <p class="text-gray-400"><%= addr.addressLine1 %></p>
+                    <% if (addr.addressLine2) { %><p class="text-gray-400"><%= addr.addressLine2 %></p><% } %>
+                    <p class="text-gray-400"><%= addr.city %>, <%= addr.state %> - <%= addr.postalCode %></p>
+                    <p class="text-gray-500 font-semibold mt-1">Phone: <%= addr.phone %></p>
+                  </div>
+                  <!-- Gold frame highlighting -->
+                  <span class="absolute inset-0 border-2 rounded-xl border-transparent pointer-events-none peer-checked:border-amazon-gold"></span>
+                </label>
+              <% }) %>
+            </div>
+          <% } %>
+
+          <!-- Drawer expander to inject a fast address directly if they don't want to leave the page -->
+          <div class="pt-2">
+            <button type="button" onclick="toggleCheckoutAddressForm()" class="text-xs font-semibold text-amazon-gold hover:underline flex items-center justify-center cursor-pointer">
+              <i data-lucide="plus-circle" class="w-4 h-4 mr-1"></i> Add new destination address
+            </button>
+          </div>
+        </fieldset>
+
+        <!-- STEP 2: DISPATCH SPEEDS -->
+        <fieldset class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-4">
+          <legend class="bg-white px-3 font-semibold text-sm text-gray-900 border border-gray-200 rounded-full py-0.5 font-display">2. Delivery Speed Options</legend>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Standard -->
+            <label class="border-2 border-gray-200 rounded-xl p-4 flex items-start space-x-3 hover:border-amazon-gold transition cursor-pointer hover:bg-gray-50/20">
+              <input type="radio" name="deliveryOption" value="Standard" checked class="text-amazon-orange focus:ring-amazon-gold mt-1" />
+              <div class="text-xs">
+                <p class="font-bold text-gray-900 flex items-center">Standard Logistics <span class="bg-gray-100 text-gray-650 text-[10px] py-0.5 px-2 rounded-full font-bold ml-1.5 border border-gray-150">FREE / Rs. 150</span></p>
+                <p class="text-gray-500 mt-1">Arrival anticipated within 4-7 business days directly at your destination.</p>
+              </div>
+            </label>
+
+            <!-- Quick Express -->
+            <label class="border-2 border-gray-200 rounded-xl p-4 flex items-start space-x-3 hover:border-amazon-gold transition cursor-pointer hover:bg-gray-50/20">
+              <input type="radio" name="deliveryOption" value="Express" class="text-amazon-orange focus:ring-amazon-gold mt-1" />
+              <div class="text-xs">
+                <p class="font-bold text-gray-900 flex items-center">Quick Overnight Express <span class="bg-amber-50 text-amber-800 text-[10px] py-0.5 px-2 rounded-full font-bold ml-1.5 border border-amber-200">Express Delivery</span></p>
+                <p class="text-gray-555 mt-1">Distributed swiftly within 1-2 weekdays flat. (Simulated priority)</p>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3: CONFIGURE PAYMENT MODE -->
+        <fieldset class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-4">
+          <legend class="bg-white px-3 font-semibold text-sm text-gray-900 border border-gray-200 rounded-full py-0.5 font-display">3. Payment Gateway Mode</legend>
+          
+          <div class="space-y-3 font-semibold text-xs text-gray-805">
+            <!-- COD -->
+            <label class="border-2 border-gray-200 rounded-xl p-4 flex items-start space-x-3.5 hover:border-amazon-gold transition cursor-pointer hover:bg-gray-50/20">
+              <input type="radio" name="paymentMethod" value="COD" checked class="text-amazon-orange focus:ring-amazon-gold mt-1" />
+              <div class="text-xs">
+                <p class="font-bold text-gray-900 flex items-center"><i data-lucide="banknote" class="w-4 h-4 mr-1.5 text-green-600"></i> Cash on Delivery (COD)</p>
+                <p class="text-gray-500 mt-1">Disburse hard cash directly to our carrier on package delivery. Zero credit processing needed.</p>
+              </div>
+            </label>
+
+            <!-- Stripe / cards simulated payment gateway -->
+            <label class="border-2 border-gray-200 rounded-xl p-4 flex items-start space-x-3.5 hover:border-amazon-gold transition cursor-pointer hover:bg-gray-50/20">
+              <input type="radio" name="paymentMethod" value="Stripe" class="text-amazon-orange focus:ring-amazon-gold mt-1" />
+              <div class="text-xs">
+                <p class="font-bold text-gray-900 flex items-center"><i data-lucide="credit-card" class="w-4 h-4 mr-1.5 text-blue-600"></i> Debit / Credit Card Simulation (Secured Stripe-mock)</p>
+                <p class="text-gray-555 mt-1">Authorize secure simulation using dummy card inputs. (Supports active sandbox gateways UI)</p>
+              </div>
+            </label>
+
+            <!-- Razorpay QR code mockup simulation -->
+            <label class="border-2 border-gray-200 rounded-xl p-4 flex items-start space-x-3.5 hover:border-amazon-gold transition cursor-pointer hover:bg-gray-50/20">
+              <input type="radio" name="paymentMethod" value="Razorpay" class="text-amazon-orange focus:ring-amazon-gold mt-1" />
+              <div class="text-xs">
+                <p class="font-bold text-gray-900 flex items-center"><i data-lucide="qr-code" class="w-4 h-4 mr-1.5 text-purple-600"></i> UPI scan payments (simulated QR Codes)</p>
+                <p class="text-gray-555 mt-1">Generate simulated commercial UPI QR codes inside our payment view.</p>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Order processing submission -->
+        <% if (addresses.length > 0) { %>
+          <button type="submit" class="w-full py-3.5 bg-amazon-orange hover:bg-amazon-gold text-amazon-navy font-bold text-sm tracking-tight rounded-xl transition shadow-lg cursor-pointer">
+            Review Order & Complete Purchase
+          </button>
+        <% } else { %>
+          <button type="button" disabled class="w-full py-3.5 bg-gray-200 text-gray-400 font-bold text-sm rounded-xl cursor-not-allowed text-center">
+            You must add a destination address first
+          </button>
+        <% } %>
+
+      </form>
+
+      <!-- Dynamic Address Adder Drawer Box inline -->
+      <div id="checkoutInlineAddressForm" class="hidden bg-white border border-gray-220 rounded-2xl p-6 shadow-md space-y-4 mt-6">
+        <h4 class="font-extrabold text-sm text-gray-900 border-b border-gray-100 pb-2">Add New shipping Destination</h4>
+        <form action="/profile/address/add" method="POST" class="grid grid-cols-2 gap-4 text-xs font-semibold">
+          <div class="col-span-2">
+            <label class="block text-gray-500 mb-1">Receiver Name</label>
+            <input type="text" name="fullName" required placeholder="Full Name" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-gray-500 mb-1">Contact Phone</label>
+            <input type="tel" name="phone" required placeholder="Phone Number" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-gray-500 mb-1">Address Line 1</label>
+            <input type="text" name="addressLine1" required placeholder="Apt, house, street" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-gray-500 mb-1">Address Line 2 (Optional)</label>
+            <input type="text" name="addressLine2" placeholder="Block, landmark" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-gray-500 mb-1">City</label>
+            <input type="text" name="city" required placeholder="City name" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-gray-500 mb-1">State</label>
+            <input type="text" name="state" required placeholder="State name" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-gray-500 mb-1">Postal Code</label>
+            <input type="text" name="postalCode" required placeholder="e.g. 110001" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div>
+            <label class="block text-gray-500 mb-1">Country</label>
+            <input type="text" name="country" value="India" class="w-full px-3 py-2 border rounded-lg" />
+          </div>
+          <div class="col-span-2 flex items-center space-x-2">
+            <input type="checkbox" name="isDefault" value="true" checked class="rounded" />
+            <label class="text-gray-500">Set as my primary delivery address</label>
+          </div>
+          <div class="col-span-2 flex justify-end space-x-2 pt-2">
+            <button type="button" onclick="toggleCheckoutAddressForm()" class="px-4 py-2 border rounded-lg hover:bg-gray-50 text-gray-700 cursor-pointer">Cancel</button>
+            <button type="submit" class="px-4 py-2 bg-amazon-gold hover:bg-amber-600 text-amazon-navy rounded-lg text-xs font-bold font-mono transition">Save Destination</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right static Summary calculations (lg:col-span-4) -->
+    <aside class="lg:col-span-4 space-y-4">
+      <div class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-4">
+        <h3 class="font-bold text-gray-900 border-b border-gray-100 pb-2 text-sm font-display tracking-tight flex items-center">
+          <i data-lucide="notepad-text" class="w-4.5 h-4.5 mr-1.5 text-gray-400"></i> Checkout Summary
+        </h3>
+
+        <!-- Items listings compact roll -->
+        <div class="space-y-3.5 max-h-[220px] overflow-y-auto pr-1">
+          <% cart.items.forEach(item => { %>
+            <div class="flex items-center space-x-3 border-b border-gray-50 pb-3 last:border-0 last:pb-0 text-xs">
+              <img src="<%= item.image %>" class="w-10 h-10 object-cover rounded bg-gray-50 border" referrerPolicy="no-referrer" />
+              <div class="min-w-0 flex-1">
+                <p class="font-bold text-gray-900 truncate leading-snug"><%= item.title %></p>
+                <p class="text-gray-400">QTY: <%= item.quantity %> x Rs. <%= item.price %></p>
+              </div>
+              <p class="font-mono font-bold text-gray-901">Rs. <%= item.price * item.quantity %></p>
+            </div>
+          <% }) %>
+        </div>
+
+        <hr class="border-gray-200">
+
+        <!-- Prices breakdown -->
+        <div class="space-y-2 text-xs text-gray-600 font-semibold">
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span class="font-mono text-gray-900">Rs. <%= pricing.subtotal %></span>
+          </div>
+          <% if (pricing.discount > 0) { %>
+            <div class="flex justify-between text-green-700">
+              <span>Promo Saving</span>
+              <span class="font-mono">- Rs. <%= pricing.discount %></span>
+            </div>
+          <% } %>
+          <div class="flex justify-between">
+            <span>Shipping</span>
+            <span class="font-mono text-gray-900"><%= pricing.shipping === 0 ? 'FREE' : `Rs. ${pricing.shipping}` %></span>
+          </div>
+          <div class="flex justify-between">
+            <span>Estimated GST Tax</span>
+            <span class="font-mono text-gray-900">Rs. <%= pricing.tax %></span>
+          </div>
+          <hr class="border-gray-200">
+          <div class="flex justify-between text-base font-extrabold text-gray-950">
+            <span class="font-display">Total Bill Value</span>
+            <span class="font-mono">Rs. <%= pricing.total %></span>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script>
+  function toggleCheckoutAddressForm() {
+    const f = document.getElementById('checkoutInlineAddressForm');
+    f.classList.toggle('hidden');
+    if (!f.classList.contains('hidden')) {
+      f.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+</script>
+
+<%- include('partials/footer') %>

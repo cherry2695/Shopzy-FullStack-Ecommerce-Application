@@ -1,0 +1,206 @@
+<%- include('partials/header') %>
+
+<!-- Dynamic notification alerts -->
+<% if (typeof successMsg !== 'undefined' && successMsg) { %>
+  <script>window.addEventListener('load', () => triggerNotification('success', '<%= successMsg %>'));</script>
+<% } %>
+
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow select-none">
+  
+  <div class="border-b border-gray-200 pb-4 mb-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h1 class="text-3xl font-bold font-display text-gray-950 tracking-tight flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mr-2.5 text-[#FF9900] fill-[#FF9900]" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          My Saved Wishlist
+        </h1>
+        <p class="text-xs text-gray-500 mt-1">Keep track of your catalog favorites, monitor pricing, and transfer items into your shopping cart instantly.</p>
+      </div>
+      <div>
+        <a href="/products" class="inline-flex items-center space-x-1.5 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-xs font-bold text-gray-700 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+          <span>Continue Shopping Catalog</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty Wishlist State (Hidden dynamically if products exist) -->
+  <div id="emptyWishlistState" class="<%= products.length === 0 ? '' : 'hidden' %> bg-white border border-gray-200 rounded-2xl p-16 shadow-sm text-center">
+    <div class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-orange-50 text-[#FF9900] mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg>
+    </div>
+    <h3 class="text-lg font-bold text-gray-900 mb-1">Your wishlist is currently empty</h3>
+    <p class="text-xs text-gray-500 max-w-sm mx-auto mb-6">Explore our curated collections, browse product ratings, and save any items that catch your eye.</p>
+    <a href="/products" class="bg-[#FF9900] hover:bg-[#E68A00] text-black text-xs font-black py-3 px-8 rounded-lg transition-all shadow cursor-pointer">
+      Browse Products List
+    </a>
+  </div>
+
+  <!-- Wishlist Products Grid -->
+  <% if (products.length > 0) { %>
+    <div id="wishProductsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <% products.forEach(p => { %>
+        <div id="wish_item_<%= p.id || p._id %>" class="group bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative flex flex-col justify-between h-full">
+          
+          <!-- Image Section & Bookmark Heart Overlay -->
+          <div class="relative w-full h-[200px] bg-white border border-gray-100 rounded-lg flex items-center justify-center overflow-hidden p-3 mb-4 shrink-0">
+            <a href="/products/<%= p.id || p._id %>" class="block w-full h-full">
+              <img src="<%= p.image %>" alt="<%= p.title %>" class="w-full h-full object-contain group-hover:scale-105 transition duration-300" referrerPolicy="no-referrer" />
+            </a>
+            
+            <!-- Remove heart icon button -->
+            <button onclick="removeFromWishlist('<%= p.id || p._id %>')" class="absolute top-2.5 right-2.5 h-8.5 w-8.5 rounded-full bg-white text-rose-500 border border-gray-150 hover:bg-rose-50 hover:border-red-300 flex items-center justify-center cursor-pointer transition shadow-sm z-10" title="Remove from wishlist">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4.5 h-4.5 fill-rose-500" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </button>
+
+            <!-- Discount Alert, if any -->
+            <% if (p.discount && p.discount > 0) { %>
+              <div class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded shadow-xs select-none uppercase tracking-wide">
+                <%= p.discount %>% OFF
+              </div>
+            <% } %>
+          </div>
+
+          <!-- Description Section -->
+          <div class="flex-grow flex flex-col justify-between">
+            <div class="space-y-1.5 mb-4">
+              <!-- Category -->
+              <span class="text-[10px] font-bold text-[#FF9900] uppercase tracking-widest block"><%= p.category || "General" %></span>
+              
+              <!-- Title -->
+              <a href="/products/<%= p.id || p._id %>" class="block text-sm font-bold text-gray-950 hover:text-[#FF9900] transition line-clamp-2 h-10 leading-tight">
+                <%= p.title %>
+              </a>
+
+              <!-- Pricing block -->
+              <div class="pt-1 select-none flex items-baseline space-x-2">
+                <% if (p.discount && p.discount > 0) { %>
+                  <p class="text-sm font-black text-gray-950 font-mono">Rs. <%= Math.round(p.price * (1 - p.discount / 100)) %></p>
+                  <p class="text-[11px] text-gray-400 line-through font-mono">Rs. <%= p.price %></p>
+                <% } else { %>
+                  <p class="text-sm font-black text-gray-950 font-mono">Rs. <%= p.price %></p>
+                <% } %>
+              </div>
+
+              <!-- Stock / Availability Badge -->
+              <div class="pt-1 flex items-center">
+                <% if (p.stock > 0) { %>
+                  <span class="inline-flex items-center text-[10px] text-emerald-600 font-bold">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5"></span>
+                    In Stock (<%= p.stock %>)
+                  </span>
+                <% } else { %>
+                  <span class="inline-flex items-center text-[10px] text-red-500 font-bold bg-red-50 py-0.5 px-2 rounded-md border border-red-100">
+                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full mr-1 px-1.5"></span>
+                    Out of Stock
+                  </span>
+                <% } %>
+              </div>
+            </div>
+
+            <!-- Interactive Action buttons (Yellow color-themed as requested) -->
+            <div class="space-y-2 mt-auto">
+              <% if (p.stock > 0) { %>
+                <button onclick="addWishToCart('<%= p.id || p._id %>')" class="w-full py-2.5 bg-[#FF9900] hover:bg-[#E68A00] text-black font-extrabold text-xs tracking-tight rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 cursor-pointer shadow-xs transform active:scale-95 border-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                  <span>Move into Cart</span>
+                </button>
+              <% } else { %>
+                <button disabled class="w-full py-2.5 bg-gray-100 text-gray-400 font-bold text-xs rounded-lg cursor-not-allowed border border-gray-200">
+                  Currently Out of Stock
+                </button>
+              <% } %>
+              
+              <a href="/products/<%= p.id || p._id %>" class="block w-full text-center py-2 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold text-xs rounded-lg border border-gray-200 transition">
+                Inspect Particulars
+              </a>
+            </div>
+          </div>
+
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+
+</main>
+
+<!-- Client Side AJAX Integrations for wishlist interactions -->
+<script>
+  // Add item asynchronously from Wishlist to the dynamic cart
+  async function addWishToCart(productId) {
+    try {
+      const payload = new URLSearchParams();
+      payload.append('productId', productId);
+      payload.append('quantity', '1');
+
+      const response = await fetch('/cart/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload
+      });
+
+      if (response.redirected || response.ok) {
+        // Increment Virtual Shopping badge in header layout
+        const badge = document.getElementById('cartBadgeCount');
+        if (badge) {
+          let count = parseInt(badge.innerText.trim()) || 0;
+          badge.innerText = count + 1;
+          badge.classList.add('scale-125');
+          setTimeout(() => badge.classList.remove('scale-125'), 250);
+        }
+        triggerNotification('success', 'Product relocated to shopping cart successfully!');
+      } else {
+        triggerNotification('error', 'Execution query error adding item to cart.');
+      }
+    } catch (err) {
+      triggerNotification('error', 'Cart action execution failed.');
+    }
+  }
+
+  // Remove bookmark item asynchronously
+  async function removeFromWishlist(productId) {
+    try {
+      const response = await fetch('/wishlist/toggle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId })
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        // Fetch matching DOM item structure
+        const itemNode = document.getElementById(`wish_item_${productId}`);
+        if (itemNode) {
+          // Play a sleek fade-out scaling animation before actual node deletion
+          itemNode.classList.add('scale-95', 'opacity-0');
+          setTimeout(() => {
+            itemNode.remove();
+            
+            // Check remaining grid children counts
+            const grid = document.getElementById('wishProductsGrid');
+            if (grid && grid.querySelectorAll('[id^="wish_item_"]').length === 0) {
+              grid.remove();
+              document.getElementById('emptyWishlistState').classList.remove('hidden');
+            }
+          }, 300);
+        }
+        triggerNotification('success', 'Comfortably removed from your saved list.');
+      } else {
+        triggerNotification('error', data.message || 'Bookmark toggle failed.');
+      }
+    } catch (err) {
+      triggerNotification('error', 'Connection loss during Wishlist status update.');
+    }
+  }
+</script>
+
+<%- include('partials/footer') %>

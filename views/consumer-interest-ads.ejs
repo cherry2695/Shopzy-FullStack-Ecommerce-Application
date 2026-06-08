@@ -1,0 +1,91 @@
+<%- include('partials/header') %>
+
+<main class="max-w-5xl mx-auto my-12 px-6 flex-grow">
+  <div class="bg-white rounded-2xl shadow-xl border border-gray-150 p-6 sm:p-10 relative overflow-hidden">
+    
+    <!-- Top Decorative Gradient Line -->
+    <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-500 to-amber-600"></div>
+
+    <!-- Header title -->
+    <div class="border-b border-gray-150 pb-6 mb-8 text-center sm:text-left">
+      <h2 class="text-3xl font-extrabold font-display text-gray-950 tracking-tight flex items-center justify-center sm:justify-start">
+        <i data-lucide="sparkles" class="w-8 h-8 mr-3 text-orange-600"></i> Consumer Interest Ads
+      </h2>
+      <p class="text-xs text-gray-500 mt-1">Information on how we curate relevant, high-efficacy offers and personalized product recommendations.</p>
+    </div>
+
+    <!-- Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Quick Navigation Sidebar -->
+      <div class="lg:col-span-4 space-y-4">
+        <div class="bg-gray-50 border border-gray-200 p-5 rounded-2xl sticky top-6">
+          <h4 class="font-extrabold text-sm text-gray-950 border-b border-gray-200 pb-2 mb-3">Quick Navigation</h4>
+          <ul class="space-y-2.5 text-xs text-orange-700 font-medium">
+            <li><a href="#whatis" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 1. What are Interest Ads?</a></li>
+            <li><a href="#howcurated" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 2. How We Curate Recommendations</a></li>
+            <li><a href="#controls" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 3. Opt-out & Preferences</a></li>
+            <li><a href="#partners" class="hover:underline flex items-center"><i data-lucide="chevron-right" class="w-3.5 h-3.5 mr-1.5"></i> 4. Ad Network Partners</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Main Legal Content -->
+      <div class="lg:col-span-8 space-y-8 text-sm text-gray-700 leading-relaxed font-sans">
+        
+        <section id="whatis" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 1</span> What are Interest-Based Ads?
+          </h3>
+          <p>
+            Interest-based ads (sometimes referred to as personalized or targeted ads) represent customized offers and promotional segments shown to you based on your direct search patterns, purchase history, and products viewed.
+          </p>
+          <p class="mt-2 text-gray-500">
+            For example, if you frequently view <span class="font-semibold text-gray-900">Kitchen Appliances</span> or <span class="font-semibold text-gray-900">Smartphones</span>, we strive to highlight related coupons, bundle deals, and product rollouts matching your intent.
+          </p>
+        </section>
+
+        <section id="howcurated" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 2</span> How We Curate Recommendations
+          </h3>
+          <p>
+            To keep recommendations relevant, we analyze cookies and session telemetry inside Shopzy. We focus on:
+          </p>
+          <ul class="list-disc pl-5 mt-2 space-y-1.5">
+            <li>Keywords passed to the Catalog search bar.</li>
+            <li>The category of items added to your active Shopping Cart or Wishlist.</li>
+            <li>Anonymized aggregate purchase flows across similar demographics.</li>
+          </ul>
+        </section>
+
+        <section id="controls" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 3</span> Your Choices & Controls
+          </h3>
+          <p>
+            We adhere strictly to modern browser opt-out guidelines. You are always in control of your data footprint:
+          </p>
+          <ul class="list-disc pl-5 mt-2 space-y-1.5">
+            <li>You can configure your browser agent to block cookies or notify you when cookies are sent.</li>
+            <li>You can clear your active browsing history details inside your browser settings anytime to reset recommendation parameters.</li>
+          </ul>
+        </section>
+
+        <section id="partners" class="scroll-mt-6">
+          <h3 class="text-lg font-bold text-gray-950 mb-3 flex items-center">
+            <span class="bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded mr-2">Sec. 4</span> Ad Network Partners
+          </h3>
+          <p>
+            We do not share any raw personally identifiable records (name, email) with external advertisers. Any ad tracking is managed in highly-secure, sandboxed hashes that comply with international digital advertising codes of conduct.
+          </p>
+        </section>
+
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<%- include('partials/footer') %>

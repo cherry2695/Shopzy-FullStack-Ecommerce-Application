@@ -1,0 +1,121 @@
+<%- include('../partials/header') %>
+
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow flex flex-col md:flex-row gap-8 select-none">
+  
+  <!-- LEFT RAIL -->
+  <aside class="w-full md:w-64 flex-shrink-0 bg-white border border-gray-205 rounded-2xl p-5 shadow-sm md:space-y-4 h-max sticky top-28 text-xs font-semibold">
+    <div class="border-b border-gray-100 pb-3 mb-2">
+      <h3 class="font-extrabold text-gray-905 uppercase tracking-widest text-[10px] flex items-center"><i data-lucide="shield-alert" class="w-4 h-4 mr-1.5 text-amazon-orange"></i> Shopzy Command Deck</h3>
+    </div>
+
+    <nav class="grid grid-cols-2 sm:grid-cols-5 md:flex md:flex-col gap-2 md:space-y-1 text-gray-650 font-semibold text-xs">
+      <a href="/admin" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-901 transition">
+        <i data-lucide="layout-dashboard" class="w-4 h-4 text-gray-400"></i>
+        <span>Overview & Reports</span>
+      </a>
+
+      <a href="/admin/orders" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-911 transition">
+        <i data-lucide="shopping-bag" class="w-4 h-4 text-gray-400"></i>
+        <span>Manage Orders</span>
+      </a>
+
+      <a href="/admin/products" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="box" class="w-4 h-4 text-gray-400"></i>
+        <span>Manage Products</span>
+      </a>
+
+      <a href="/admin/coupons" class="flex items-center space-x-2.5 p-2.5 rounded-lg bg-amazon-orange/10 text-amazon-orange transition">
+        <i data-lucide="ticket" class="w-4 h-4"></i>
+        <span>Promotional Coupons</span>
+      </a>
+
+      <a href="/admin/messages" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="mail" class="w-4 h-4 text-gray-400"></i>
+        <span>Support Messages</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- RIGHT EDIT PANEL -->
+  <section class="flex-grow space-y-6">
+    <div class="border-b border-gray-200 pb-3 flex justify-between items-center">
+      <h2 class="text-xl font-bold font-display text-gray-950 flex items-center">
+        <span class="h-5 w-1.5 bg-amazon-orange rounded mr-2"></span> Marketing Promotional Coupons
+      </h2>
+      <span class="text-xs text-gray-500 font-semibold font-mono">Found: <strong><%= coupons.length %> codes active</strong></span>
+    </div>
+
+    <!-- 1. LAUNCH COUPON FORM -->
+    <div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4 text-xs font-semibold">
+      <h3 class="font-bold text-gray-950 text-sm font-display flex items-center mb-2"><i data-lucide="plus-circle" class="w-4.5 h-4.5 mr-1.5 text-amazon-orange"></i> Create New Discount Code</h3>
+      
+      <form action="/admin/coupons" method="POST" class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs font-semibold">
+        <div>
+          <label class="block text-gray-500 mb-1">Coupon Code (Uppercase)</label>
+          <input type="text" name="code" required placeholder="e.g. SHOPZY25" class="w-full px-3.5 py-2 border rounded-lg font-mono uppercase focus:ring-1 focus:ring-amazon-gold" />
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Coupon Type</label>
+          <select name="type" class="bg-gray-50 border rounded-lg p-2 w-full cursor-pointer">
+            <option value="Percentage">Percentage (e.g. 10%)</option>
+            <option value="Flat">Flat Amount (e.g. Rs. 500)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Value Amount</label>
+          <input type="number" name="value" required placeholder="e.g. 10 or 500" class="w-full px-3.5 py-2 border rounded-lg font-mono" />
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Min Bill Purchase (Rs. )</label>
+          <input type="number" name="minPurchase" required placeholder="e.g. 50" class="w-full px-3.5 py-2 border rounded-lg font-mono" />
+        </div>
+
+        <div class="sm:col-span-4 pt-2">
+          <button type="submit" class="w-full py-3 bg-amazon-orange hover:bg-amazon-gold text-amazon-navy font-bold rounded-lg transition text-xs uppercase cursor-pointer">
+            Publish Campaign Code
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 2. EXISTING COUPONS MATRIX TABLE BOARD -->
+    <div class="bg-white border rounded-2xl shadow-sm overflow-hidden text-xs font-semibold">
+      <div class="p-4 border-b border-gray-100 bg-gray-50/50">
+        <h3 class="font-bold text-gray-950 text-sm flex items-center"><i data-lucide="ticket-percent" class="w-4.5 h-4.5 mr-1 text-gray-400"></i> Active Promo Registry</h3>
+      </div>
+
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-gray-50/50 border-b border-gray-150 text-[10px] text-gray-405 font-black uppercase tracking-wider">
+            <th class="px-6 py-3">Code</th>
+            <th class="px-6 py-3">Savings Type</th>
+            <th class="px-6 py-3">Bill Threshold</th>
+            <th class="px-6 py-3 text-right">Delete Operations</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-105">
+          <% coupons.forEach(c => { %>
+            <tr>
+              <td class="px-6 py-4 font-mono font-black text-gray-950"><%= c.code %></td>
+              <td class="px-6 py-4">
+                <%= c.type === 'Percentage' ? `${c.value}% Off` : `Rs. ${c.value} Flat Off` %>
+              </td>
+              <td class="px-6 py-4 font-mono text-gray-500 font-bold">Min: Rs. <%= c.minPurchase %></td>
+              <td class="px-6 py-4 text-right">
+                <a href="/admin/coupons/delete/<%= c.id || c._id %>" onclick="return confirm('Purge promotional coupon?');" class="text-red-500 hover:underline inline-flex h-8 w-8 items-center justify-center border rounded-lg hover:bg-red-50 transition cursor-pointer">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,79 @@
+<%- include('partials/header') %>
+
+<main class="max-w-md mx-auto my-16 px-6 flex-grow flex flex-col justify-center w-full">
+  <div class="bg-white rounded-2xl shadow-xl border border-gray-150 p-8 select-none">
+    <div class="text-center mb-8">
+      <h2 class="text-2xl font-bold font-display text-gray-950 tracking-tight">Sign-In Account</h2>
+      <p class="text-xs text-gray-500 mt-1">Access your premium Amazon-style Shopzy dashboards</p>
+    </div>
+
+    <!-- Error/Success Alerts -->
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-lg p-3.5 mb-6 flex items-center">
+        <i data-lucide="info" class="w-4 h-4 mr-2 text-red-500"></i> <%= error %>
+      </div>
+    <% } %>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="bg-teal-50 border border-teal-200 text-teal-850 text-xs font-semibold rounded-lg p-3.5 mb-6 flex items-center">
+        <i data-lucide="check-circle" class="w-4 h-4 mr-2 text-teal-600"></i> <%= success %>
+      </div>
+    <% } %>
+
+    <form action="/login" method="POST" class="space-y-4">
+      <input type="hidden" name="redirect" value="<%= typeof redirect !== 'undefined' ? redirect : '' %>" />
+
+      <div>
+        <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider mb-1">Email Address or Username</label>
+        <input 
+          type="text" 
+          name="email" 
+          required 
+          placeholder="e.g. customer@shopzy.com or customer" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <div>
+        <div class="flex justify-between items-center mb-1">
+          <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider">Password</label>
+          <a href="/forgot-password" class="text-xs font-semibold text-amazon-gold hover:underline">Forgot password?</a>
+        </div>
+        <input 
+          type="password" 
+          name="password" 
+          required 
+          placeholder="Your secret account password" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <button type="submit" class="w-full py-3 rounded-lg bg-amazon-orange hover:bg-amazon-gold text-amazon-navy font-bold text-sm tracking-tight transition shadow cursor-pointer">
+        Sign In Secured
+      </button>
+    </form>
+
+    <!-- Boundary info box -->
+    <div class="relative flex py-6 items-center">
+      <div class="flex-grow border-t border-gray-150"></div>
+      <span class="flex-shrink mx-4 text-xs font-mono text-gray-400">NEW CUSTOMER?</span>
+      <div class="flex-grow border-t border-gray-150"></div>
+    </div>
+
+    <!-- Redirection to register -->
+    <a href="/register" class="block w-full py-2.5 text-center rounded-lg bg-amazon-gold hover:bg-amber-600 text-amazon-navy text-sm font-bold transition shadow-sm">
+      Create your Shopzy Account
+    </a>
+
+    <!-- Demo Access Accounts Guide -->
+    <div class="bg-gray-50 rounded-lg p-3 border border-gray-200 mt-6 text-xs text-gray-605">
+      <p class="font-extrabold text-gray-800 mb-1 flex items-center"><i data-lucide="key" class="w-3.5 h-3.5 mr-1 text-amazon-gold"></i> Fast Sandbox Logins:</p>
+      <ul class="list-disc list-inside space-y-0.5">
+        <li>Customer: <code class="font-mono bg-white px-1 border">customer@shopzy.com</code> / <code class="font-mono bg-white px-1 border">customerpassword</code></li>
+        <li>Administrator: <code class="font-mono bg-white px-1 border">admin@shopzy.com</code> / <code class="font-mono bg-white px-1 border">adminpassword</code></li>
+      </ul>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

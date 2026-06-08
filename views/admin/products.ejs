@@ -1,0 +1,219 @@
+<%- include('../partials/header') %>
+
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow flex flex-col md:flex-row gap-8 select-none">
+  
+  <!-- LEFT RAIL -->
+  <aside class="w-full md:w-64 flex-shrink-0 bg-white border border-gray-205 rounded-2xl p-5 shadow-sm md:space-y-4 h-max sticky top-28 text-xs font-semibold">
+    <div class="border-b border-gray-100 pb-3 mb-2">
+      <h3 class="font-extrabold text-gray-950 uppercase tracking-widest text-[10px] flex items-center">
+        <i data-lucide="shield-alert" class="w-4 h-4 mr-1.5 text-amazon-orange"></i> Shopzy Command Deck
+      </h3>
+    </div>
+
+    <nav class="grid grid-cols-2 sm:grid-cols-5 md:flex md:flex-col gap-2 md:space-y-1 text-gray-655">
+      <a href="/admin" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-901 transition">
+        <i data-lucide="layout-dashboard" class="w-4 h-4 text-gray-400"></i>
+        <span>Overview & Reports</span>
+      </a>
+
+      <a href="/admin/orders" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-901 transition">
+        <i data-lucide="shopping-bag" class="w-4 h-4 text-gray-400"></i>
+        <span>Manage Orders</span>
+      </a>
+
+      <a href="/admin/products" class="flex items-center space-x-2.5 p-2.5 rounded-lg bg-amazon-orange/10 text-amazon-orange transition">
+        <i data-lucide="box" class="w-4 h-4"></i>
+        <span>Manage Products</span>
+      </a>
+
+      <a href="/admin/coupons" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="ticket" class="w-4 h-4 text-gray-400"></i>
+        <span>Promotional Coupons</span>
+      </a>
+
+      <a href="/admin/messages" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="mail" class="w-4 h-4 text-gray-400"></i>
+        <span>Support Messages</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- RIGHT EDIT PANEL -->
+  <section class="flex-grow space-y-8">
+    
+    <!-- 1. ADD NEW CATALOG PRODUCT FORM -->
+    <div class="bg-white border rounded-2xl p-6 shadow-sm space-y-4">
+      <h3 class="text-base font-bold font-display text-gray-950 border-b border-gray-100 pb-2 flex items-center">
+        <i data-lucide="plus-circle" class="w-5 h-5 mr-1.5 text-amazon-orange"></i> Launch New Marketplace Product
+      </h3>
+
+      <form action="/admin/products" method="POST" class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-semibold">
+        <div class="sm:col-span-3">
+          <label class="block text-gray-500 mb-1">Product Title / Heading Designation</label>
+          <input type="text" name="title" required placeholder="e.g. Shopzy Ultra Core 5G Smartphone, OLED Display..." class="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold" />
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Pricing Rate (Rs.)</label>
+          <input type="number" name="price" required placeholder="e.g. 45000" class="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-amazon-gold" />
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Offer Discount %</label>
+          <input type="number" name="discount" value="0" placeholder="e.g. 15" class="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-amazon-gold" />
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Inventory Stock Level</label>
+          <input type="number" name="stock" required placeholder="e.g. 150" class="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg font-mono focus:outline-none focus:ring-1 focus:ring-amazon-gold" />
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Select Catalog Category</label>
+          <select name="category" required class="bg-gray-50 text-gray-850 border border-gray-200 rounded-lg p-2.5 w-full cursor-pointer focus:ring-1 focus:ring-amazon-gold">
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat %>"><%= cat %></option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Brand Name Label</label>
+          <input type="text" name="brand" required placeholder="e.g. Samsung, Apple" class="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold" />
+        </div>
+
+        <div>
+          <label class="block text-gray-500 mb-1">Thumbnail Cover URL</label>
+          <input type="url" name="image" required placeholder="https://unsplash.com/..." class="w-full px-3.5 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold" />
+        </div>
+
+        <div class="sm:col-span-3">
+          <label class="block text-gray-500 mb-1">Detailed Technical Description Bullet</label>
+          <textarea name="description" rows="3" required placeholder="Draft bullet characteristics, specifications, certification notes..." class="w-full px-3.5 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"></textarea>
+        </div>
+
+        <div class="sm:col-span-3 pt-2">
+          <button type="submit" class="w-full py-3 bg-amazon-orange hover:bg-amazon-gold text-amazon-navy font-bold rounded-lg transition text-xs uppercase tracking-wider cursor-pointer shadow-md">
+            Authorize Catalogue Insertion
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 2. EXISTING PRODUCTS MANAGER TABULAR LIST BOARD -->
+    <div class="bg-white border rounded-2xl shadow-sm overflow-hidden text-xs font-semibold">
+      <div class="p-5 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div>
+          <h3 class="font-bold text-gray-950 text-sm font-display flex items-center">
+            <i data-lucide="database" class="w-4.5 h-4.5 mr-1.5 text-gray-400"></i> Active Inventory Catalogues
+          </h3>
+          <p class="text-[10px] text-gray-400 mt-1">Configure status levels, track out-of-stock items, and manage marketplace listings.</p>
+        </div>
+        <span class="bg-gray-100 text-gray-700 py-1 px-3 rounded-full text-[10px] font-mono border font-extrabold max-w-max select-none">
+          Records: <%= products.length %> items listed
+        </span>
+      </div>
+
+      <!-- Responsive Product Grid for Mobile / Structured Table for Tablet & Up -->
+      <div class="overflow-x-auto">
+        
+        <!-- MOBILE COLLAPSIBLE CARDS GRID -->
+        <div class="block md:hidden divide-y divide-gray-100">
+          <% if (products.length === 0) { %>
+            <div class="p-8 text-center text-gray-400">No catalogue products listed yet.</div>
+          <% } %>
+          <% products.forEach(p => { %>
+            <div class="p-4 flex space-x-3 items-start select-none bg-white hover:bg-gray-50 transition">
+              <img src="<%= p.images[0] %>" class="w-16 h-16 object-contain rounded bg-gray-50 border border-gray-150 p-1 flex-shrink-0" referrerPolicy="no-referrer" />
+              <div class="min-w-0 flex-1 space-y-1">
+                <div class="flex justify-between items-start gap-2">
+                  <p class="font-bold text-gray-950 truncate text-[13px]"><%= p.title %></p>
+                  <a href="/admin/products/delete/<%= p.id || p._id %>" onclick="return confirm('Prune this catalog listing permanently? This cannot be undone.');" class="text-red-500 hover:text-red-650 flex-shrink-0 cursor-pointer p-1">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  </a>
+                </div>
+                <p class="text-[10px] text-gray-400 font-mono">ID: <%= p.id || p._id %> | Brand: <%= p.brand %></p>
+                <div class="flex items-center justify-between text-[11px] pt-1.5">
+                  <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-[9px] font-bold"><%= p.category %></span>
+                  <div class="text-right">
+                    <p class="font-mono font-black text-gray-900 text-xs">Rs. <%= p.price %> <span class="text-[10px] text-red-500 font-semibold">(<%= p.discount %>% off)</span></p>
+                    
+                    <!-- stock Level Alert Badges -->
+                    <% if (p.stock === 0) { %>
+                      <span class="inline-block bg-red-50 text-red-700 border border-red-200 text-[10px] py-0.5 px-2 rounded-full font-extrabold mt-1">OUT OF STOCK</span>
+                    <% } else if (p.stock <= 10) { %>
+                      <span class="inline-block bg-amber-50 text-amber-805 border border-amber-200 text-[10px] py-0.5 px-2 rounded-full font-extrabold mt-1 animate-pulse">CRITICAL LOW (<%= p.stock %>)</span>
+                    <% } else { %>
+                      <span class="inline-block bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] py-0.5 px-2 rounded-full font-extrabold mt-1"><%= p.stock %> Items Stocked</span>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+
+        <!-- TABLE FOR TABLETS / DESKTOP LAYOUTS -->
+        <table class="hidden md:table w-full text-left border-collapse min-w-[700px]">
+          <thead>
+            <tr class="bg-gray-50/50 border-b border-gray-200 text-[10px] text-gray-400 font-black uppercase tracking-wider">
+              <th class="px-6 py-3.5">Image</th>
+              <th class="px-6 py-3.5">Title & Brand Details</th>
+              <th class="px-6 py-3.5">Category</th>
+              <th class="px-6 py-3.5">Pricing Rate</th>
+              <th class="px-6 py-3.5">Inventory Stock</th>
+              <th class="px-6 py-3.5 text-right">Actions Operations</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <% products.forEach(p => { %>
+              <tr class="hover:bg-gray-50/55 transition duration-150">
+                <td class="px-6 py-4">
+                  <img src="<%= p.images[0] %>" class="w-12 h-12 object-contain rounded bg-gray-50 border border-gray-150 p-1" referrerPolicy="no-referrer" />
+                </td>
+                <td class="px-6 py-4">
+                  <p class="font-bold text-gray-950 truncate max-w-xs text-[13px]"><%= p.title %></p>
+                  <p class="text-[10px] text-gray-400 font-mono mt-0.5">ID: <%= p.id || p._id %> | Brand: <strong class="text-gray-500"><%= p.brand %></strong></p>
+                </td>
+                <td class="px-6 py-4 text-gray-500 font-bold font-display"><%= p.category %></td>
+                <td class="px-6 py-4">
+                  <p class="font-mono text-gray-950 text-[13px] font-black">Rs. <%= p.price %></p>
+                  <% if (p.discount > 0) { %>
+                    <p class="text-[10px] text-red-500 font-normal mt-0.5"><%= p.discount %>% Promo Discount Applied</p>
+                  <% } %>
+                </td>
+                <td class="px-6 py-4">
+                  <!-- Stock thresholds alert display -->
+                  <% if (p.stock === 0) { %>
+                    <span class="inline-flex items-center space-x-1 py-1 px-2.5 rounded-full bg-red-50 border border-red-200 text-red-700 text-[10px] font-extrabold shadow-sm select-none">
+                      <span class="h-1.5 w-1.5 rounded-full bg-red-500 animate-ping"></span>
+                      <span>OUT OF STOCK</span>
+                    </span>
+                  <% } else if (p.stock <= 10) { %>
+                    <span class="inline-flex items-center space-x-1 py-1 px-2.5 rounded-full bg-amber-50 border border-amber-205 text-amber-800 text-[10px] font-extrabold shadow-sm select-none animate-pulse">
+                      <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+                      <span>LOW STOCK: <%= p.stock %> LEFT</span>
+                    </span>
+                  <% } else { %>
+                    <span class="inline-flex items-center space-x-1 py-1 px-2.5 rounded-full bg-emerald-50 border border-emerald-205 text-emerald-800 text-[10px] font-extrabold shadow-sm select-none">
+                      <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                      <span>GOOD: <%= p.stock %> UNITS</span>
+                    </span>
+                  <% } %>
+                </td>
+                <td class="px-6 py-4 text-right">
+                  <a href="/admin/products/delete/<%= p.id || p._id %>" onclick="return confirm('Prune this catalog listing permanently? This cannot be undone.');" class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-200 text-red-500 hover:bg-red-50 hover:text-red-700 transition cursor-pointer">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  </a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

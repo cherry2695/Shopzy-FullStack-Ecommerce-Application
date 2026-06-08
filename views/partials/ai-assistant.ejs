@@ -1,0 +1,502 @@
+<!-- Shopzy Smart Shopping Assistant Widget -->
+<div id="shopzy-ai-widget" class="fixed bottom-6 right-6 z-50 font-sans">
+  
+  <!-- Chat Launcher Bubble Button -->
+  <button id="ai-chat-launcher" class="w-14 h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 relative group border border-blue-500">
+    <div class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+      <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+    </div>
+    <i id="launcher-icon" data-lucide="bot-message-square" class="w-6 h-6 transition-transform group-hover:rotate-6"></i>
+    <span class="absolute right-16 scale-0 bg-slate-900 text-white text-xs px-2.5 py-1.5 rounded-lg shadow-lg font-medium whitespace-nowrap group-hover:scale-100 transition-all duration-200">Chat with Shopzy AI!</span>
+  </button>
+
+  <!-- Chat Panel Window -->
+  <div id="ai-chat-panel" class="hidden fixed bottom-24 right-6 w-96 max-w-[calc(100vw-2rem)] h-[550px] max-h-[80vh] bg-white/70 backdrop-blur-xl border border-slate-200/80 rounded-2xl shadow-2xl flex flex-col overflow-hidden transition-all duration-300 transform translate-y-4 scale-95 opacity-0">
+    
+    <!-- Header Block -->
+    <div class="bg-slate-900 text-white px-4 py-3.5 flex items-center justify-between border-b border-slate-800">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow">
+          <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+        </div>
+        <div>
+          <h4 class="font-bold text-sm tracking-tight font-display">Shopzy AI Assistant</h4>
+          <span class="flex items-center text-[10px] text-emerald-400 font-semibold">
+            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full mr-1 animate-pulse"></span> Smart Shop Guide
+          </span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-1.5">
+        <!-- Voice Output Speak Toggle -->
+        <button id="ai-voice-tts-toggle" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition relative group" title="Toggle Speech Output">
+          <i id="tts-icon" data-lucide="volume-2" class="w-4 h-4 text-slate-400"></i>
+          <span class="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-slate-950 text-[10px] px-2 py-1 rounded whitespace-nowrap">Voice Response</span>
+        </button>
+        <!-- Minimize -->
+        <button id="ai-chat-minimize" class="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition">
+          <i data-lucide="minus" class="w-4 h-4"></i>
+        </button>
+        <!-- Reset history -->
+        <button id="ai-chat-reset" class="p-1.5 text-slate-400 hover:text-red-400 rounded-lg hover:bg-slate-800 transition" title="Clear Chat History">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Container -->
+    <div id="ai-messages-body" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50/40 custom-scrollbar text-xs">
+      <!-- Chat history and welcome message injected dynamically via JS -->
+    </div>
+
+    <!-- Suggestions Panel -->
+    <div id="ai-suggestions-tray" class="px-4 py-2 bg-slate-100/50 border-t border-slate-200/50">
+      <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">Suggested Actions</p>
+      <div class="grid grid-cols-2 gap-1.5">
+        <button onclick="triggerQuickQuery('Find Smartphones')" class="text-left bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 p-2 rounded-lg font-medium text-slate-700 hover:text-blue-700 transition duration-200">
+          🔍 Find Smartphones
+        </button>
+        <button onclick="triggerQuickQuery('What are available Laptops?')" class="text-left bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 p-2 rounded-lg font-medium text-slate-700 hover:text-blue-700 transition duration-200">
+          💻 Browse Laptops
+        </button>
+        <button onclick="triggerQuickQuery('Compare AirPods Max 2 and WH-1000XM6')" class="text-left bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 p-2 rounded-lg font-medium text-slate-700 hover:text-blue-700 transition duration-200">
+          ⚖️ Compare Headphones
+        </button>
+        <button onclick="triggerQuickQuery('What is our return policy?')" class="text-left bg-white border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 p-2 rounded-lg font-medium text-slate-700 hover:text-blue-700 transition duration-200">
+          🛡️ Return Policies
+        </button>
+      </div>
+    </div>
+
+    <!-- Chat Typing Indicator (Hidden by default) -->
+    <div id="ai-typing-indicator" class="hidden px-4 py-3 bg-slate-100/30 flex items-center space-x-1.5 text-xs text-slate-500 font-medium">
+      <span>Shopzy AI is typing</span>
+      <div class="flex space-x-1">
+        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0s"></span>
+        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+        <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+      </div>
+    </div>
+
+    <!-- Input Form -->
+    <form id="ai-chat-input-form" class="p-3 bg-white border-t border-slate-200/80 flex items-center space-x-2">
+      <!-- STT voice mic -->
+      <button id="ai-voice-mic-btn" type="button" class="p-2 bg-slate-100 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition duration-200 relative group">
+        <i id="mic-icon" data-lucide="mic" class="w-4 h-4"></i>
+        <!-- Audio waves when listening -->
+        <span id="mic-pulse" class="hidden absolute inset-0 rounded-xl bg-blue-500/20 animate-ping"></span>
+      </button>
+
+      <!-- Text Inputs -->
+      <input 
+        type="text" 
+        id="ai-user-message-input" 
+        placeholder="Ask anything about Shopzy..."
+        autocomplete="off"
+        class="flex-1 bg-slate-50 border border-slate-200 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-xl px-3 py-2 text-xs focus:outline-none transition duration-200"
+      />
+
+      <!-- Submit button -->
+      <button type="submit" class="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-md transition duration-200">
+        <i data-lucide="send-horizontal" class="w-4 h-4"></i>
+      </button>
+    </form>
+
+  </div>
+</div>
+
+<style>
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+</style>
+
+<!-- Chatbot Handler Scripts -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const launcher = document.getElementById('ai-chat-launcher');
+    const panel = document.getElementById('ai-chat-panel');
+    const messagesBody = document.getElementById('ai-messages-body');
+    const inputForm = document.getElementById('ai-chat-input-form');
+    const userInput = document.getElementById('ai-user-message-input');
+    const ttsToggle = document.getElementById('ai-voice-tts-toggle');
+    const ttsIcon = document.getElementById('tts-icon');
+    const micBtn = document.getElementById('ai-voice-mic-btn');
+    const micIcon = document.getElementById('mic-icon');
+    const micPulse = document.getElementById('mic-pulse');
+    const typingIndicator = document.getElementById('ai-typing-indicator');
+    const minimizeBtn = document.getElementById('ai-chat-minimize');
+    const resetBtn = document.getElementById('ai-chat-reset');
+
+    // Default configuration variables
+    let isTtsEnabled = false;
+    let isMinimised = false;
+    let recognition = null;
+    let isListening = false;
+
+    // Load Voice Output state
+    if (localStorage.getItem('ai_tts_enabled') === 'true') {
+      isTtsEnabled = true;
+      ttsIcon.setAttribute('data-lucide', 'volume-2');
+      ttsIcon.classList.add('text-blue-500');
+    } else {
+      isTtsEnabled = false;
+      ttsIcon.setAttribute('data-lucide', 'volume-x');
+      ttsIcon.classList.add('text-slate-400');
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+
+    // 1. Initialize webkitSpeechRecognition for voice recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'en-US';
+      recognition.interimResults = false;
+
+      recognition.onstart = () => {
+        isListening = true;
+        micIcon.classList.add('text-blue-600');
+        micPulse.classList.remove('hidden');
+        userInput.placeholder = 'Listening to your voice...';
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        userInput.value = transcript;
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        if (typeof triggerNotification === 'function') {
+          triggerNotification('error', 'Voice dictation failed: ' + event.error);
+        }
+      };
+
+      recognition.onend = () => {
+        isListening = false;
+        micIcon.classList.remove('text-blue-600');
+        micPulse.classList.add('hidden');
+        userInput.placeholder = 'Ask anything about Shopzy...';
+      };
+    } else {
+      micBtn.style.display = 'none'; // Hide mic if not supported
+    }
+
+    // 2. LocalStorage backed Chat History
+    let conversationHistory = [];
+    try {
+      const savedHist = localStorage.getItem('shopzy_ai_chat_history');
+      if (savedHist) conversationHistory = JSON.parse(savedHist);
+    } catch {
+      conversationHistory = [];
+    }
+
+    // Helper to persist history
+    function saveHistory() {
+      localStorage.setItem('shopzy_ai_chat_history', JSON.stringify(conversationHistory));
+    }
+
+    // Render clean messages list
+    function renderChatHistory() {
+      messagesBody.innerHTML = '';
+
+      // Set default Welcome message if history empty
+      if (conversationHistory.length === 0) {
+        appendMessage('assistant', 'Hello! I am your **Shopzy Smart Shopping Assistant**. How can I help you discover laptops, headphones, apply promo codes, or track purchase shipments today?', false);
+        return;
+      }
+
+      conversationHistory.forEach(item => {
+        appendMessage(item.role, item.text, false);
+      });
+    }
+
+    // Speak helper using Web Speech Synthesis API
+    function speakText(text) {
+      if (!isTtsEnabled || !text) return;
+      // Strip markdown tags to avoid spelling aloud details
+      const cleanText = text.replace(/[*_#`\[\]()\-]/g, ' ').replace(/\[.*?\]/g, '');
+      
+      // Stop current speech before continuing
+      window.speechSynthesis.cancel();
+      
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Markdown conversion helper (simple parser to avoid external markup libs in footer)
+    function stripAndConvertMarkdown(text) {
+      if (!text) return '';
+      let html = text;
+
+      // Handle bold text **bold**
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-slate-900 font-display">$1</strong>');
+      // Handle italics *italic*
+      html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
+      // Handle list bullet points starting with -
+      html = html.replace(/^\s*-\s+(.*?)$/gm, '<li class="ml-4 list-disc">$1</li>');
+      // Handle simple links [text](url)
+      html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-blue-600 font-semibold underline hover:text-blue-800">$1</a>');
+
+      // Table formatting helper
+      if (html.includes('|')) {
+        const lines = html.split('\n');
+        let inTable = false;
+        let tableHeader = '';
+        let tableBody = '';
+
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (line.startsWith('|') && line.endsWith('|')) {
+            const columns = line.split('|').map(c => c.trim()).filter(c => c !== '');
+            if (line.includes('---')) {
+              continue; // Skip divider lines
+            }
+            if (!inTable) {
+              inTable = true;
+              tableHeader = '<thead class="bg-slate-150 border-b border-slate-300"><tr>' + columns.map(c => `<th class="px-2.5 py-1.5 text-left font-bold text-[10px] text-slate-800 uppercase tracking-wider">${c}</th>`).join('') + '</tr></thead>';
+            } else {
+              tableBody += '<tr class="border-b border-slate-200 hover:bg-slate-50">' + columns.map(c => `<td class="px-2.5 py-1.5 text-slate-700 text-[11px]">${c}</td>`).join('') + '</tr>';
+            }
+          } else {
+            if (inTable) {
+              html = html.replace(lines.slice(0, i+1).join('\n'), `<div class="my-3 overflow-x-auto rounded-xl border border-slate-250 shadow-inner bg-white"><table class="min-w-full divide-y divide-slate-200">${tableHeader}<tbody>${tableBody}</tbody></table></div>`);
+              inTable = false;
+              tableHeader = '';
+              tableBody = '';
+            }
+          }
+        }
+        if (inTable) {
+          html = `<div class="my-3 overflow-x-auto rounded-xl border border-slate-250 shadow-inner bg-white"><table class="min-w-full divide-y divide-slate-200">${tableHeader}<tbody>${tableBody}</tbody></table></div>`;
+        }
+      }
+
+      return html;
+    }
+
+    // Append single message to the DOM beautifully
+    function appendMessage(role, text, save = true) {
+      const bubble = document.createElement('div');
+      bubble.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`;
+
+      const inner = document.createElement('div');
+      inner.className = `max-w-[85%] rounded-2xl px-3.5 py-2.5 shadow-sm space-y-1 ${
+        role === 'user' 
+          ? 'bg-blue-600 text-white rounded-tr-none' 
+          : 'bg-white text-slate-800 border border-slate-200/80 rounded-tl-none whitespace-pre-line'
+      }`;
+
+      // Set HTML contents
+      inner.innerHTML = role === 'user' ? text : stripAndConvertMarkdown(text);
+      bubble.appendChild(inner);
+      messagesBody.appendChild(bubble);
+      
+      // Auto-scroll
+      messagesBody.scrollTop = messagesBody.scrollHeight;
+
+      if (save) {
+        conversationHistory.push({ role, text });
+        saveHistory();
+        if (role === 'assistant') {
+          speakText(text);
+        }
+      }
+    }
+
+    // Quick trigger query function
+    window.triggerQuickQuery = (queryText) => {
+      userInput.value = queryText;
+      inputForm.dispatchEvent(new Event('submit'));
+    };
+
+    // Toggle Chat window Open/Minimize
+    launcher.addEventListener('click', () => {
+      const isHidden = panel.classList.contains('hidden');
+      if (isHidden) {
+        panel.classList.remove('hidden');
+        setTimeout(() => {
+          panel.classList.remove('opacity-0', 'translate-y-4', 'scale-95');
+          panel.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+        }, 10);
+        
+        // Auto render list
+        renderChatHistory();
+        userInput.focus();
+      } else {
+        closePanel();
+      }
+    });
+
+    minimizeBtn.addEventListener('click', () => {
+      closePanel();
+    });
+
+    resetBtn.addEventListener('click', () => {
+      conversationHistory = [];
+      saveHistory();
+      renderChatHistory();
+      if (typeof triggerNotification === 'function') {
+        triggerNotification('success', 'AI Conversation history reset successfully.');
+      }
+    });
+
+    function closePanel() {
+      panel.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+      panel.classList.add('opacity-0', 'translate-y-4', 'scale-95');
+      setTimeout(() => {
+        panel.classList.add('hidden');
+      }, 300);
+    }
+
+    // TTS Toggle
+    ttsToggle.addEventListener('click', () => {
+      isTtsEnabled = !isTtsEnabled;
+      localStorage.setItem('ai_tts_enabled', isTtsEnabled);
+      if (isTtsEnabled) {
+        ttsIcon.setAttribute('data-lucide', 'volume-2');
+        ttsIcon.classList.add('text-blue-500');
+        ttsIcon.classList.remove('text-slate-400');
+        if (typeof triggerNotification === 'function') {
+          triggerNotification('success', 'Voice feedback enabled!');
+        }
+        // Speak last assistant statement
+        const lastAssistantMsg = [...conversationHistory].reverse().find(m => m.role === 'assistant');
+        if (lastAssistantMsg) speakText(lastAssistantMsg.text);
+      } else {
+        ttsIcon.setAttribute('data-lucide', 'volume-x');
+        ttsIcon.classList.add('text-slate-400');
+        ttsIcon.classList.remove('text-blue-500');
+        window.speechSynthesis.cancel(); // Stop talking
+        if (typeof triggerNotification === 'function') {
+          triggerNotification('success', 'Voice feedback disabled.');
+        }
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
+    // Voice Dictation Microphone Trigger
+    micBtn.addEventListener('click', () => {
+      if (!recognition) return;
+      if (isListening) {
+        recognition.stop();
+      } else {
+        recognition.start();
+      }
+    });
+
+    // Form submission processing
+    inputForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = userInput.value.trim();
+      if (!message) return;
+
+      // Reset text fields
+      userInput.value = '';
+
+      // Append user statement
+      appendMessage('user', message, true);
+
+      // Display dynamic bouncing typing indicators
+      typingIndicator.classList.remove('hidden');
+      messagesBody.scrollTop = messagesBody.scrollHeight;
+
+      try {
+        const response = await fetch('/api/ai/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message,
+            history: conversationHistory.slice(-12), // Feed last 12 chat nodes for contextual continuity
+            currentPath: window.location.pathname
+          })
+        });
+
+        const data = await response.json();
+        
+        // Hide typing indicator
+        typingIndicator.classList.add('hidden');
+
+        if (data.text) {
+          appendMessage('assistant', data.text, true);
+
+          // Handle dynamic system instructions commands
+          if (data.command && data.command.action !== 'none') {
+            const action = data.command.action;
+            const params = data.command.params || {};
+
+            console.log('AI Core Command Executing:', action, params);
+
+            if (action === 'navigate' && params.path) {
+              setTimeout(() => {
+                window.location.href = params.path;
+              }, 2000);
+            } else if (action === 'checkout_help' && params.path) {
+              if (typeof triggerNotification === 'function') {
+                triggerNotification('success', 'Guiding to secure checkout portal. Preparing parameters...');
+              }
+              setTimeout(() => {
+                window.location.href = params.path;
+              }, 2000);
+            } else if (action === 'add_to_cart') {
+              if (typeof triggerNotification === 'function') {
+                triggerNotification('success', 'Product added to Cart! Refreshing database structures.');
+              }
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            } else if (action === 'remove_from_cart') {
+              if (typeof triggerNotification === 'function') {
+                triggerNotification('success', 'Removed product from active cart.');
+              }
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            } else if (action === 'add_to_wishlist') {
+              if (typeof triggerNotification === 'function') {
+                triggerNotification('success', 'Saved item successfully to your Wishlist registry!');
+              }
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            } else if (action === 'view_cart') {
+              setTimeout(() => {
+                window.location.href = '/cart';
+              }, 1800);
+            } else if (action === 'view_wishlist') {
+              setTimeout(() => {
+                window.location.href = '/wishlist';
+              }, 1800);
+            } else if (action === 'compare' && params.path) {
+              setTimeout(() => {
+                window.location.href = params.path;
+              }, 1800);
+            }
+          }
+        } else {
+          appendMessage('assistant', 'Sorry, I failed to formulate a solid answer. Can you tell me your concern again?', true);
+        }
+
+      } catch (err) {
+        console.error('AI query transmission breakdown:', err);
+        typingIndicator.classList.add('hidden');
+        appendMessage('assistant', 'I had difficulty connecting with the Shopzy database servers. Let me try again shortly!', true);
+      }
+    });
+  });
+</script>

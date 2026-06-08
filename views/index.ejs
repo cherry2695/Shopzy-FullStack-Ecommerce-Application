@@ -1,0 +1,399 @@
+<%- include('partials/header') %>
+
+<!-- Flash Deals & Welcome Notifications -->
+<% if (typeof successMsg !== 'undefined' && successMsg === 'newsletter_subscribed') { %>
+  <script>window.addEventListener('load', () => triggerNotification('success', 'Thank you! You have subscribed to our newsletter.'));</script>
+<% } %>
+
+<!-- HERO BRAND BANNER CAROUSEL -->
+<section class="relative bg-gray-900 border-b border-gray-850 overflow-hidden select-none w-full">
+  <div class="relative h-[250px] sm:h-[350px] md:h-[480px] lg:h-[520px] w-full">
+    <!-- Slider Wrapper -->
+    <div id="heroSlider" class="h-full w-full relative overflow-hidden">
+      <% banners.forEach((banner, idx) => { %>
+        <div class="hero-slide absolute inset-0 transition-opacity duration-700 ease-in-out <%= idx === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0' %>">
+          <img src="<%= banner.imageURL %>" alt="<%= banner.title %>" class="w-full h-full object-cover opacity-75" referrerPolicy="no-referrer" />
+          <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-transparent flex items-center p-6 sm:p-12">
+            <div class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+              <div class="max-w-xl text-white">
+                <span class="bg-[#FF9900] text-black font-extrabold text-xs uppercase tracking-wider py-1 px-3 rounded-full mb-3 inline-block">Exclusive Deals</span>
+                <h2 class="text-2xl sm:text-4xl md:text-5xl font-bold font-display tracking-tight leading-tight mb-4">
+                  <%= banner.title %>
+                </h2>
+                <a href="<%= banner.link %>" class="bg-[#FF9900] hover:bg-[#E68A00] text-black font-extrabold px-6 py-2.5 rounded-lg text-sm transition inline-flex items-center shadow-lg transform hover:-translate-y-0.5">
+                  Explore Collection <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- Slide controls -->
+    <% if (banners.length > 1) { %>
+      <div class="max-w-7xl mx-auto absolute inset-0 pointer-events-none flex items-center justify-between px-4 sm:px-6 lg:px-8 z-20">
+        <button onclick="prevSlide()" class="pointer-events-auto h-11 w-11 bg-black/50 hover:bg-[#FF9900] hover:text-black text-white rounded-full flex items-center justify-center cursor-pointer select-none transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+        </button>
+        <button onclick="nextSlide()" class="pointer-events-auto h-11 w-11 bg-black/50 hover:bg-[#FF9900] hover:text-black text-white rounded-full flex items-center justify-center cursor-pointer select-none transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+        </button>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- MAIN MARKET GRID -->
+<main class="max-w-7xl mx-auto px-4 py-12 space-y-16">
+
+  <!-- 1. FEATURED CATEGORIES SECTION -->
+  <section class="space-y-6">
+    <div class="flex justify-between items-end border-b border-gray-200 pb-3">
+      <h3 class="text-2xl font-bold font-display tracking-tight text-gray-900 flex items-center">
+        <span class="h-6 w-1.5 bg-amazon-orange rounded-full mr-2"></span> Browse Featured Categories
+      </h3>
+    </div>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+      <% categories.slice(0, 5).forEach((cat) => { %>
+        <a href="/products?category=<%= encodeURIComponent(cat.name) %>" class="group bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition text-center select-none overflow-hidden">
+          <div class="h-32 rounded-lg bg-gray-50 flex items-center justify-center overflow-hidden mb-3 relative">
+            <img src="<%= cat.image %>" alt="<%= cat.name %>" class="h-full w-full object-cover group-hover:scale-105 transition duration-300" referrerPolicy="no-referrer" />
+          </div>
+          <h4 class="font-semibold text-gray-900 group-hover:text-amazon-orange transition text-sm"><%= cat.name %></h4>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- 2. FLASH SALE SECTION - WITH TIMER -->
+  <section class="bg-gradient-to-br from-red-500 to-amber-500 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden shadow-xl">
+    <div class="absolute -right-16 -top-16 opacity-10">
+      <i data-lucide="zap" class="w-64 h-64"></i>
+    </div>
+
+    <!-- Flash Title Row -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 relative z-10">
+      <div>
+        <div class="flex items-center space-x-2 text-xs font-black tracking-widest uppercase bg-black/25 py-1 px-3 rounded-full mb-2 w-max shadow-inner">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-yellow-300 animate-bounce"></i> Limited Flash Sale
+        </div>
+        <h3 class="text-3xl font-bold font-display tracking-tight">Super Saver Discounts (Min 20% OFF)</h3>
+      </div>
+      <!-- Virtual Countdown Timer -->
+      <div class="flex items-center space-x-2.5 font-mono">
+        <span class="text-xs text-red-50 text-right mr-1 font-semibold">ENDS IN</span>
+        <div class="bg-black/35 py-1.5 px-2.5 rounded-lg text-center font-bold text-lg min-w-12 shadow" id="timerHrs">03</div>
+        <span class="font-bold">:</span>
+        <div class="bg-black/35 py-1.5 px-2.5 rounded-lg text-center font-bold text-lg min-w-12 shadow" id="timerMins">45</div>
+        <span class="font-bold">:</span>
+        <div class="bg-black/35 py-1.5 px-2.5 rounded-lg text-center font-bold text-lg min-w-12 shadow" id="timerSecs">28</div>
+      </div>
+    </div>
+
+    <!-- Product Slider -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 relative z-10">
+      <% flashSale.slice(0, 4).forEach((p) => { %>
+        <div class="product-card bg-white rounded-2xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition duration-200 relative group overflow-hidden flex flex-col h-full">
+          <!-- Top Section: Image and Offer Badge -->
+          <div class="relative h-48 bg-gray-50 rounded-xl flex items-center justify-center overflow-hidden mb-4 flex-shrink-0">
+            <a href="/products/<%= p.id || p._id %>" class="absolute inset-0 flex items-center justify-center">
+              <img src="<%= p.images[0] %>" alt="<%= p.title %>" class="max-h-full max-w-full object-contain" referrerPolicy="no-referrer" />
+            </a>
+
+            <% if (p.stock === 0) { %>
+              <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-[10px] font-black tracking-widest uppercase z-10 select-none">
+                OUT OF STOCK
+              </div>
+            <% } %>
+
+            <% if (p.discount > 0) { %>
+              <div class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm z-10 select-none">
+                SAVE <%= p.discount %>%
+              </div>
+            <% } %>
+          </div>
+
+          <!-- Product Information -->
+          <div class="product-content flex-1 flex flex-col mb-4">
+            <p class="text-[10px] font-mono font-bold text-gray-400 uppercase tracking-widest mb-1"><%= p.brand %></p>
+            <a href="/products/<%= p.id || p._id %>" class="font-bold text-gray-900 hover:text-amazon-orange transition line-clamp-2 text-sm leading-snug mb-3 block"><%= p.title %></a>
+            
+            <div class="flex items-center space-x-1.5 mt-auto">
+              <div class="flex items-center text-amber-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-700 font-bold"><%= p.rating %></span>
+            </div>
+          </div>
+
+          <!-- Product Footer with pricing and Amazon CTA add button -->
+          <div class="product-footer mt-auto pt-3 border-t border-gray-100 space-y-3">
+            <div class="flex flex-col justify-end min-h-[38px]">
+              <% if (p.discount > 0) { %>
+                <p class="text-[10px] text-gray-400 line-through leading-none mb-1">Rs. <%= p.price %></p>
+                <p class="text-base font-black text-gray-950 font-mono leading-none">Rs. <%= Math.round(p.price * (1 - p.discount / 100)) %></p>
+              <% } else { %>
+                <div class="h-3"></div>
+                <p class="text-base font-black text-gray-950 font-mono leading-none">Rs. <%= p.price %></p>
+              <% } %>
+            </div>
+
+            <button onclick="quickAddCart('<%= p.id || p._id %>')" <%= p.stock === 0 ? 'disabled' : '' %> class="w-full h-12 bg-[#FF9900] hover:bg-[#E68A00] text-black font-semibold text-sm rounded-[8px] transition duration-200 flex items-center justify-center space-x-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer border-none shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="21" r="1"></circle>
+                <circle cx="19" cy="21" r="1"></circle>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+              </svg>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- 3. TODAY'S DEALS -->
+  <section class="space-y-6">
+    <div class="flex justify-between items-end border-b border-gray-200 pb-3">
+      <h3 class="text-2xl font-bold font-display tracking-tight text-gray-900 flex items-center">
+        <span class="h-6 w-1.5 bg-amazon-orange rounded-full mr-2"></span> Today's Top Deals
+      </h3>
+      <a href="/products" class="text-xs font-bold text-amazon-gold hover:underline flex items-center">
+        Explore deals <i data-lucide="arrow-up-right" class="w-3 h-3 ml-0.5"></i>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <% todaysDeals.slice(0, 8).forEach((p) => { %>
+        <div class="product-card bg-white rounded-2xl border border-gray-200 p-5 shadow-sm hover:shadow-md transition duration-200 relative group overflow-hidden flex flex-col h-full">
+          <!-- Top Section: Image and Offer Badge (No Wishlist heart button) -->
+          <div class="relative h-48 bg-gray-50 rounded-xl flex items-center justify-center overflow-hidden mb-4 flex-shrink-0">
+            <a href="/products/<%= p.id || p._id %>" class="absolute inset-0 flex items-center justify-center">
+              <img src="<%= p.images[0] %>" alt="<%= p.title %>" class="max-h-full max-w-full object-contain" referrerPolicy="no-referrer" />
+            </a>
+
+            <% if (p.stock === 0) { %>
+              <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-[10px] font-black tracking-widest uppercase z-10 select-none">
+                OUT OF STOCK
+              </div>
+            <% } %>
+
+            <% if (p.discount > 0) { %>
+              <div class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm z-10 select-none">
+                SAVE <%= p.discount %>%
+              </div>
+            <% } %>
+          </div>
+
+          <!-- Product Information -->
+          <div class="product-content flex-1 flex flex-col mb-4">
+            <p class="text-[10px] font-mono font-bold text-gray-400 uppercase tracking-widest mb-1"><%= p.brand %></p>
+            <a href="/products/<%= p.id || p._id %>" class="font-bold text-gray-900 hover:text-amazon-orange transition line-clamp-2 text-sm leading-snug mb-3 block"><%= p.title %></a>
+            
+            <div class="flex items-center space-x-1.5 mt-auto">
+              <div class="flex items-center text-amber-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 fill-current" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-700 font-bold"><%= p.rating %></span>
+            </div>
+          </div>
+
+          <!-- Product Footer with pricing and Amazon CTA add button -->
+          <div class="product-footer mt-auto pt-3 border-t border-gray-100 space-y-3">
+            <div class="flex flex-col justify-end min-h-[38px]">
+              <% if (p.discount > 0) { %>
+                <p class="text-[10px] text-gray-400 line-through leading-none mb-1">Rs. <%= p.price %></p>
+                <p class="text-base font-black text-gray-950 font-mono leading-none">Rs. <%= Math.round(p.price * (1 - p.discount / 100)) %></p>
+              <% } else { %>
+                <div class="h-3"></div>
+                <p class="text-base font-black text-gray-950 font-mono leading-none">Rs. <%= p.price %></p>
+              <% } %>
+            </div>
+
+            <button onclick="quickAddCart('<%= p.id || p._id %>')" <%= p.stock === 0 ? 'disabled' : '' %> class="w-full h-12 bg-[#FF9900] hover:bg-[#E68A00] text-black font-semibold text-sm rounded-[8px] transition duration-200 flex items-center justify-center space-x-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer border-none shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 cursor-pointer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8" cy="21" r="1"></circle>
+                <circle cx="19" cy="21" r="1"></circle>
+                <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+              </svg>
+              <span>Add to Cart</span>
+            </button>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- 4. TRENDING PRODUCTS & NEW ARRIVALS (DUAL BENTO GRID) -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Trending Grid -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
+      <h3 class="text-xl font-bold font-display text-gray-940 border-b border-gray-100 pb-2 flex items-center">
+        <i data-lucide="sparkles" class="w-5 h-5 mr-2 text-amazon-gold fill-current"></i> Customer Favorites (Top Rated)
+      </h3>
+      <div class="space-y-4">
+        <% trending.slice(0, 4).forEach((p) => { %>
+          <div class="flex items-center space-x-4 border-b border-gray-105 last:border-0 pb-4 last:pb-0 group">
+            <a href="/products/<%= p.id || p._id %>" class="w-16 h-16 rounded-lg bg-gray-50 overflow-hidden flex-shrink-0 flex items-center justify-center">
+              <img src="<%= p.images[0] %>" alt="<%= p.title %>" class="h-full object-cover group-hover:scale-105 transition" referrerPolicy="no-referrer" />
+            </a>
+            <div class="min-w-0 flex-1">
+              <a href="/products/<%= p.id || p._id %>" class="font-semibold text-gray-900 group-hover:text-amazon-orange transition text-sm truncate block"><%= p.title %></a>
+              <div class="flex items-center text-amber-500 space-x-1.5 mt-1">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                <span class="text-xs text-gray-600 font-black"><%= p.rating %></span>
+              </div>
+              <p class="font-mono text-sm text-gray-900 font-bold mt-1">Rs. <%= Math.round(p.price * (1 - p.discount / 100)) %></p>
+            </div>
+            <button onclick="quickAddCart('<%= p.id || p._id %>')" class="h-8 w-8 rounded-full border border-gray-205 bg-amazon-gold hover:bg-amber-600 text-slate-900 flex items-center justify-center cursor-pointer transition">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- New Arrivals -->
+    <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm space-y-6">
+      <h3 class="text-xl font-bold font-display text-gray-940 border-b border-gray-100 pb-2 flex items-center">
+        <i data-lucide="shopping-bag" class="w-5 h-5 mr-2 text-green-500"></i> New Arrivals & In-Seasons
+      </h3>
+      <div class="space-y-4">
+        <% newArrivals.slice(0, 4).forEach((p) => { %>
+          <div class="flex items-center space-x-4 border-b border-gray-105 last:border-0 pb-4 last:pb-0 group">
+            <a href="/products/<%= p.id || p._id %>" class="w-16 h-16 rounded-lg bg-gray-50 overflow-hidden flex-shrink-0 flex items-center justify-center">
+              <img src="<%= p.images[0] %>" alt="<%= p.title %>" class="h-full object-cover group-hover:scale-105 transition" referrerPolicy="no-referrer" />
+            </a>
+            <div class="min-w-0 flex-1">
+              <a href="/products/<%= p.id || p._id %>" class="font-semibold text-gray-900 group-hover:text-amazon-orange transition text-sm truncate block"><%= p.title %></a>
+              <span class="inline-block bg-green-50 text-green-700 text-[10px] font-bold font-mono px-2 py-0.5 rounded-full mt-1">NEW RELEASE</span>
+              <p class="font-mono text-sm text-gray-900 font-bold mt-1">Rs. <%= Math.round(p.price * (1 - p.discount / 100)) %></p>
+            </div>
+            <button onclick="quickAddCart('<%= p.id || p._id %>')" class="h-8 w-8 rounded-full border border-gray-205 bg-amazon-gold hover:bg-amber-600 text-slate-900 flex items-center justify-center cursor-pointer transition">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Back to top trigger script -->
+<script>
+  // Hero dynamic carousel sliders loop
+  let activeSlide = 0;
+  const slides = document.querySelectorAll('.hero-slide');
+
+  function showSlide(idx) {
+    if (slides.length === 0) return;
+    slides.forEach((slide) => {
+      slide.classList.remove('opacity-100', 'z-10');
+      slide.classList.add('opacity-0', 'z-0');
+    });
+    activeSlide = (idx + slides.length) % slides.length;
+    slides[activeSlide].classList.add('opacity-100', 'z-10');
+    slides[activeSlide].classList.remove('opacity-0', 'z-0');
+  }
+
+  function nextSlide() { showSlide(activeSlide + 1); }
+  function prevSlide() { showSlide(activeSlide - 1); }
+
+  // Auto sliding interval (every 6 seconds)
+  setInterval(nextSlide, 6000);
+
+  // Flash Sale Timer calculations
+  let timeInSecs = 13528; // Standard 3hr 45min count
+  function updateCountdown() {
+    timeInSecs--;
+    if (timeInSecs <= 0) timeInSecs = 13528;
+    const hrs = Math.floor(timeInSecs / 3600);
+    const mins = Math.floor((timeInSecs % 3600) / 60);
+    const secs = timeInSecs % 60;
+    
+    document.getElementById('timerHrs').innerText = hrs.toString().padStart(2, '0');
+    document.getElementById('timerMins').innerText = mins.toString().padStart(2, '0');
+    document.getElementById('timerSecs').innerText = secs.toString().padStart(2, '0');
+  }
+  setInterval(updateCountdown, 1000);
+
+  // AJAX Quick Add to Cart Integration
+  async function quickAddCart(productId) {
+    <% if (!user) { %>
+      window.location.href = `/login?redirect=${encodeURIComponent('/')}`;
+      return;
+    <% } else { %>
+      try {
+        const payload = new URLSearchParams();
+        payload.append('productId', productId);
+        payload.append('quantity', '1');
+
+        const response = await fetch('/cart/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload
+        });
+
+        if (response.redirected) {
+          // Increment virtual badge quantity in layout header
+          const badge = document.getElementById('cartBadgeCount');
+          if (badge) {
+            let count = parseInt(badge.innerText.trim()) || 0;
+            badge.innerText = count + 1;
+            badge.classList.add('scale-125');
+            setTimeout(() => badge.classList.remove('scale-125'), 250);
+          }
+          triggerNotification('success', 'Item dispatched to your cart securely.');
+        } else {
+          triggerNotification('error', 'Unable to execute addToCart query.');
+        }
+      } catch (err) {
+        triggerNotification('error', 'Connection offline.');
+      }
+    <% } %>
+  }
+
+  // Heart toggle wishlist trigger
+  async function toggleHeart(btn, productId) {
+    <% if (!user) { %>
+      window.location.href = `/login?redirect=${encodeURIComponent('/')}`;
+      return;
+    <% } else { %>
+      try {
+        const response = await fetch('/wishlist/toggle', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productId })
+        });
+        const r = await response.json();
+        
+        if (r.success) {
+          const icon = btn.querySelector('i');
+          if (r.action === 'added') {
+            btn.classList.add('text-red-500');
+            btn.classList.remove('text-gray-400');
+            icon.setAttribute('fill', 'currentColor');
+            triggerNotification('success', 'Added to your Wishlist!');
+          } else {
+            btn.classList.remove('text-red-500');
+            btn.classList.add('text-gray-400');
+            icon.removeAttribute('fill');
+            triggerNotification('success', 'Removed from Wishlist.');
+          }
+          lucide.createIcons(); // Redraw Lucide state
+        }
+      } catch {
+        triggerNotification('error', 'Connectivity failure.');
+      }
+    <% } %>
+  }
+</script>
+
+<%- include('partials/footer') %>

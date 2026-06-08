@@ -1,0 +1,711 @@
+<%- include('partials/header') %>
+
+<%
+const isCategoryChecked = (catName) => {
+  if (!filters.category) return false;
+  if (Array.isArray(filters.category)) {
+    return filters.category.includes(catName);
+  }
+  return filters.category === catName;
+};
+
+const isBrandChecked = (brandName) => {
+  if (!filters.brand) return false;
+  if (Array.isArray(filters.brand)) {
+    return filters.brand.includes(brandName);
+  }
+  return filters.brand === brandName;
+};
+
+const hasActiveFilters = Object.keys(filters).some(key => filters[key] && key !== 'page' && key !== 'limit' && key !== 'sort');
+%>
+
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow flex flex-col lg:flex-row gap-8">
+  
+  <!-- LEFT SIDEBAR FILTER PANEL -->
+  <aside class="w-full lg:w-[280px] flex-shrink-0">
+    <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-6 sticky top-24 self-start max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar">
+      
+      <!-- Filter Sidebar Header -->
+      <div class="flex justify-between items-center border-b border-gray-100 pb-3.5">
+        <h3 class="font-semibold text-gray-950 flex items-center text-sm tracking-tight">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4 mr-2 text-gray-600"></i> Filters
+        </h3>
+        <% if (hasActiveFilters) { %>
+          <a href="/products" class="text-[11px] font-bold text-red-500 uppercase hover:text-red-700 hover:underline">Clear All</a>
+        <% } %>
+      </div>
+
+      <form id="filterForm" action="/products" method="GET" class="space-y-6">
+        <!-- Retain search term query -->
+        <% if (filters.search) { %>
+          <input type="hidden" name="search" value="<%= filters.search %>" />
+        <% } %>
+        <!-- Retain sorting parameters -->
+        <% if (filters.sort) { %>
+          <input type="hidden" name="sort" value="<%= filters.sort %>" />
+        <% } %>
+
+        <!-- SECTION: Categories -->
+        <details class="group select-none border-b border-gray-100 pb-5" open>
+          <summary class="flex justify-between items-center font-bold text-[11px] uppercase tracking-wider text-gray-700 cursor-pointer list-none">
+            <span class="flex items-center"><i data-lucide="layout-grid" class="w-3.5 h-3.5 mr-2 text-gray-400"></i> Categories</span>
+            <span class="transition-transform duration-250 group-open:rotate-180">
+              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+            </span>
+          </summary>
+          <div class="mt-4 space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
+            <% categories.forEach(cat => { 
+                 const isChecked = isCategoryChecked(cat.name); %>
+              <label class="flex items-center space-x-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer transition">
+                <input type="checkbox" name="category" value="<%= cat.name %>" 
+                  <%= isChecked ? 'checked' : '' %>
+                  onchange="triggerFormLoading(); this.form.submit()"
+                  class="rounded text-amber-500 border-gray-300 focus:ring-amber-500/40 h-4 w-4 transition cursor-pointer" />
+                <span class="<%= isChecked ? 'font-semibold text-gray-950' : '' %>"><%= cat.name %></span>
+              </label>
+            <% }) %>
+          </div>
+        </details>
+
+        <!-- SECTION: Brands -->
+        <details class="group select-none border-b border-gray-100 pb-5" open>
+          <summary class="flex justify-between items-center font-bold text-[11px] uppercase tracking-wider text-gray-700 cursor-pointer list-none">
+            <span class="flex items-center"><i data-lucide="pocket" class="w-3.5 h-3.5 mr-2 text-gray-400"></i> Brands</span>
+            <span class="transition-transform duration-250 group-open:rotate-180">
+              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+            </span>
+          </summary>
+          <div class="mt-3.5 space-y-3">
+            <!-- Brand Search input inside panel -->
+            <div class="relative">
+              <input type="text" id="brandSearchInput" placeholder="Search brands..." class="w-full text-xs bg-gray-50 border border-gray-200 rounded-lg pl-8 pr-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-amber-500/50" />
+              <i data-lucide="search" class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400"></i>
+            </div>
+            <div class="space-y-2.5 max-h-[240px] overflow-y-auto pr-1 custom-scrollbar" id="brandsList">
+              <% brands.sort().forEach(brand => { 
+                   const isChecked = isBrandChecked(brand); %>
+                <label class="brand-checkbox-row flex items-center space-x-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer transition" data-brand-name="<%= brand.toLowerCase() %>">
+                  <input type="checkbox" name="brand" value="<%= brand %>" 
+                    <%= isChecked ? 'checked' : '' %>
+                    onchange="triggerFormLoading(); this.form.submit()"
+                    class="rounded text-amber-500 border-gray-300 focus:ring-amber-500/40 h-4 w-4 transition cursor-pointer" />
+                  <span class="<%= isChecked ? 'font-semibold text-gray-950' : '' %>"><%= brand %></span>
+                </label>
+              <% }) %>
+            </div>
+          </div>
+        </details>
+
+        <!-- SECTION: Price Range Limit -->
+        <details class="group select-none border-b border-gray-100 pb-5" open>
+          <summary class="flex justify-between items-center font-bold text-[11px] uppercase tracking-wider text-gray-700 cursor-pointer list-none">
+            <span class="flex items-center"><i data-lucide="indian-rupee" class="w-3.5 h-3.5 mr-2 text-gray-400"></i> Price Range</span>
+            <span class="transition-transform duration-250 group-open:rotate-180">
+              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+            </span>
+          </summary>
+          <div class="mt-4 space-y-3">
+            <div class="flex justify-between items-center text-[10px] text-gray-500 font-bold tracking-tight">
+              <span>Min: ₹0</span>
+              <span>Max: ₹<span id="priceSliderLabel"><%= filters.priceMax ? Number(filters.priceMax).toLocaleString('en-IN') : '7,00,000' %></span></span>
+            </div>
+            <input 
+              type="range" 
+              min="0" 
+              max="700000" 
+              step="5000"
+              id="priceMaxSlider"
+              value="<%= filters.priceMax || '700000' %>"
+              class="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-[#FF9900]"
+            />
+            <div class="flex items-center space-x-2.5">
+              <div class="relative w-1/2">
+                <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[10px] font-bold">₹</span>
+                <input 
+                  type="number" 
+                  name="priceMin" 
+                  id="priceMinInput"
+                  placeholder="Min" 
+                  value="<%= filters.priceMin || '' %>"
+                  class="w-full text-xs font-mono font-medium text-gray-800 bg-gray-50 border border-gray-200 rounded-lg pl-6 pr-1 py-1.5 text-left focus:outline-none focus:ring-1 focus:ring-amber-500/50"
+                />
+              </div>
+              <span class="text-gray-400 text-[10px] uppercase font-semibold">To</span>
+              <div class="relative w-1/2">
+                <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[10px] font-bold">₹</span>
+                <input 
+                  type="number" 
+                  name="priceMax" 
+                  id="priceMaxInput"
+                  placeholder="Max" 
+                  value="<%= filters.priceMax || '' %>"
+                  class="w-full text-xs font-mono font-medium text-gray-800 bg-gray-50 border border-gray-200 rounded-lg pl-6 pr-1 py-1.5 text-left focus:outline-none focus:ring-1 focus:ring-amber-500/50"
+                />
+              </div>
+              <button type="submit" onclick="triggerFormLoading()" class="bg-amazon-gold hover:bg-amber-600 text-amazon-navy font-bold p-1.5 rounded-lg border border-transparent transition-colors flex items-center justify-center shrink-0">
+                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </details>
+
+        <!-- SECTION: Ratings -->
+        <details class="group select-none border-b border-gray-100 pb-5" open>
+          <summary class="flex justify-between items-center font-bold text-[11px] uppercase tracking-wider text-gray-700 cursor-pointer list-none">
+            <span class="flex items-center"><i data-lucide="star" class="w-3.5 h-3.5 mr-2 text-gray-400"></i> Ratings</span>
+            <span class="transition-transform duration-250 group-open:rotate-180">
+              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+            </span>
+          </summary>
+          <div class="mt-4 space-y-2.5">
+            <label class="flex items-center space-x-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer transition">
+              <input type="radio" name="rating" value="" 
+                <%= !filters.rating ? 'checked' : '' %>
+                onchange="triggerFormLoading(); this.form.submit()"
+                class="text-amber-500 border-gray-300 focus:ring-amber-500/40 h-4 w-4 cursor-pointer" />
+              <span>All Ratings</span>
+            </label>
+            <% [4, 3, 2].forEach(star => { %>
+              <label class="flex items-center space-x-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer transition">
+                <input type="radio" name="rating" value="<%= star %>" 
+                  <%= parseInt(filters.rating) === star ? 'checked' : '' %>
+                  onchange="triggerFormLoading(); this.form.submit()"
+                  class="text-amber-500 border-gray-300 focus:ring-amber-500/40 h-4 w-4 cursor-pointer" />
+                <span class="flex items-center text-amber-500 font-semibold space-x-0.5">
+                  <% for(let i=1; i<=5; i++) { %>
+                    <% if (i <= star) { %>
+                      <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <% } else { %>
+                      <svg class="w-3.5 h-3.5 text-gray-200 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <% } %>
+                  <% } %>
+                  <span class="text-gray-400 font-normal text-[11px] ml-1 font-sans">& Up</span>
+                </span>
+              </label>
+            <% }) %>
+          </div>
+        </details>
+
+        <!-- SECTION: Discounts -->
+        <details class="group select-none border-b border-gray-100 pb-5" open>
+          <summary class="flex justify-between items-center font-bold text-[11px] uppercase tracking-wider text-gray-700 cursor-pointer list-none">
+            <span class="flex items-center"><i data-lucide="tag" class="w-3.5 h-3.5 mr-2 text-gray-400"></i> Discounts</span>
+            <span class="transition-transform duration-250 group-open:rotate-180">
+              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+            </span>
+          </summary>
+          <div class="mt-4 space-y-2.5">
+            <label class="flex items-center space-x-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer transition">
+              <input type="radio" name="discount" value="" 
+                <%= !filters.discount ? 'checked' : '' %>
+                onchange="triggerFormLoading(); this.form.submit()"
+                class="text-amber-500 border-gray-300 focus:ring-amber-500/40 h-4 w-4 cursor-pointer" />
+              <span>All Discounts</span>
+            </label>
+            <% ['10', '20', '30', '50'].forEach(disc => { %>
+              <label class="flex items-center space-x-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer transition">
+                <input type="radio" name="discount" value="<%= disc %>" 
+                  <%= filters.discount === disc ? 'checked' : '' %>
+                  onchange="triggerFormLoading(); this.form.submit()"
+                  class="text-amber-500 border-gray-300 focus:ring-amber-500/40 h-4 w-4 cursor-pointer" />
+                <span class="<%= filters.discount === disc ? 'font-semibold text-gray-950' : '' %>"><%= disc %>% OFF or more</span>
+              </label>
+            <% }) %>
+          </div>
+        </details>
+
+        <!-- SECTION: Availability -->
+        <details class="group select-none pb-1" open>
+          <summary class="flex justify-between items-center font-bold text-[11px] uppercase tracking-wider text-gray-700 cursor-pointer list-none">
+            <span class="flex items-center"><i data-lucide="archive" class="w-3.5 h-3.5 mr-2 text-gray-400"></i> Availability</span>
+            <span class="transition-transform duration-250 group-open:rotate-180">
+              <i data-lucide="chevron-down" class="w-4 h-4 text-gray-400"></i>
+            </span>
+          </summary>
+          <div class="mt-4">
+            <label class="flex items-center space-x-2.5 text-xs text-gray-600 hover:text-gray-900 cursor-pointer transition">
+              <input type="checkbox" name="availability" value="instock" 
+                <%= filters.availability === 'instock' ? 'checked' : '' %>
+                onchange="triggerFormLoading(); this.form.submit()"
+                class="rounded text-amber-500 border-gray-300 focus:ring-amber-500/40 h-4 w-4 transition cursor-pointer" />
+              <span class="<%= filters.availability === 'instock' ? 'font-semibold text-gray-950' : '' %>">Exclude Out of Stock</span>
+            </label>
+          </div>
+        </details>
+
+      </form>
+    </div>
+  </aside>
+
+  <!-- RIGHT SECTION: PRODUCT LIST & CONTROLS -->
+  <section class="flex-grow space-y-6">
+    
+    <!-- TOP BREADCRUMB & CONTROLS BLOCK -->
+    <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm space-y-4">
+      
+      <!-- Breadcrumb row -->
+      <nav class="text-xs text-gray-500 flex items-center space-x-1.5 opacity-90 select-none">
+        <a href="/" class="hover:text-blue-600 transition flex items-center">
+          <i data-lucide="home" class="w-3.5 h-3.5 mr-1 text-gray-450"></i> Home
+        </a>
+        <span class="text-gray-300">
+          <i data-lucide="chevron-right" class="w-3 h-3"></i>
+        </span>
+        <span class="text-gray-800 font-medium">Products</span>
+      </nav>
+
+      <!-- Grid Header: Title & Total counts & Controls -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-1">
+        <div>
+          <h1 class="text-2xl font-black text-gray-950 font-display tracking-tight leading-none">
+            All Products
+          </h1>
+          <p class="text-xs text-gray-500 mt-1.5">
+            Showing results for Shopzy catalogues. Found <span class="text-emerald-600 font-semibold text-sm mr-1"><%= totalItems %></span> products
+          </p>
+        </div>
+
+        <!-- Controls (Sorters & Layout Toggles) -->
+        <div class="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto border-t border-gray-50 sm:border-0 pt-3 sm:pt-0">
+          
+          <!-- Sorter dropdown -->
+          <div class="flex items-center space-x-2 text-xs">
+            <span class="text-gray-500 font-medium whitespace-nowrap">Sort By:</span>
+            <select id="sortSelect" class="bg-gray-50 text-gray-900 border border-gray-250 rounded-lg py-1.5 px-3 focus:outline-none focus:ring-1 focus:ring-amber-500/50 cursor-pointer font-medium hover:bg-gray-100 transition shadow-xs">
+              <option value="">Relevance</option>
+              <option value="priceAsc" <%= filters.sort === 'priceAsc' ? 'selected' : '' %>>Price: Low to High</option>
+              <option value="priceDesc" <%= filters.sort === 'priceDesc' ? 'selected' : '' %>>Price: High to Low</option>
+              <option value="rating" <%= filters.sort === 'rating' ? 'selected' : '' %>>Best Rated</option>
+              <option value="newest" <%= filters.sort === 'newest' ? 'selected' : '' %>>Newest</option>
+            </select>
+          </div>
+
+          <div class="border-l border-gray-200 h-6 mx-1 hidden sm:block"></div>
+
+          <!-- Grid/List View Toggles -->
+          <div class="flex items-center space-x-1.5 bg-gray-50 p-1 rounded-lg border border-gray-200 select-none">
+            <button 
+              id="btnGridView" 
+              onclick="toggleViewMode('grid')" 
+              title="Grid View"
+              class="p-1.5 rounded-md hover:bg-white text-gray-400 hover:text-gray-900 transition shadow-xs border border-transparent cursor-pointer">
+              <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            </button>
+            <button 
+              id="btnListView" 
+              onclick="toggleViewMode('list')" 
+              title="List View"
+              class="p-1.5 rounded-md hover:bg-white text-gray-400 hover:text-gray-900 transition shadow-xs border border-transparent cursor-pointer">
+              <i data-lucide="list" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN PRODUCTS INNER TARGET VIEWS -->
+    <% if (products.length === 0) { %>
+      <!-- Zero results Fallback Frame -->
+      <div class="bg-white rounded-2xl border border-gray-200 p-16 text-center select-none shadow-sm max-w-2xl mx-auto">
+        <div class="inline-flex h-14 w-14 items-center justify-center rounded-full bg-amber-50 text-amber-500 mb-5 ring-4 ring-amber-100/50">
+          <i data-lucide="alert-circle" class="w-7 h-7"></i>
+        </div>
+        <h4 class="text-xl font-bold text-gray-900 tracking-tight font-display mb-1.5">No Matching Products Found</h4>
+        <p class="text-xs text-gray-500 max-w-sm mx-auto mb-6 leading-relaxed">We couldn't locate any catalog inventory matching your active filters. Try resetting the choices or expanding the search limits.</p>
+        <a href="/products" class="inline-flex items-center bg-[#FF9900] hover:bg-[#E68A00] text-[#0f172a] font-bold text-xs py-2.5 px-6 rounded-lg transition-all shadow-sm">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 mr-1.5"></i> Clear All Active Filters
+        </a>
+      </div>
+    <% } else { %>
+      
+      <!-- Loading Skeleton pulses (displayed client-side on reloading filters) -->
+      <div id="skeletonLoaderGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-pulse select-none pb-20">
+        <% for(let i=0; i<8; i++) { %>
+          <div class="bg-white rounded-2xl border border-gray-200 p-4 h-[450px] flex flex-col justify-between">
+            <div class="bg-gray-100/80 rounded-xl h-[255px] w-full"></div>
+            <div class="space-y-2 mt-4 flex-1">
+              <div class="bg-gray-100/80 h-3 w-1/4 rounded"></div>
+              <div class="bg-gray-100/80 h-4.5 w-5/6 rounded"></div>
+              <div class="bg-gray-100/80 h-4 w-1/3 rounded"></div>
+            </div>
+            <div class="bg-gray-100/80 h-11 w-full rounded-lg mt-auto"></div>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Real Products List block -->
+      <div id="productsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-350 ease-in-out">
+        <% products.forEach(p => { %>
+          
+          <div class="product-card bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group overflow-hidden flex flex-col h-full justify-between" id="product_<%= p.id || p._id %>">
+            
+            <!-- Top Section: Badges & Thumbnail -->
+            <div class="product-image-wrap relative w-full h-[240px] bg-white border border-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden p-3 mb-3 transition-all">
+              
+              <!-- Direct product details navigation anchor -->
+              <a href="/products/<%= p.id || p._id %>" class="w-full h-full flex items-center justify-center select-none">
+                <img 
+                  src="<%= p.images[0] %>" 
+                  alt="<%= p.title %>" 
+                  loading="lazy"
+                  class="max-h-full max-w-full w-auto h-auto object-contain transition-transform duration-350 group-hover:scale-[1.03]" 
+                  referrerPolicy="no-referrer"
+                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80&auto=format&fit=crop';"
+                />
+              </a>
+
+              <!-- Out of Stock Badge -->
+              <% if (p.stock === 0) { %>
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center text-white text-[10px] font-black tracking-widest uppercase z-10 select-none">
+                  OUT OF STOCK
+                </div>
+              <% } %>
+
+              <!-- Saving offer alert tag -->
+              <% if (p.discount > 0 && p.stock > 0) { %>
+                <div class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[10px] font-black px-2.5 py-0.5 rounded shadow-sm z-10 select-none uppercase tracking-wide">
+                  SAVE <%= p.discount %>%
+                </div>
+              <% } %>
+            </div>
+
+            <!-- Content details wrap -->
+            <div class="product-content-wrap flex-1 flex flex-col mb-4">
+              <!-- Brand designation line -->
+              <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 select-none leading-none"><%= p.brand %></p>
+              
+              <!-- Title -->
+              <a href="/products/<%= p.id || p._id %>" class="font-semibold text-gray-900 leading-snug hover:text-amber-500 transition line-clamp-2 text-[15px] mb-2 block min-h-[44px]">
+                <%= p.title %>
+              </a>
+              
+              <!-- Ratings summary row -->
+              <div class="flex items-center space-x-1.5 text-xs text-gray-500 select-none my-1">
+                <div class="flex items-center text-amber-500 shrink-0">
+                  <% const rFull = Math.floor(p.rating); %>
+                  <% const rHalf = p.rating % 1 >= 0.5 ? 1 : 0; %>
+                  <% for(let s=1; s<=5; s++) { %>
+                    <% if (s <= rFull) { %>
+                      <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <% } else if (s === rFull + 1 && rHalf) { %>
+                      <svg class="w-3.5 h-3.5 fill-current opacity-70" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <% } else { %>
+                      <svg class="w-3.5 h-3.5 text-gray-200 fill-current" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <% } %>
+                  <% } %>
+                </div>
+                <span class="font-bold text-gray-800 text-xs leading-none pt-0.5"><%= p.rating %></span>
+                <span class="text-gray-400 font-normal leading-none pt-0.5">(<%= Math.floor(((p.price * 17) % 340) + 21) %>)</span>
+              </div>
+            </div>
+
+            <!-- Footer & Trigger Button -->
+            <div class="product-footer-wrap mt-auto pt-3.5 border-t border-gray-100 space-y-3.5">
+              
+              <!-- Pricing info rows -->
+              <div class="flex flex-wrap items-baseline gap-1.5 min-h-[35px]">
+                <% if (p.discount > 0) { %>
+                  <p class="text-2xl font-bold font-sans text-gray-950">₹<%= Math.round(p.price * (1 - p.discount / 100)).toLocaleString('en-IN') %></p>
+                  <p class="text-xs text-gray-400 line-through font-sans">MRP ₹<%= p.price.toLocaleString('en-IN') %></p>
+                <% } else { %>
+                  <p class="text-2xl font-bold font-sans text-gray-950">₹<%= p.price.toLocaleString('en-IN') %></p>
+                <% } %>
+              </div>
+
+              <!-- Primary Action handler -->
+              <button 
+                onclick="quickAddCartFromCatalog('<%= p.id || p._id %>')" 
+                <%= p.stock === 0 ? 'disabled' : '' %> 
+                class="w-full h-11 bg-[#FF9900] hover:bg-[#E68A00] text-black font-semibold text-sm rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed cursor-pointer border-none shadow-xs active:scale-[0.98]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 grow-0 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="8" cy="21" r="1"></circle>
+                  <circle cx="19" cy="21" r="1"></circle>
+                  <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                </svg>
+                <span class="tracking-wide">Add to Cart</span>
+              </button>
+            </div>
+
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- BOTTOM PAGINATION DECK -->
+      <% if (totalPages > 1) { %>
+        <nav class="flex justify-center items-center space-x-2 mt-16 py-4 select-none">
+          
+          <!-- Prev button -->
+          <a 
+            href="<%= appendPageQuery(currentPage - 1) %>" 
+            <%= currentPage === 1 ? 'onclick="return false;" class="pointer-events-none opacity-40 px-4 py-2 bg-white rounded-xl border border-gray-200 text-xs font-semibold text-gray-400"' : 'class="px-4 py-2 bg-white rounded-xl border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition shadow-xs hover:border-gray-300"' %>
+          >
+            ← Previous
+          </a>
+          
+          <!-- Page numbers -->
+          <div class="hidden sm:flex items-center space-x-1.5 font-sans">
+            <% 
+              let startPage = Math.max(1, currentPage - 2);
+              let endPage = Math.min(totalPages, currentPage + 2);
+              
+              if (currentPage <= 3) {
+                endPage = Math.min(totalPages, 5);
+              }
+              if (currentPage >= totalPages - 2) {
+                startPage = Math.max(1, totalPages - 4);
+              }
+            %>
+
+            <% if (startPage > 1) { %>
+              <a href="<%= appendPageQuery(1) %>" class="px-3.5 py-2 rounded-xl text-xs font-bold border transition-all bg-white border-gray-200 text-gray-800 hover:bg-gray-50 hover:border-gray-300">1</a>
+              <% if (startPage > 2) { %>
+                <span class="px-2 text-gray-400 text-xs">...</span>
+              <% } %>
+            <% } %>
+
+            <% for(let i = startPage; i <= endPage; i++) { %>
+              <a 
+                href="<%= appendPageQuery(i) %>" 
+                class="px-3.5 py-2 rounded-xl text-xs font-bold border transition-all <%= currentPage === i ? 'bg-amber-500 border-amber-500 text-slate-950 shadow-xs' : 'bg-white border-gray-200 text-gray-800 hover:bg-gray-50 hover:border-gray-300' %>"
+              >
+                <%= i %>
+              </a>
+            <% } %>
+
+            <% if (endPage < totalPages) { %>
+              <% if (endPage < totalPages - 1) { %>
+                <span class="px-2 text-gray-400 text-xs">...</span>
+              <% } %>
+              <a href="<%= appendPageQuery(totalPages) %>" class="px-3.5 py-2 rounded-xl text-xs font-bold border transition-all bg-white border-gray-200 text-gray-800 hover:bg-gray-50 hover:border-gray-300"><%= totalPages %></a>
+            <% } %>
+          </div>
+
+          <!-- Mobile current specs indicators -->
+          <div class="flex sm:hidden text-xs text-gray-500 font-bold px-3">
+            Page <%= currentPage %> of <%= totalPages %>
+          </div>
+
+          <!-- Next button -->
+          <a 
+            href="<%= appendPageQuery(currentPage + 1) %>" 
+            <%= currentPage === totalPages ? 'onclick="return false;" class="pointer-events-none opacity-40 px-4 py-2 bg-white rounded-xl border border-gray-200 text-xs font-semibold text-gray-400"' : 'class="px-4 py-2 bg-white rounded-xl border border-gray-200 text-xs font-semibold text-gray-700 hover:bg-gray-50 transition shadow-xs hover:border-gray-300"' %>
+          >
+            Next →
+          </a>
+
+        </nav>
+      <% } %>
+
+    <% } %>
+
+  </section>
+</main>
+
+<%
+function appendPageQuery(pageNum) {
+  const qStrObj = { ...filters };
+  qStrObj.page = pageNum.toString();
+  const searchParams = new URLSearchParams();
+  Object.keys(qStrObj).forEach(k => {
+    if (qStrObj[k]) {
+      if (Array.isArray(qStrObj[k])) {
+        qStrObj[k].forEach(val => searchParams.append(k, val));
+      } else {
+        searchParams.append(k, qStrObj[k]);
+      }
+    }
+  });
+  return '/products?' + searchParams.toString();
+}
+%>
+
+<!-- Client specific interactive scripts -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Active View mode from storage
+    const storedViewMode = localStorage.getItem('shopzy_view_mode') || 'grid';
+    applyStylesForViewMode(storedViewMode);
+
+    // 2. Setup dynamic double-slider max value indicator
+    const slider = document.getElementById('priceMaxSlider');
+    const label = document.getElementById('priceSliderLabel');
+    const maxInput = document.getElementById('priceMaxInput');
+    
+    if (slider && label && maxInput) {
+      slider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        label.innerText = val.toLocaleString('en-IN');
+        maxInput.value = val;
+      });
+      slider.addEventListener('change', (e) => {
+        triggerFormLoading();
+        document.getElementById('filterForm').submit();
+      });
+    }
+
+    // 3. Setup client side Brand query filtering in sidebar
+    const bSearch = document.getElementById('brandSearchInput');
+    if (bSearch) {
+      bSearch.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const brandRows = document.querySelectorAll('.brand-checkbox-row');
+        brandRows.forEach(row => {
+          const brandName = row.getAttribute('data-brand-name') || '';
+          if (brandName.includes(query)) {
+            row.style.display = 'flex';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // 4. Sort select handler redirecting page query state
+    const sorter = document.getElementById('sortSelect');
+    if (sorter) {
+      sorter.addEventListener('change', (e) => {
+        triggerFormLoading();
+        const val = e.target.value;
+        const url = new URL(window.location.href);
+        if (val) {
+          url.searchParams.set('sort', val);
+        } else {
+          url.searchParams.delete('sort');
+        }
+        url.searchParams.set('page', '1'); // Reset pagination to first index on change
+        window.location.href = url.toString();
+      });
+    }
+  });
+
+  // Loading skeleton layout displayer
+  function triggerFormLoading() {
+    const container = document.getElementById('productsContainer');
+    const loader = document.getElementById('skeletonLoaderGrid');
+    if (container && loader) {
+      container.classList.add('hidden');
+      loader.classList.remove('hidden');
+    }
+  }
+
+  // Live client-side layout swapper
+  function toggleViewMode(mode) {
+    localStorage.setItem('shopzy_view_mode', mode);
+    applyStylesForViewMode(mode);
+  }
+
+  function applyStylesForViewMode(mode) {
+    const container = document.getElementById('productsContainer');
+    if (!container) return; // safeguard if no elements exist
+    const cards = document.querySelectorAll('.product-card');
+    
+    const btnGrid = document.getElementById('btnGridView');
+    const btnList = document.getElementById('btnListView');
+    
+    if (mode === 'list') {
+      if (btnList) {
+        btnList.classList.add('bg-amber-100', 'text-amber-600', 'border-amber-300');
+        btnList.classList.remove('text-gray-400', 'border-transparent');
+      }
+      if (btnGrid) {
+        btnGrid.classList.remove('bg-amber-100', 'text-amber-600', 'border-amber-300');
+        btnGrid.classList.add('text-gray-400', 'border-transparent');
+      }
+      
+      container.className = 'flex flex-col gap-5 select-none';
+      
+      cards.forEach(card => {
+        card.className = 'product-card bg-white rounded-xl border border-gray-200 p-4.5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 relative group overflow-hidden flex flex-col sm:flex-row gap-6 items-stretch';
+        
+        const imgWrap = card.querySelector('.product-image-wrap');
+        if (imgWrap) imgWrap.className = 'product-image-wrap relative w-full sm:w-[240px] h-[220px] bg-white border border-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden p-3 transition-all';
+        
+        const contentWrap = card.querySelector('.product-content-wrap');
+        if (contentWrap) contentWrap.className = 'product-content-wrap flex-1 flex flex-col justify-center py-1.5';
+        
+        const titleAnchor = card.querySelector('a.font-semibold');
+        if (titleAnchor) {
+          titleAnchor.classList.remove('min-h-[44px]');
+          titleAnchor.classList.add('text-lg');
+        }
+        
+        const footerWrap = card.querySelector('.product-footer-wrap');
+        if (footerWrap) {
+          footerWrap.className = 'product-footer-wrap w-full sm:w-[200px] flex flex-col justify-center pt-0 sm:pl-6 sm:border-l border-gray-100 mt-3 sm:mt-0 space-y-3.5 shrink-0';
+          footerWrap.classList.remove('border-t', 'pt-3.5');
+        }
+      });
+    } else {
+      if (btnGrid) {
+        btnGrid.classList.add('bg-amber-100', 'text-amber-600', 'border-amber-300');
+        btnGrid.classList.remove('text-gray-400', 'border-transparent');
+      }
+      if (btnList) {
+        btnList.classList.remove('bg-amber-100', 'text-amber-600', 'border-amber-300');
+        btnList.classList.add('text-gray-400', 'border-transparent');
+      }
+      
+      container.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6';
+      
+      cards.forEach(card => {
+        card.className = 'product-card bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 relative group overflow-hidden flex flex-col h-full justify-between';
+        
+        const imgWrap = card.querySelector('.product-image-wrap');
+        if (imgWrap) imgWrap.className = 'product-image-wrap relative w-full h-[240px] bg-white border border-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center overflow-hidden p-3 mb-3 transition-all';
+        
+        const contentWrap = card.querySelector('.product-content-wrap');
+        if (contentWrap) contentWrap.className = 'product-content-wrap flex-1 flex flex-col mb-4';
+        
+        const titleAnchor = card.querySelector('a.font-semibold');
+        if (titleAnchor) {
+          titleAnchor.classList.add('min-h-[44px]');
+          titleAnchor.classList.remove('text-lg');
+        }
+        
+        const footerWrap = card.querySelector('.product-footer-wrap');
+        if (footerWrap) {
+          footerWrap.className = 'product-footer-wrap mt-auto pt-3.5 border-t border-gray-100 space-y-3.5';
+          footerWrap.classList.remove('sm:w-[200px]', 'sm:pl-6', 'sm:border-l', 'sm:mt-0');
+        }
+      });
+    }
+  }
+
+  // Dispatches cart items addition
+  async function quickAddCartFromCatalog(productId) {
+    <% if (!user) { %>
+      window.location.href = `/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`;
+      return;
+    <% } else { %>
+      try {
+        const payload = new URLSearchParams();
+        payload.append('productId', productId);
+        payload.append('quantity', '1');
+
+        const response = await fetch('/cart/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: payload
+        });
+
+        if (response.redirected || response.status === 200) {
+          const badge = document.getElementById('cartBadgeCount');
+          if (badge) {
+            let count = parseInt(badge.innerText.trim()) || 0;
+            badge.innerText = count + 1;
+            badge.classList.remove('hidden');
+          }
+          triggerNotification('success', 'Product successfully added to your cart.');
+        } else {
+          triggerNotification('error', 'Unable to add item to your cart.');
+        }
+      } catch {
+        triggerNotification('error', 'Connection error occurred. Please try again.');
+      }
+    <% } %>
+  }
+</script>
+
+<%- include('partials/footer') %>

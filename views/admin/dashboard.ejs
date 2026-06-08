@@ -1,0 +1,164 @@
+<%- include('../partials/header') %>
+
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow flex flex-col md:flex-row gap-8 select-none">
+  
+  <!-- LEFT RAIL ADMIN SIDEBAR MENU -->
+  <aside class="w-full md:w-64 flex-shrink-0 bg-white border border-gray-205 rounded-2xl p-5 shadow-sm md:space-y-4 h-max sticky top-28 text-xs font-semibold">
+    <div class="border-b border-gray-100 pb-3 mb-2">
+      <h3 class="font-extrabold text-gray-950 uppercase tracking-widest text-[10px] flex items-center"><i data-lucide="shield-alert" class="w-4 h-4 mr-1.5 text-amazon-orange"></i> Shopzy Command Deck</h3>
+    </div>
+
+    <nav class="grid grid-cols-2 sm:grid-cols-5 md:flex md:flex-col gap-2 md:space-y-1 text-gray-650">
+      <a href="/admin" class="flex items-center space-x-2.5 p-2.5 rounded-lg bg-amazon-orange/10 text-amazon-orange transition">
+        <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+        <span>Overview & Reports</span>
+      </a>
+
+      <a href="/admin/orders" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="shopping-bag" class="w-4 h-4 text-gray-400"></i>
+        <span>Manage Orders</span>
+      </a>
+
+      <a href="/admin/products" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="box" class="w-4 h-4 text-gray-400"></i>
+        <span>Manage Products</span>
+      </a>
+
+      <a href="/admin/coupons" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="ticket" class="w-4 h-4 text-gray-400"></i>
+        <span>Promotional Coupons</span>
+      </a>
+
+      <a href="/admin/messages" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="mail" class="w-4 h-4 text-gray-400"></i>
+        <span>Support Messages</span>
+      </a>
+
+      <a href="/admin/ai-settings" class="flex items-center space-x-2.5 p-2.5 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition">
+        <i data-lucide="bot" class="w-4 h-4 text-gray-400"></i>
+        <span>AI Assistant Settings</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- RIGHT PANELS CONTENT SECTION -->
+  <section class="flex-grow space-y-8">
+    
+    <!-- Top Statistics Tally cards block -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Total Sales -->
+      <div class="bg-white border rounded-2xl p-5 shadow-sm relative overflow-hidden group">
+        <p class="text-[10px] text-gray-405 font-bold uppercase tracking-wider">Gross Sales Revenue</p>
+        <p class="text-2xl font-black text-gray-950 font-mono mt-1 leading-none">Rs. <%= stats.sales.revenue %></p>
+        <p class="text-[10px] text-emerald-600 mt-2 font-bold font-display flex items-center"><i data-lucide="trending-up" class="w-3.5 h-3.5 mr-0.5"></i> +15.5% In Season</p>
+      </div>
+
+      <!-- Orders count -->
+      <div class="bg-white border rounded-2xl p-5 shadow-sm relative overflow-hidden group">
+        <p class="text-[10px] text-gray-405 font-bold uppercase tracking-wider">Total Orders Volume</p>
+        <p class="text-2xl font-black text-gray-950 font-mono mt-1 leading-none"><%= stats.orders.total %></p>
+        <p class="text-[10px] text-blue-600 mt-2 font-bold flex items-center"><i data-lucide="info" class="w-3.5 h-3.5 mr-0.5"></i> Deliveries en route</p>
+      </div>
+
+      <!-- User records count -->
+      <div class="bg-white border rounded-2xl p-5 shadow-sm relative overflow-hidden group">
+        <p class="text-[10px] text-gray-405 font-bold uppercase tracking-wider">Customer Registry</p>
+        <p class="text-2xl font-black text-gray-950 font-mono mt-1 leading-none"><%= stats.users %></p>
+        <p class="text-[10px] text-gray-400 mt-2 font-bold flex items-center">Active marketplace accounts</p>
+      </div>
+
+      <!-- Messages counter -->
+      <div class="bg-white border rounded-2xl p-5 shadow-sm relative overflow-hidden group">
+        <p class="text-[10px] text-gray-405 font-bold uppercase tracking-wider">Raised Support Tickets</p>
+        <p class="text-2xl font-black text-gray-950 font-mono mt-1 leading-none"><%= stats.messages.total %></p>
+        <p class="text-[10px] text-yellow-600 mt-2 font-bold flex items-center"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 mr-0.5"></i> SLA turnaround 2 hours</p>
+      </div>
+    </div>
+
+    <!-- SALES GRAPHS SECTION (SIMULATED VIA D3 OR CANVAS DIRECTLY FOR COMPACT RELIABILTY) -->
+    <div class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-6">
+      <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+        <h3 class="font-bold text-gray-950 text-sm font-display flex items-center">
+          <i data-lucide="line-chart" class="w-5 h-5 mr-1.5 text-gray-400"></i> Daily Sales Volume Analytics (Last 7 Days)
+        </h3>
+        <span class="bg-gray-100 text-gray-550 text-[9px] py-1 px-2.5 rounded hover:bg-gray-200 transition font-mono uppercase tracking-wider">SECURE DB DUMMY TRANS-FEED</span>
+      </div>
+
+      <!-- Render simple beautiful CSS/HTML SVG analytics line chart -->
+      <div class="h-64 relative overflow-hidden flex items-end justify-between px-4 pb-2 bg-gray-50/50 rounded-xl border border-gray-150">
+        <!-- Vertical scale numbers -->
+        <div class="absolute left-2 top-2 text-[9px] font-mono text-gray-400 space-y-8 select-none">
+          <p>Rs. 10,000</p>
+          <p>Rs. 5,000</p>
+          <p>Rs. 0.00</p>
+        </div>
+
+        <!-- Inline graph bars -->
+        <% const daysList = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']; %>
+        <% daysList.forEach((day, idx) => { %>
+          <% 
+            const seedSales = [4500, 6800, 3100, 9200, 7500, 11000, 8400];
+            const graphHeight = Math.round((seedSales[idx] / 12000) * 160) + 20;
+          %>
+          <div class="flex flex-col items-center flex-1 space-y-2 group cursor-pointer relative z-10 select-none">
+            <!-- Tooltip -->
+            <span class="absolute -top-12 bg-gray-950 text-white font-mono text-[9px] font-bold py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition duration-200 pointer-events-none">Rs. <%= seedSales[idx] %></span>
+            <!-- Bar -->
+            <div class="w-8 bg-amazon-orange hover:bg-amazon-gold transition duration-300 rounded-t-md" style="height: <%= graphHeight %>px;"></div>
+            <span class="text-[9px] font-black text-gray-405 font-mono"><%= day %></span>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- RECENT USER ORDERS TABLE PANEL -->
+    <div class="bg-white border border-gray-205 rounded-2xl shadow-sm overflow-hidden text-xs font-semibold">
+      <div class="p-5 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+        <h3 class="font-bold text-gray-950 text-sm font-display flex items-center"><i data-lucide="package" class="w-4.5 h-4.5 mr-1.5 text-gray-400 animate-pulse"></i> Recent Order Bookings</h3>
+        <a href="/admin/orders" class="text-amazon-gold hover:underline">View all orders</a>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-gray-50/50 border-b border-gray-150 text-[10px] text-gray-405 font-black uppercase tracking-wider">
+              <th class="px-6 py-3.5">Reference ID</th>
+              <th class="px-6 py-3.5">Address</th>
+              <th class="px-6 py-3.5">Grand Total</th>
+              <th class="px-6 py-3.5">Payment Mode</th>
+              <th class="px-6 py-3.5">Status Check</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-105">
+            <% if (recentOrders.length === 0) { %>
+              <tr>
+                <td colspan="5" class="px-6 py-8 text-center text-gray-400">No active ordering records compiled. Check back soon.</td>
+              </tr>
+            <% } else { %>
+              <% recentOrders.slice(0, 5).forEach(o => { %>
+                <tr>
+                  <td class="px-6 py-4 font-mono font-bold text-gray-950">#<%= o.orderId %></td>
+                  <td class="px-6 py-4 text-gray-500 truncate max-w-40"><%= o.shippingAddress.fullName %></td>
+                  <td class="px-6 py-4 font-mono font-bold text-gray-901">Rs. <%= o.pricing.total %></td>
+                  <td class="px-6 py-4 text-blue-600 font-bold"><%= o.paymentMethod %></td>
+                  <td class="px-6 py-4">
+                    <% if (o.orderStatus === 'Pending') { %>
+                      <span class="bg-amber-100 text-amber-800 text-[9px] font-black py-0.5 px-2 rounded-full font-display">PENDING</span>
+                    <% } else if (o.orderStatus === 'Delivered') { %>
+                      <span class="bg-emerald-100 text-emerald-800 text-[9px] font-black py-0.5 px-2 rounded-full">DELIVERED</span>
+                    <% } else { %>
+                      <span class="bg-blue-100 text-blue-800 text-[9px] font-black py-0.5 px-2 rounded-full uppercase"><%= o.orderStatus %></span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<%- include('../partials/footer') %>

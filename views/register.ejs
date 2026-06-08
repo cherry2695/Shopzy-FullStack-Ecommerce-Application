@@ -1,0 +1,97 @@
+<%- include('partials/header') %>
+
+<main class="max-w-md mx-auto my-16 px-6 flex-grow flex flex-col justify-center w-full">
+  <div class="bg-white rounded-2xl shadow-xl border border-gray-150 p-8 select-none">
+    <div class="text-center mb-6">
+      <h2 class="text-2xl font-bold font-display text-gray-950 tracking-tight">Create Account</h2>
+      <p class="text-xs text-gray-500 mt-1">Get loaded with custom promotional coupon codes instantly!</p>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-700 text-xs font-semibold rounded-lg p-3.5 mb-6 flex items-center">
+        <i data-lucide="info" class="w-4 h-4 mr-2 text-red-500"></i> <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/register" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider mb-1">Your Name</label>
+        <input 
+          type="text" 
+          name="name" 
+          required 
+          placeholder="First and last name" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider mb-1">Username</label>
+        <input 
+          type="text" 
+          name="username" 
+          required 
+          placeholder="Create unique username (no spaces)" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider mb-1">Email Address</label>
+        <input 
+          type="email" 
+          name="email" 
+          required 
+          placeholder="e.g. name@domain.com" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider mb-1">Phone Number (Optional)</label>
+        <input 
+          type="tel" 
+          name="phone" 
+          placeholder="e.g. +91 9999999999" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider mb-1">Password</label>
+        <input 
+          type="password" 
+          name="password" 
+          required 
+          placeholder="Strong password (at least 6 characters)" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-605 uppercase tracking-wider mb-1">Confirm Password</label>
+        <input 
+          type="password" 
+          name="confirmPassword" 
+          required 
+          placeholder="Re-type your password" 
+          class="w-full text-sm px-4 py-2.5 border border-gray-250 rounded-lg focus:outline-none focus:ring-1 focus:ring-amazon-gold"
+        />
+      </div>
+
+      <button type="submit" class="w-full py-3 rounded-lg bg-amazon-orange hover:bg-amazon-gold text-amazon-navy font-bold text-sm tracking-tight transition shadow cursor-pointer">
+        Agree & Register Account
+      </button>
+
+      <p class="text-[10px] text-gray-400 text-center leading-relaxed">
+        By registering, you agree to Shopzy's Simulated Terms of Service and Cloud Run Privacy Policies.
+      </p>
+    </form>
+
+    <div class="border-t border-gray-150 mt-6 pt-5 text-center text-xs text-gray-600">
+      Already have an account? <a href="/login" class="font-bold text-amazon-gold hover:underline">Sign In here</a>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

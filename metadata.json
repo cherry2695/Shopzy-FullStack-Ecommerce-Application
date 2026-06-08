@@ -1,0 +1,6 @@
+{
+  "name": "Shopzy",
+  "description": "A complete Amazon-inspired full-stack E-Commerce marketplace with analytics, checkout, coupons, search, cart, and admin dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

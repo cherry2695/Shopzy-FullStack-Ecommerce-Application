@@ -1,0 +1,202 @@
+<%- include('partials/header') %>
+
+<!-- Flash messaging handlers -->
+<% if (typeof successMsg !== 'undefined' && successMsg) { %>
+  <script>window.addEventListener('load', () => triggerNotification('success', '<%= successMsg %>'));</script>
+<% } %>
+
+<% if (typeof errorMsg !== 'undefined' && errorMsg) { %>
+  <script>window.addEventListener('load', () => triggerNotification('error', '<%= errorMsg %>'));</script>
+<% } %>
+
+<main class="max-w-7xl mx-auto px-4 py-8 flex-grow select-none">
+  
+  <div class="border-b border-gray-200 pb-4 mb-8">
+    <h1 class="text-3xl font-bold font-display text-gray-950 tracking-tight flex items-center">
+      <i data-lucide="user-cog" class="w-7 h-7 mr-2 text-amazon-gold"></i> Your Account Panel
+    </h1>
+    <p class="text-xs text-gray-500 font-semibold">Alter personal profiles, establish secure passwords, and catalogue authorized shipping destinations.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left forms: Profiles & Passwords (col-span-5) -->
+    <div class="lg:col-span-5 space-y-6">
+      <!-- 1. PERSONAL INFORMATION -->
+      <section class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-4">
+        <h3 class="font-bold text-gray-900 border-b border-gray-100 pb-2 text-sm font-display flex items-center"><i data-lucide="id-card" class="w-4.5 h-4.5 mr-1.5 text-gray-400"></i> Identity Particulars</h3>
+        
+        <form action="/profile/update" method="POST" class="space-y-3.5 text-xs font-semibold">
+          <div>
+            <label class="block text-gray-500 mb-1">Full Name</label>
+            <input 
+              type="text" 
+              name="name" 
+              required 
+              value="<%= user.name %>" 
+              class="w-full text-xs px-3.5 py-2.5 border border-gray-250 bg-gray-50 rounded-lg focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-gray-500 mb-1">Email Address (Secured)</label>
+            <input 
+              type="email" 
+              disabled 
+              value="<%= user.email %>" 
+              class="w-full text-xs px-3.5 py-2.5 border border-gray-200 bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed font-mono"
+            />
+          </div>
+
+          <div>
+            <label class="block text-gray-500 mb-1">Phone Number</label>
+            <input 
+              type="tel" 
+              name="phone" 
+              value="<%= user.phone || '' %>" 
+              placeholder="e.g. +91 9999999999"
+              class="w-full text-xs px-3.5 py-2.5 border border-gray-250 bg-gray-50 rounded-lg focus:outline-none"
+            />
+          </div>
+
+          <button type="submit" class="w-full py-2.5 bg-amazon-gold hover:bg-amber-600 text-amazon-navy text-xs font-black rounded-lg transition cursor-pointer">
+            Save Particulars Update
+          </button>
+        </form>
+      </section>
+
+      <!-- 2. CHANGE PASSWORD CARD -->
+      <section class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-4">
+        <h3 class="font-bold text-gray-900 border-b border-gray-100 pb-2 text-sm font-display flex items-center"><i data-lucide="key-round" class="w-4.5 h-4.5 mr-1.5 text-gray-400"></i> Password Security</h3>
+        
+        <form action="/profile/password" method="POST" class="space-y-3.5 text-xs font-semibold">
+          <div>
+            <label class="block text-gray-500 mb-1">Existing Password</label>
+            <input 
+              type="password" 
+              name="currentPassword" 
+              required 
+              placeholder="Enter current password" 
+              class="w-full text-xs px-3.5 py-2.5 border border-gray-250 bg-gray-50 rounded-lg focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label class="block text-gray-500 mb-1">Establish New Password</label>
+            <input 
+              type="password" 
+              name="newPassword" 
+              required 
+              placeholder="Minimum 6 characters" 
+              class="w-full text-xs px-3.5 py-2.5 border border-gray-250 bg-gray-50 rounded-lg focus:outline-none"
+            />
+          </div>
+
+          <button type="submit" class="w-full py-2.5 bg-amazon-orange text-amazon-navy text-xs font-black rounded-lg hover:bg-amazon-gold transition cursor-pointer">
+            Confirm Credential Mutation
+          </button>
+        </form>
+      </section>
+    </div>
+
+    <!-- Right directories folder: Addresses directory (col-span-7) -->
+    <div class="lg:col-span-7 space-y-6">
+      
+      <!-- List directories -->
+      <section class="bg-white border border-gray-205 rounded-2xl p-6 shadow-sm space-y-5">
+        <h3 class="font-bold text-gray-900 border-b border-gray-100 pb-2 text-sm font-display flex items-center"><i data-lucide="map-pinned" class="w-5 h-5 mr-1.5 text-gray-400 animate-pulse"></i> Delivery Destinations Directory</h3>
+        
+        <% if (addresses.length === 0) { %>
+          <div class="bg-gray-50 border border-dashed border-gray-300 p-8 text-center rounded-2xl text-gray-400 text-xs font-semibold">
+            Your shipping list is empty. Add a delivery destination address below to enable checkout speeds!
+          </div>
+        <% } else { %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <% addresses.forEach(addr => { %>
+              <div class="border border-gray-200 rounded-2xl p-4 flex flex-col justify-between hover:border-gray-300 transition h-max">
+                <div class="text-xs space-y-0.5 font-semibold text-gray-650">
+                  <div class="flex justify-between items-center mb-1 pb-1 border-b border-gray-100">
+                    <p class="font-bold text-gray-950 truncate max-w-36"><%= addr.fullName %></p>
+                    <% if (addr.isDefault) { %>
+                      <span class="bg-emerald-50 text-emerald-800 border border-emerald-250 text-[9px] py-0.5 px-2 rounded-full font-bold">DEFAULT</span>
+                    <% } %>
+                  </div>
+                  <p class="text-gray-500 font-normal"><%= addr.addressLine1 %></p>
+                  <% if (addr.addressLine2) { %>
+                    <p class="text-gray-500 font-normal"><%= addr.addressLine2 %></p>
+                  <% } %>
+                  <p class="text-gray-500 font-normal"><%= addr.city %>, <%= addr.state %> - <%= addr.postalCode %></p>
+                  <p class="text-gray-901 mt-1 font-bold">Phone: <%= addr.phone %></p>
+                </div>
+
+                <div class="pt-3 border-t border-gray-100 mt-3 flex justify-end">
+                  <a href="/profile/address/remove/<%= addr.id || addr._id %>" class="text-xs text-red-500 hover:underline flex items-center font-bold">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5 mr-1"></i> Remove Destination
+                  </a>
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <!-- Form direct inline to compile new address -->
+        <hr class="border-gray-200 my-6">
+
+        <div class="space-y-4">
+          <h4 class="font-bold text-gray-900 text-xs font-display uppercase tracking-wider flex items-center"><i data-lucide="plus" class="w-4.5 h-4.5 mr-1.5 text-amazon-gold"></i> Provision New Delivery Destination</h4>
+          
+          <form action="/profile/address/add" method="POST" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-semibold">
+            <div class="sm:col-span-2">
+              <label class="block text-gray-500 mb-1">Receiver Name</label>
+              <input type="text" name="fullName" required placeholder="Full Name of Recipient" class="w-full px-3.5 py-2 border rounded-lg focus:ring-1 focus:ring-amazon-gold" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">Contact Phone</label>
+              <input type="tel" name="phone" required placeholder="Mobile Phone" class="w-full px-3.5 py-2 border rounded-lg focus:ring-1 focus:ring-amazon-gold" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">Address Line 1</label>
+              <input type="text" name="addressLine1" required placeholder="Apt, suite, house number, street" class="w-full px-3.5 py-2 border rounded-lg focus:ring-1 focus:ring-amazon-gold" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">Address Line 2 (Optional)</label>
+              <input type="text" name="addressLine2" placeholder="Building, block, landmark" class="w-full px-3.5 py-2 border rounded-lg focus:ring-1 focus:ring-amazon-gold" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">City</label>
+              <input type="text" name="city" required placeholder="City Name" class="w-full px-3.5 py-2 border rounded-lg focus:ring-1 focus:ring-amazon-gold" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">State</label>
+              <input type="text" name="state" required placeholder="State Name" class="w-full px-3.5 py-2 border rounded-lg focus:ring-1 focus:ring-amazon-gold" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">Postal Code</label>
+              <input type="text" name="postalCode" required placeholder="e.g. 110001" class="w-full px-3.5 py-2 border rounded-lg focus:ring-1 focus:ring-amazon-gold" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">Country</label>
+              <input type="text" name="country" value="India" class="w-full px-3.5 py-2 border rounded-lg bg-gray-100 text-gray-400 font-bold" />
+            </div>
+            
+            <div class="sm:col-span-2 flex items-center space-x-2.5 pt-1">
+              <input type="checkbox" name="isDefault" value="true" checked class="text-amazon-orange rounded" />
+              <label class="text-gray-555">Make this default shipping destination address</label>
+            </div>
+
+            <div class="sm:col-span-2 pt-2">
+              <button type="submit" class="w-full py-3 bg-amazon-orange hover:bg-amazon-gold text-amazon-navy font-bold rounded-lg transition tracking-wide text-xs uppercase cursor-pointer">
+                Save New shipping Destination
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </section>
+
+    </div>
+
+  </div>
+</main>
+
+<%- include('partials/footer') %>

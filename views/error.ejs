@@ -1,0 +1,32 @@
+<%- include('partials/header') %>
+
+<main class="max-w-4xl mx-auto my-16 px-6 flex-grow flex flex-col justify-center">
+  <div class="bg-white rounded-2xl shadow-xl p-10 border border-gray-150 text-center relative overflow-hidden">
+    <!-- Accent background glow -->
+    <div class="absolute -top-10 -left-10 h-32 w-32 bg-red-100 rounded-full blur-2xl opacity-70"></div>
+    <div class="absolute -bottom-10 -right-10 h-32 w-32 bg-amber-100 rounded-full blur-2xl opacity-70"></div>
+
+    <div class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-red-100 text-red-600 mb-6">
+      <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+    </div>
+    
+    <h2 class="text-3xl font-bold font-display text-gray-900 tracking-tight mb-3">
+      <%= typeof title !== 'undefined' ? title : 'An Error Occurred' %>
+    </h2>
+    
+    <p class="text-gray-605 max-w-lg mx-auto mb-8 font-mono text-sm leading-relaxed bg-gray-50 border border-gray-200 p-4 rounded-lg">
+      <%= typeof message !== 'undefined' ? message : 'The requested process failed. Please double check values or try again later.' %>
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+      <a href="/" class="px-6 py-2.5 rounded-lg bg-amazon-navy text-white hover:bg-opacity-90 font-bold transition flex items-center">
+        <i data-lucide="home" class="w-4 h-4 mr-2"></i> Return Home
+      </a>
+      <button onclick="window.history.back();" class="px-6 py-2.5 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 font-bold transition flex items-center">
+        <i data-lucide="arrow-left" class="w-4 h-4 mr-2"></i> Go Back
+      </button>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

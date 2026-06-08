@@ -1,0 +1,252 @@
+<%- include('partials/header') %>
+
+<main class="max-w-xl mx-auto my-12 px-6 flex-grow flex flex-col justify-center w-full">
+  <div class="bg-white rounded-2xl shadow-xl border border-gray-150 p-8 select-none relative overflow-hidden">
+    
+    <!-- Top Secured Badge header -->
+    <div class="flex items-center justify-between border-b border-gray-100 pb-4 mb-6">
+      <div class="flex items-center space-x-2">
+        <span class="bg-gray-100 text-gray-500 font-bold p-1 rounded"><i data-lucide="shield-check" class="w-5 h-5 text-emerald-600"></i></span>
+        <div>
+          <h2 class="text-base font-black text-gray-950 font-display leading-tight">Secured Payment Portal</h2>
+          <p class="text-[10px] text-gray-400 font-mono">ORDER REF: <%= order.orderId %></p>
+        </div>
+      </div>
+      <div class="text-right text-xs">
+        <p class="text-gray-400 leading-tight">Amount Outstanding</p>
+        <p class="font-mono text-base font-black text-gray-950 leading-tight">$<%= order.pricing.total %></p>
+      </div>
+    </div>
+
+    <% if (typeof query !== 'undefined' && query.error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-750 text-xs font-semibold rounded-lg p-3.5 mb-6 flex items-center">
+        <i data-lucide="alert-circle" class="w-4 h-4 mr-2"></i> <%= query.error %>
+      </div>
+    <% } %>
+
+    <!-- DYNAMIC FORM ROUTING ROUTE: STRIPE OR RAZORPAY MOCK -->
+    <% if (order.paymentMethod === 'Stripe') { %>
+      <!-- 1. Stripe Mock credit card view -->
+      <div class="space-y-6">
+        <h3 class="text-xs font-black text-gray-400 tracking-wider uppercase flex items-center"><i data-lucide="credit-card" class="w-4.5 h-4.5 mr-1.5 text-blue-600"></i> Simulating Card Authentication</h3>
+        
+        <form action="/checkout/payment-gateway/<%= order.orderId %>/simulate" method="POST" class="space-y-4 text-xs font-semibold">
+          <input type="hidden" name="status" id="stripeSimStatus" value="success" />
+
+          <div>
+            <label class="block text-gray-500 mb-1">Card Holder Name</label>
+            <input type="text" required placeholder="Name on Card" class="w-full text-xs px-3.5 py-2.5 border rounded-lg" />
+          </div>
+
+          <div>
+            <label class="block text-gray-500 mb-1">Card Number (16 Digits)</label>
+            <input type="text" required placeholder="4000 1234 5678 9010" maxlength="19" class="w-full text-xs px-3.5 py-2.5 border rounded-lg font-mono text-center tracking-widest" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-gray-500 mb-1">Expiry Date (MM/YY)</label>
+              <input type="text" pplaceholder="MM / YY" required maxlength="5" class="w-full text-xs px-3.5 py-2.5 border rounded-lg text-center font-mono" />
+            </div>
+            <div>
+              <label class="block text-gray-500 mb-1">CVV (3 Digits)</label>
+              <input type="password" required maxlength="3" placeholder="***" class="w-full text-xs px-3.5 py-2.5 border rounded-lg text-center font-mono tracking-widest" />
+            </div>
+          </div>
+
+          <!-- Simulation test buttons -->
+          <div class="pt-4 space-y-3">
+            <button type="submit" onclick="setStripeStatus('success')" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold transition shadow-md flex items-center justify-center cursor-pointer">
+              <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Simulate Authorize Success (Rs. <%= order.pricing.total %>)
+            </button>
+            <button type="submit" onclick="setStripeStatus('fail')" class="w-full py-2 bg-red-105 hover:bg-red-200 border border-red-200 text-red-650 rounded-xl font-bold text-xs transition cursor-pointer">
+              Simulate Authorization Decline
+            </button>
+          </div>
+        </form>
+      </div>
+
+    <% } else if (order.paymentMethod === 'Razorpay' || order.paymentMethod === 'PayPal') { %>
+      <!-- 2. UPI Multi-Gateway Portal (Professional QR Code Scanner + Brand Apps Simulation) -->
+      <div class="space-y-6">
+        <h3 class="text-xs font-black text-gray-400 tracking-wider uppercase text-center flex items-center justify-center">
+          <i data-lucide="qr-code" class="w-4.5 h-4.5 mr-1.5 text-indigo-650 animate-pulse"></i> SECURED UPI GATEWAY & INSTANT APPS TERMINAL
+        </h3>
+        
+        <!-- UPI App Tabs Selection -->
+        <div class="grid grid-cols-4 gap-2">
+          <button type="button" onclick="selectUpiMode('qr')" id="btn-upi-qr" class="py-2.5 px-1 rounded-xl border-2 border-indigo-600 bg-indigo-50 text-indigo-950 text-xs font-black flex flex-col items-center justify-center transition cursor-pointer">
+            <i data-lucide="qr-code" class="w-4 h-4 mb-1"></i> QR Code
+          </button>
+          <button type="button" onclick="selectUpiMode('gpay')" id="btn-upi-gpay" class="py-2.5 px-1 rounded-xl border-2 border-gray-200 hover:border-gray-300 text-gray-700 text-xs font-bold flex flex-col items-center justify-center transition cursor-pointer">
+            <span class="w-4 h-4 mb-1 rounded bg-[#1a73e8] text-white flex items-center justify-center font-black text-[9px]">G</span> Google Pay
+          </button>
+          <button type="button" onclick="selectUpiMode('phonepe')" id="btn-upi-phonepe" class="py-2.5 px-1 rounded-xl border-2 border-gray-200 hover:border-gray-300 text-gray-700 text-xs font-bold flex flex-col items-center justify-center transition cursor-pointer">
+            <span class="w-4 h-4 mb-1 rounded bg-[#5f259f] text-white flex items-center justify-center font-black text-[9px]">P</span> PhonePe
+          </button>
+          <button type="button" onclick="selectUpiMode('paytm')" id="btn-upi-paytm" class="py-2.5 px-1 rounded-xl border-2 border-gray-200 hover:border-gray-300 text-gray-750 text-xs font-bold flex flex-col items-center justify-center transition cursor-pointer">
+            <span class="w-4 h-4 mb-1 rounded bg-[#00baf2] text-white flex items-center justify-center font-black text-[8px]">Py</span> Paytm
+          </button>
+        </div>
+
+        <form action="/checkout/payment-gateway/<%= order.orderId %>/simulate" method="POST" id="upiSimForm" class="space-y-6">
+          <input type="hidden" name="status" id="upiSimStatus" value="success" />
+          <input type="hidden" name="txId" id="upiSimTxId" value="" />
+
+          <!-- UPI QR CONTENT BLOCK -->
+          <div id="upi-content-qr" class="flex flex-col items-center text-center space-y-4">
+            <p class="text-[11px] text-gray-500 max-w-sm leading-relaxed">
+              Scan the secured commercial QR code using any UPI banking application to finalize payment of <strong class="text-gray-900 font-mono">Rs. <%= order.pricing.total %></strong>.
+            </p>
+
+            <div class="bg-gray-50 shadow-inner border border-gray-200 p-5 rounded-3xl inline-flex justify-center flex-col items-center w-full max-w-xs">
+              <div class="bg-white border-2 border-gray-200 rounded-2xl p-4 relative shadow-md">
+                <!-- Center QR Graphics -->
+                <div class="grid grid-cols-8 gap-1.5 h-44 w-44 bg-white p-1 text-center rounded">
+                  <!-- Mosaic simulation border layouts -->
+                  <div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div>
+                  <div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div>
+                  <div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div>
+                  <div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-white"></div>
+                  <div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div>
+                  <div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div>
+                  <div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div>
+                  <div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-white"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div><div class="bg-black rounded-sm"></div>
+                </div>
+                <!-- Mini overlay in QR center -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+                  <div class="h-10 w-10 bg-white border border-gray-200 rounded-lg shadow-md flex items-center justify-center font-bold text-xs text-blue-600">S</div>
+                </div>
+              </div>
+              <p class="text-[9px] font-mono text-gray-500 font-extrabold mt-3 uppercase tracking-widest flex items-center">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 mr-1 text-emerald-600"></i> MERCHANT VPA: SHOPZY@PAYTM
+              </p>
+            </div>
+            
+            <div class="w-full space-y-2">
+              <button type="submit" onclick="setUpiStatus('success')" class="w-full py-3 bg-indigo-650 hover:bg-indigo-700 text-white rounded-xl font-bold transition shadow-md flex items-center justify-center cursor-pointer">
+                <i data-lucide="check-circle" class="w-4 h-4 mr-2"></i> Confirm QR Payment of Rs. <%= order.pricing.total %>
+              </button>
+            </div>
+          </div>
+
+          <!-- GOOGLE PAY CONTENT BLOCK -->
+          <div id="upi-content-gpay" class="hidden flex flex-col items-center text-center space-y-4">
+            <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 w-full space-y-3">
+              <div class="inline-flex items-center space-x-1.5 bg-white py-1 px-3.5 rounded-full border border-blue-200 shadow-sm">
+                <span class="w-4 h-4 rounded bg-[#1a73e8] text-white flex items-center justify-center font-black text-[9px]">G</span>
+                <span class="text-xs font-black text-gray-900 font-display">Google Pay Sandbox</span>
+              </div>
+              <p class="text-[11px] text-gray-500 max-w-sm leading-relaxed">
+                App-to-App simulation running. Requesting authorization response for <strong class="text-gray-900 font-mono">Rs. <%= order.pricing.total %></strong> from Google Pay servers.
+              </p>
+              <div class="flex items-center justify-between bg-white border border-gray-150 p-3 rounded-xl text-left text-xs font-mono font-bold text-gray-700">
+                <span>VPA: customer@okaxis</span>
+                <span class="text-emerald-600">● BOUND</span>
+              </div>
+            </div>
+            
+            <div class="w-full space-y-2">
+              <button type="submit" onclick="setUpiStatus('success')" class="w-full py-3 bg-[#1a73e8] hover:bg-[#155fc2] text-white rounded-xl font-bold transition shadow-md flex items-center justify-center cursor-pointer">
+                Authorize GPay Quick Checkout (Rs. <%= order.pricing.total %>)
+              </button>
+            </div>
+          </div>
+
+          <!-- PHONEPE CONTENT BLOCK -->
+          <div id="upi-content-phonepe" class="hidden flex flex-col items-center text-center space-y-4">
+            <div class="bg-purple-50/50 border border-purple-100 rounded-2xl p-5 w-full space-y-3">
+              <div class="inline-flex items-center space-x-1.5 bg-white py-1 px-3.5 rounded-full border border-purple-200 shadow-sm">
+                <span class="w-4 h-4 rounded bg-[#5f259f] text-white flex items-center justify-center font-black text-[9px]">P</span>
+                <span class="text-xs font-black text-gray-900 font-display">PhonePe Sandbox</span>
+              </div>
+              <p class="text-[11px] text-gray-500 max-w-sm leading-relaxed">
+                Fast sandbox routing enabled. Confirm PhonePe wallet or UPI link to process transaction of <strong class="text-gray-900 font-mono">Rs. <%= order.pricing.total %></strong> instantly.
+              </p>
+              <div class="flex items-center justify-between bg-white border border-gray-150 p-3 rounded-xl text-left text-xs font-mono font-bold text-gray-750">
+                <span>MOBILE: +91 98******55</span>
+                <span class="text-purple-650">● CONNECTED</span>
+              </div>
+            </div>
+            
+            <div class="w-full space-y-2">
+              <button type="submit" onclick="setUpiStatus('success')" class="w-full py-3 bg-[#5f259f] hover:bg-[#4d1e82] text-white rounded-xl font-bold transition shadow-md flex items-center justify-center cursor-pointer">
+                Authorize PhonePe Instant (Rs. <%= order.pricing.total %>)
+              </button>
+            </div>
+          </div>
+
+          <!-- PAYTM CONTENT BLOCK -->
+          <div id="upi-content-paytm" class="hidden flex flex-col items-center text-center space-y-4">
+            <div class="bg-sky-50/50 border border-sky-100 rounded-2xl p-5 w-full space-y-3">
+              <div class="inline-flex items-center space-x-1.5 bg-white py-1 px-3.5 rounded-full border border-sky-200 shadow-sm">
+                <span class="w-4 h-4 rounded bg-[#00baf2] text-white flex items-center justify-center font-black text-[8px]">Py</span>
+                <span class="text-xs font-black text-gray-900 font-display">Paytm Secure Checkout</span>
+              </div>
+              <p class="text-[11px] text-gray-500 max-w-sm leading-relaxed">
+                Paytm Wallet, Net Banking, or UPI direct pay simulation. Authorizing purchase of <strong class="text-gray-900 font-mono">Rs. <%= order.pricing.total %></strong>.
+              </p>
+              <div class="flex items-center justify-between bg-white border border-gray-150 p-3 rounded-xl text-left text-xs font-mono font-bold text-gray-700">
+                <span>BALANCE: Rs. 12,500.00</span>
+                <span class="text-gray-400">ACTIVE WALLET</span>
+              </div>
+            </div>
+            
+            <div class="w-full space-y-2">
+              <button type="submit" onclick="setUpiStatus('success')" class="w-full py-3 bg-[#00baf2] hover:bg-[#009bca] text-white rounded-xl font-bold transition shadow-md flex items-center justify-center cursor-pointer">
+                Pay Securely with Paytm (Rs. <%= order.pricing.total %>)
+              </button>
+            </div>
+          </div>
+
+          <!-- Error simulator control -->
+          <div class="text-center">
+            <button type="submit" onclick="setUpiStatus('fail')" class="text-xs font-bold text-gray-400 hover:text-red-500 transition cursor-pointer">
+              Simulate UPI Transaction Failure
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <script>
+        function selectUpiMode(mode) {
+          // Hide all screens
+          document.getElementById('upi-content-qr').classList.add('hidden');
+          document.getElementById('upi-content-gpay').classList.add('hidden');
+          document.getElementById('upi-content-phonepe').classList.add('hidden');
+          document.getElementById('upi-content-paytm').classList.add('hidden');
+
+          // Deselect all tabs
+          const btnQr = document.getElementById('btn-upi-qr');
+          const btnGpay = document.getElementById('btn-upi-gpay');
+          const btnPhonepe = document.getElementById('btn-upi-phonepe');
+          const btnPaytm = document.getElementById('btn-upi-paytm');
+
+          [btnQr, btnGpay, btnPhonepe, btnPaytm].forEach(btn => {
+            btn.classList.remove('border-indigo-600', 'bg-indigo-50', 'text-indigo-950', 'font-black');
+            btn.classList.add('border-gray-200', 'text-gray-700', 'font-bold');
+          });
+
+          // Show selected
+          document.getElementById('upi-content-' + mode).classList.remove('hidden');
+
+          const activeBtn = document.getElementById('btn-upi-' + mode);
+          activeBtn.classList.remove('border-gray-200', 'text-gray-700', 'font-bold');
+          activeBtn.classList.add('border-indigo-600', 'bg-indigo-50', 'text-indigo-950', 'font-black');
+        }
+      </script>
+    <% } %>
+
+  </div>
+</main>
+
+<script>
+  function setStripeStatus(stat) {
+    document.getElementById('stripeSimStatus').value = stat;
+  }
+  function setUpiStatus(stat) {
+    document.getElementById('upiSimStatus').value = stat;
+  }
+</script>
+
+<%- include('partials/footer') %>
