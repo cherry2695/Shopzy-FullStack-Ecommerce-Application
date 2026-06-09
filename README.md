@@ -72,3 +72,8 @@ Shopzy is a modern AI-powered full-stack e-commerce application built to provide
 * Responsive and User-Friendly Interface
 * Real-World Shopping Workflow Implementation
 * Admin Dashboard for Product and Order Management
+
+## 📸 Project Screenshots
+
+### 🏠 Home Page
+![Home Page](./screenshots/Home Page.png)
