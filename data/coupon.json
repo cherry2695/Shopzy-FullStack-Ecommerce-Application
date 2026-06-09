@@ -1,0 +1,35 @@
+[
+  {
+    "id": "w820po885mq64ohp5",
+    "_id": "w820po885mq64ohp5",
+    "createdAt": "2026-06-09T04:16:49.049Z",
+    "updatedAt": "2026-06-09T04:16:49.049Z",
+    "code": "SHOPZY10",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "expiryDate": "2028-12-31T00:00:00.000Z",
+    "minPurchaseAmount": 1000
+  },
+  {
+    "id": "uw6w4jun4mq64ohp5",
+    "_id": "uw6w4jun4mq64ohp5",
+    "createdAt": "2026-06-09T04:16:49.049Z",
+    "updatedAt": "2026-06-09T04:16:49.049Z",
+    "code": "FESTIVE500",
+    "discountType": "fixed",
+    "discountValue": 500,
+    "expiryDate": "2028-12-31T00:00:00.000Z",
+    "minPurchaseAmount": 4999
+  },
+  {
+    "id": "xfyyue08bmq64ohp5",
+    "_id": "xfyyue08bmq64ohp5",
+    "createdAt": "2026-06-09T04:16:49.049Z",
+    "updatedAt": "2026-06-09T04:16:49.049Z",
+    "code": "SUPERDEAL20",
+    "discountType": "percentage",
+    "discountValue": 20,
+    "expiryDate": "2028-12-31T00:00:00.000Z",
+    "minPurchaseAmount": 2000
+  }
+]

@@ -1,0 +1,1170 @@
+[
+  {
+    "id": "r20i9nea2mq64ohp3",
+    "_id": "r20i9nea2mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Apple",
+    "slug": "apple"
+  },
+  {
+    "id": "l84z5lcc0mq64ohp3",
+    "_id": "l84z5lcc0mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Samsung",
+    "slug": "samsung"
+  },
+  {
+    "id": "35ow8ixvgmq64ohp3",
+    "_id": "35ow8ixvgmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Sony",
+    "slug": "sony"
+  },
+  {
+    "id": "bqw6ir4svmq64ohp3",
+    "_id": "bqw6ir4svmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Jabra",
+    "slug": "jabra"
+  },
+  {
+    "id": "h6sejugt0mq64ohp3",
+    "_id": "h6sejugt0mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Xiaomi",
+    "slug": "xiaomi"
+  },
+  {
+    "id": "8ipdjacyfmq64ohp3",
+    "_id": "8ipdjacyfmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Nike",
+    "slug": "nike"
+  },
+  {
+    "id": "w2srj2efzmq64ohp3",
+    "_id": "w2srj2efzmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Adidas",
+    "slug": "adidas"
+  },
+  {
+    "id": "y2q163ov1mq64ohp3",
+    "_id": "y2q163ov1mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Dell",
+    "slug": "dell"
+  },
+  {
+    "id": "nnp2wbu8amq64ohp3",
+    "_id": "nnp2wbu8amq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "HP",
+    "slug": "hp"
+  },
+  {
+    "id": "ri7sjpytwmq64ohp3",
+    "_id": "ri7sjpytwmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Raymond",
+    "slug": "raymond"
+  },
+  {
+    "id": "klida578fmq64ohp3",
+    "_id": "klida578fmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Zara",
+    "slug": "zara"
+  },
+  {
+    "id": "nr1afae3jmq64ohp3",
+    "_id": "nr1afae3jmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Puma",
+    "slug": "puma"
+  },
+  {
+    "id": "5lhgjeu6dmq64ohp3",
+    "_id": "5lhgjeu6dmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Asus",
+    "slug": "asus"
+  },
+  {
+    "id": "jim51bsuxmq64ohp3",
+    "_id": "jim51bsuxmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "ASUS",
+    "slug": "asus"
+  },
+  {
+    "id": "1pxmnnb99mq64ohp3",
+    "_id": "1pxmnnb99mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Philips",
+    "slug": "philips"
+  },
+  {
+    "id": "8ohtxgr0jmq64ohp3",
+    "_id": "8ohtxgr0jmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "OnePlus",
+    "slug": "oneplus"
+  },
+  {
+    "id": "uy6tmm06omq64ohp3",
+    "_id": "uy6tmm06omq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Bose",
+    "slug": "bose"
+  },
+  {
+    "id": "yyak3p1tnmq64ohp3",
+    "_id": "yyak3p1tnmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "JBL",
+    "slug": "jbl"
+  },
+  {
+    "id": "3s5tvp9ffmq64ohp3",
+    "_id": "3s5tvp9ffmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Logitech",
+    "slug": "logitech"
+  },
+  {
+    "id": "tnlad6yosmq64ohp3",
+    "_id": "tnlad6yosmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Google",
+    "slug": "google"
+  },
+  {
+    "id": "drcasctjlmq64ohp3",
+    "_id": "drcasctjlmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Amazon",
+    "slug": "amazon"
+  },
+  {
+    "id": "5y72m7k8tmq64ohp3",
+    "_id": "5y72m7k8tmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Bang & Olufsen",
+    "slug": "bang-olufsen"
+  },
+  {
+    "id": "m4nony8nomq64ohp3",
+    "_id": "m4nony8nomq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Anker",
+    "slug": "anker"
+  },
+  {
+    "id": "ts0zhp5icmq64ohp3",
+    "_id": "ts0zhp5icmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Harman Kardon",
+    "slug": "harman-kardon"
+  },
+  {
+    "id": "lolbkvql1mq64ohp3",
+    "_id": "lolbkvql1mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Nothing",
+    "slug": "nothing"
+  },
+  {
+    "id": "snin3me7mmq64ohp3",
+    "_id": "snin3me7mmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "iQOO",
+    "slug": "iqoo"
+  },
+  {
+    "id": "3qkx6ha00mq64ohp3",
+    "_id": "3qkx6ha00mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Realme",
+    "slug": "realme"
+  },
+  {
+    "id": "et96tg9rdmq64ohp3",
+    "_id": "et96tg9rdmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Redmi",
+    "slug": "redmi"
+  },
+  {
+    "id": "63quvma44mq64ohp3",
+    "_id": "63quvma44mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "POCO",
+    "slug": "poco"
+  },
+  {
+    "id": "h2126v8gemq64ohp3",
+    "_id": "h2126v8gemq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Oppo",
+    "slug": "oppo"
+  },
+  {
+    "id": "ag2qqngfumq64ohp3",
+    "_id": "ag2qqngfumq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Vivo",
+    "slug": "vivo"
+  },
+  {
+    "id": "ysgd3nynxmq64ohp3",
+    "_id": "ysgd3nynxmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Motorola",
+    "slug": "motorola"
+  },
+  {
+    "id": "f16df7fykmq64ohp3",
+    "_id": "f16df7fykmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Lenovo",
+    "slug": "lenovo"
+  },
+  {
+    "id": "b671t5udmmq64ohp3",
+    "_id": "b671t5udmmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Acer",
+    "slug": "acer"
+  },
+  {
+    "id": "dhgujl1semq64ohp3",
+    "_id": "dhgujl1semq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "MSI",
+    "slug": "msi"
+  },
+  {
+    "id": "4qj33v001mq64ohp3",
+    "_id": "4qj33v001mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Garmin",
+    "slug": "garmin"
+  },
+  {
+    "id": "qvmwz0wxhmq64ohp3",
+    "_id": "qvmwz0wxhmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Amazfit",
+    "slug": "amazfit"
+  },
+  {
+    "id": "lirfp45x6mq64ohp3",
+    "_id": "lirfp45x6mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Noise",
+    "slug": "noise"
+  },
+  {
+    "id": "mpuhrxzr7mq64ohp3",
+    "_id": "mpuhrxzr7mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "boAt",
+    "slug": "boat"
+  },
+  {
+    "id": "k3lng8u7xmq64ohp3",
+    "_id": "k3lng8u7xmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Canon",
+    "slug": "canon"
+  },
+  {
+    "id": "4ypz1v4htmq64ohp3",
+    "_id": "4ypz1v4htmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Nikon",
+    "slug": "nikon"
+  },
+  {
+    "id": "1gt8xfe32mq64ohp3",
+    "_id": "1gt8xfe32mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Fujifilm",
+    "slug": "fujifilm"
+  },
+  {
+    "id": "02075w9gcmq64ohp3",
+    "_id": "02075w9gcmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Instant Pot",
+    "slug": "instant-pot"
+  },
+  {
+    "id": "12pvt2asqmq64ohp3",
+    "_id": "12pvt2asqmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "LG",
+    "slug": "lg"
+  },
+  {
+    "id": "33yhv6ymamq64ohp3",
+    "_id": "33yhv6ymamq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Prestige",
+    "slug": "prestige"
+  },
+  {
+    "id": "dz13s834mmq64ohp3",
+    "_id": "dz13s834mmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "NutriBullet",
+    "slug": "nutribullet"
+  },
+  {
+    "id": "2a62zkg9bmq64ohp3",
+    "_id": "2a62zkg9bmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Panasonic",
+    "slug": "panasonic"
+  },
+  {
+    "id": "6b8a0txv9mq64ohp3",
+    "_id": "6b8a0txv9mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Havells",
+    "slug": "havells"
+  },
+  {
+    "id": "3d54ie8zjmq64ohp3",
+    "_id": "3d54ie8zjmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Morphy Richards",
+    "slug": "morphy-richards"
+  },
+  {
+    "id": "zu07lc8u7mq64ohp3",
+    "_id": "zu07lc8u7mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Pigeon",
+    "slug": "pigeon"
+  },
+  {
+    "id": "ndmpp41u9mq64ohp3",
+    "_id": "ndmpp41u9mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "De'Longhi",
+    "slug": "delonghi"
+  },
+  {
+    "id": "5kftore5amq64ohp3",
+    "_id": "5kftore5amq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Bosch",
+    "slug": "bosch"
+  },
+  {
+    "id": "q5j1pc53lmq64ohp3",
+    "_id": "q5j1pc53lmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "KitchenAid",
+    "slug": "kitchenaid"
+  },
+  {
+    "id": "97fq1m2mkmq64ohp3",
+    "_id": "97fq1m2mkmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Faber",
+    "slug": "faber"
+  },
+  {
+    "id": "bfq6rl8dpmq64ohp3",
+    "_id": "bfq6rl8dpmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Kent",
+    "slug": "kent"
+  },
+  {
+    "id": "z3ctv6vh1mq64ohp3",
+    "_id": "z3ctv6vh1mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Panasonic",
+    "slug": "panasonic"
+  },
+  {
+    "id": "0zqq6la9umq64ohp3",
+    "_id": "0zqq6la9umq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Under Armour",
+    "slug": "under-armour"
+  },
+  {
+    "id": "giiycfvq8mq64ohp3",
+    "_id": "giiycfvq8mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Reebok",
+    "slug": "reebok"
+  },
+  {
+    "id": "l0bzxmvtomq64ohp3",
+    "_id": "l0bzxmvtomq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "OM System",
+    "slug": "om-system"
+  },
+  {
+    "id": "bs4ybbhzsmq64ohp3",
+    "_id": "bs4ybbhzsmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "GoPro",
+    "slug": "gopro"
+  },
+  {
+    "id": "xo1ublnsemq64ohp3",
+    "_id": "xo1ublnsemq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Insta360",
+    "slug": "insta360"
+  },
+  {
+    "id": "28wu0eyjqmq64ohp3",
+    "_id": "28wu0eyjqmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "DJI",
+    "slug": "dji"
+  },
+  {
+    "id": "i24az2bi0mq64ohp3",
+    "_id": "i24az2bi0mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Leica",
+    "slug": "leica"
+  },
+  {
+    "id": "ds7h3twt8mq64ohp3",
+    "_id": "ds7h3twt8mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Ricoh",
+    "slug": "ricoh"
+  },
+  {
+    "id": "jq0kjb6ixmq64ohp3",
+    "_id": "jq0kjb6ixmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Seiko",
+    "slug": "seiko"
+  },
+  {
+    "id": "pqzf2gp1smq64ohp3",
+    "_id": "pqzf2gp1smq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Art Street",
+    "slug": "art-street"
+  },
+  {
+    "id": "7oquxsbj1mq64ohp3",
+    "_id": "7oquxsbj1mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Generic",
+    "slug": "generic"
+  },
+  {
+    "id": "3mc0txubqmq64ohp3",
+    "_id": "3mc0txubqmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Homesake",
+    "slug": "homesake"
+  },
+  {
+    "id": "oa8ilknipmq64ohp3",
+    "_id": "oa8ilknipmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Ugaoo",
+    "slug": "ugaoo"
+  },
+  {
+    "id": "3x6i3rb81mq64ohp3",
+    "_id": "3x6i3rb81mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Solimo",
+    "slug": "solimo"
+  },
+  {
+    "id": "ktp02s6hrmq64ohp3",
+    "_id": "ktp02s6hrmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "CraftVatika",
+    "slug": "craftvatika"
+  },
+  {
+    "id": "wspiyfclpmq64ohp3",
+    "_id": "wspiyfclpmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "FurniCraft",
+    "slug": "furnicraft"
+  },
+  {
+    "id": "t8m167loumq64ohp3",
+    "_id": "t8m167loumq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "AGARO",
+    "slug": "agaro"
+  },
+  {
+    "id": "sa48srqhlmq64ohp3",
+    "_id": "sa48srqhlmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "eCraftIndia",
+    "slug": "ecraftindia"
+  },
+  {
+    "id": "li49h2td3mq64ohp3",
+    "_id": "li49h2td3mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Status",
+    "slug": "status"
+  },
+  {
+    "id": "w6gxidj4hmq64ohp3",
+    "_id": "w6gxidj4hmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Giftana",
+    "slug": "giftana"
+  },
+  {
+    "id": "8dbh3ogrimq64ohp3",
+    "_id": "8dbh3ogrimq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "ExclusiveLane",
+    "slug": "exclusivelane"
+  },
+  {
+    "id": "q0uwb8qywmq64ohp3",
+    "_id": "q0uwb8qywmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Fourwalls",
+    "slug": "fourwalls"
+  },
+  {
+    "id": "erjd5atv4mq64ohp3",
+    "_id": "erjd5atv4mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Home Centre",
+    "slug": "home-centre"
+  },
+  {
+    "id": "93r97e6b6mq64ohp3",
+    "_id": "93r97e6b6mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Art Lounge",
+    "slug": "artlounge"
+  },
+  {
+    "id": "g5qjm28sdmq64ohp3",
+    "_id": "g5qjm28sdmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "HomeTown",
+    "slug": "hometown"
+  },
+  {
+    "id": "vfiecil2dmq64ohp3",
+    "_id": "vfiecil2dmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Story@Home",
+    "slug": "storyathome"
+  },
+  {
+    "id": "gh88wprtzmq64ohp3",
+    "_id": "gh88wprtzmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Chitra Handicraft",
+    "slug": "chitra-handicraft"
+  },
+  {
+    "id": "8o14tn0opmq64ohp3",
+    "_id": "8o14tn0opmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Fire-Boltt",
+    "slug": "fire-boltt"
+  },
+  {
+    "id": "jswgf6qfzmq64ohp3",
+    "_id": "jswgf6qfzmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Titan",
+    "slug": "titan"
+  },
+  {
+    "id": "h6m3ejnyfmq64ohp3",
+    "_id": "h6m3ejnyfmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Fastrack",
+    "slug": "fastrack"
+  },
+  {
+    "id": "v77cgb55gmq64ohp3",
+    "_id": "v77cgb55gmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Huawei",
+    "slug": "huawei"
+  },
+  {
+    "id": "t26rxb5f5mq64ohp3",
+    "_id": "t26rxb5f5mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Sennheiser",
+    "slug": "sennheiser"
+  },
+  {
+    "id": "os15fp42qmq64ohp3",
+    "_id": "os15fp42qmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Skullcandy",
+    "slug": "skullcandy"
+  },
+  {
+    "id": "in9olwc8jmq64ohp3",
+    "_id": "in9olwc8jmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "HyperX",
+    "slug": "hyperx"
+  },
+  {
+    "id": "ti70f3q1hmq64ohp3",
+    "_id": "ti70f3q1hmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "SteelSeries",
+    "slug": "steelseries"
+  },
+  {
+    "id": "k8m6t5tjkmq64ohp3",
+    "_id": "k8m6t5tjkmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Razer",
+    "slug": "razer"
+  },
+  {
+    "id": "4ywclkig5mq64ohp3",
+    "_id": "4ywclkig5mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Audio-Technica",
+    "slug": "audio-technica"
+  },
+  {
+    "id": "bjvchlr2umq64ohp3",
+    "_id": "bjvchlr2umq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Beyerdynamic",
+    "slug": "beyerdynamic"
+  },
+  {
+    "id": "19hvzytysmq64ohp3",
+    "_id": "19hvzytysmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "SG",
+    "slug": "sg"
+  },
+  {
+    "id": "agq22wxehmq64ohp3",
+    "_id": "agq22wxehmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "SS",
+    "slug": "ss"
+  },
+  {
+    "id": "dhq70w7fomq64ohp3",
+    "_id": "dhq70w7fomq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Kookaburra",
+    "slug": "kookaburra"
+  },
+  {
+    "id": "ptur65c4tmq64ohp3",
+    "_id": "ptur65c4tmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Spalding",
+    "slug": "spalding"
+  },
+  {
+    "id": "d9b5nim0tmq64ohp3",
+    "_id": "d9b5nim0tmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Yonex",
+    "slug": "yonex"
+  },
+  {
+    "id": "0pi19dqdumq64ohp3",
+    "_id": "0pi19dqdumq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Wilson",
+    "slug": "wilson"
+  },
+  {
+    "id": "v0i0bqri9mq64ohp3",
+    "_id": "v0i0bqri9mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Head",
+    "slug": "head"
+  },
+  {
+    "id": "8vcysq7fvmq64ohp3",
+    "_id": "8vcysq7fvmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Kore",
+    "slug": "kore"
+  },
+  {
+    "id": "cfbc76spomq64ohp3",
+    "_id": "cfbc76spomq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Lifeline",
+    "slug": "lifeline"
+  },
+  {
+    "id": "5911k6mi0mq64ohp3",
+    "_id": "5911k6mi0mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Boldfit",
+    "slug": "boldfit"
+  },
+  {
+    "id": "h06o94c9umq64ohp3",
+    "_id": "h06o94c9umq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "PowerMax",
+    "slug": "powermax"
+  },
+  {
+    "id": "hszz700ncmq64ohp3",
+    "_id": "hszz700ncmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Reach",
+    "slug": "reach"
+  },
+  {
+    "id": "qnld0f85omq64ohp3",
+    "_id": "qnld0f85omq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Stag",
+    "slug": "stag"
+  },
+  {
+    "id": "qrohjbf8omq64ohp3",
+    "_id": "qrohjbf8omq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "AmazonBasics",
+    "slug": "amazonbasics"
+  },
+  {
+    "id": "p3fwq4858mq64ohp3",
+    "_id": "p3fwq4858mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "FitSimplify",
+    "slug": "fitsimplify"
+  },
+  {
+    "id": "nkb24n1u9mq64ohp3",
+    "_id": "nkb24n1u9mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "RPM Fitness",
+    "slug": "rpm-fitness"
+  },
+  {
+    "id": "mmfe0hbdymq64ohp3",
+    "_id": "mmfe0hbdymq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Aurion",
+    "slug": "aurion"
+  },
+  {
+    "id": "3gn80snl4mq64ohp3",
+    "_id": "3gn80snl4mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "TriggerPoint",
+    "slug": "triggerpoint"
+  },
+  {
+    "id": "tq4fpobrfmq64ohp3",
+    "_id": "tq4fpobrfmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Nivia",
+    "slug": "nivia"
+  },
+  {
+    "id": "68f1thr7gmq64ohp3",
+    "_id": "68f1thr7gmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Kobo",
+    "slug": "kobo"
+  },
+  {
+    "id": "mh9m05id5mq64ohp3",
+    "_id": "mh9m05id5mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "HRX",
+    "slug": "hrx"
+  },
+  {
+    "id": "qf03iidekmq64ohp3",
+    "_id": "qf03iidekmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Decathlon",
+    "slug": "decathlon"
+  },
+  {
+    "id": "m6dkr795umq64ohp3",
+    "_id": "m6dkr795umq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "HealthSense",
+    "slug": "healthsense"
+  },
+  {
+    "id": "rcdego7emmq64ohp3",
+    "_id": "rcdego7emmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "American Tourister",
+    "slug": "american-tourister"
+  },
+  {
+    "id": "wvn1avqipmq64ohp3",
+    "_id": "wvn1avqipmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Safari",
+    "slug": "safari"
+  },
+  {
+    "id": "k9epjkv3lmq64ohp3",
+    "_id": "k9epjkv3lmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Skybags",
+    "slug": "skybags"
+  },
+  {
+    "id": "v4redkldkmq64ohp3",
+    "_id": "v4redkldkmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "F Gear",
+    "slug": "f-gear"
+  },
+  {
+    "id": "3m4jviyk8mq64ohp3",
+    "_id": "3m4jviyk8mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Mosiso",
+    "slug": "mosiso"
+  },
+  {
+    "id": "ypwc1ty80mq64ohp3",
+    "_id": "ypwc1ty80mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "J Pillow",
+    "slug": "j-pillow"
+  },
+  {
+    "id": "3f62tys1smq64ohp3",
+    "_id": "3f62tys1smq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Comfy Living",
+    "slug": "comfy-living"
+  },
+  {
+    "id": "kb31jnrgtmq64ohp3",
+    "_id": "kb31jnrgtmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Eagle Creek",
+    "slug": "eagle-creek"
+  },
+  {
+    "id": "zhe8wa035mq64ohp3",
+    "_id": "zhe8wa035mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "WildHorn",
+    "slug": "wildhorn"
+  },
+  {
+    "id": "w30r8ef5hmq64ohp3",
+    "_id": "w30r8ef5hmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "North Star",
+    "slug": "north-star"
+  },
+  {
+    "id": "5fxu25m2rmq64ohp3",
+    "_id": "5fxu25m2rmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "VIP",
+    "slug": "vip"
+  },
+  {
+    "id": "f8y25a9t8mq64ohp3",
+    "_id": "f8y25a9t8mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "UGREEN",
+    "slug": "ugreen"
+  },
+  {
+    "id": "324h1npaimq64ohp3",
+    "_id": "324h1npaimq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Master Lock",
+    "slug": "master-lock"
+  },
+  {
+    "id": "20jqjfapymq64ohp3",
+    "_id": "20jqjfapymq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Fur Jaden",
+    "slug": "fur-jaden"
+  },
+  {
+    "id": "jyke2e2rumq64ohp3",
+    "_id": "jyke2e2rumq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Redragon",
+    "slug": "redragon"
+  },
+  {
+    "id": "8tehpcfxgmq64ohp3",
+    "_id": "8tehpcfxgmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Microsoft",
+    "slug": "microsoft"
+  },
+  {
+    "id": "nyntzwf3cmq64ohp3",
+    "_id": "nyntzwf3cmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Green Soul",
+    "slug": "green-soul"
+  },
+  {
+    "id": "hxioyh5yhmq64ohp3",
+    "_id": "hxioyh5yhmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Cooler Master",
+    "slug": "cooler-master"
+  },
+  {
+    "id": "80gju28g8mq64ohp3",
+    "_id": "80gju28g8mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Cosmic Byte",
+    "slug": "cosmic-byte"
+  },
+  {
+    "id": "kdcvc60enmq64ohp3",
+    "_id": "kdcvc60enmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Govee",
+    "slug": "govee"
+  },
+  {
+    "id": "7q3un2ml6mq64ohp3",
+    "_id": "7q3un2ml6mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "DeckUp",
+    "slug": "deckup"
+  },
+  {
+    "id": "llj6zponcmq64ohp3",
+    "_id": "llj6zponcmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "PowerA",
+    "slug": "powera"
+  },
+  {
+    "id": "0c57vyq57mq64ohp3",
+    "_id": "0c57vyq57mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Oculus (Meta)",
+    "slug": "oculus"
+  },
+  {
+    "id": "5bpq6ll6rmq64ohp3",
+    "_id": "5bpq6ll6rmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Amkette",
+    "slug": "amkette"
+  },
+  {
+    "id": "2aaax99j5mq64ohp3",
+    "_id": "2aaax99j5mq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "EvoFox",
+    "slug": "evofox"
+  },
+  {
+    "id": "fk6pb7hsvmq64ohp3",
+    "_id": "fk6pb7hsvmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Maono",
+    "slug": "maono"
+  },
+  {
+    "id": "yiipc2bdcmq64ohp3",
+    "_id": "yiipc2bdcmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "BenQ",
+    "slug": "benq"
+  },
+  {
+    "id": "zz6l30pygmq64ohp3",
+    "_id": "zz6l30pygmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "ViewSonic",
+    "slug": "viewsonic"
+  },
+  {
+    "id": "8d16v8alpmq64ohp3",
+    "_id": "8d16v8alpmq64ohp3",
+    "createdAt": "2026-06-09T04:16:49.047Z",
+    "updatedAt": "2026-06-09T04:16:49.047Z",
+    "name": "Nokia",
+    "slug": "nokia"
+  }
+]

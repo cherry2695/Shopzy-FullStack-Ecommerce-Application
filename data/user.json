@@ -1,0 +1,28 @@
+[
+  {
+    "id": "4aodzuanbmq64ohn1",
+    "_id": "4aodzuanbmq64ohn1",
+    "createdAt": "2026-06-09T04:16:48.973Z",
+    "updatedAt": "2026-06-09T04:16:48.974Z",
+    "name": "Shopzy System Admin",
+    "email": "admin@shopzy.com",
+    "username": "admin",
+    "password": "$2b$10$9pP5pxaLsewmTg0fqYhY5.F5w0Vkfufxrt7zUdHpn7Y77ABQYAgty",
+    "role": "admin",
+    "isVerified": true,
+    "phone": "+919999999999"
+  },
+  {
+    "id": "jwtp2dxjxmq64ohoy",
+    "_id": "jwtp2dxjxmq64ohoy",
+    "createdAt": "2026-06-09T04:16:49.042Z",
+    "updatedAt": "2026-06-09T04:16:49.042Z",
+    "name": "Regular Customer",
+    "email": "customer@shopzy.com",
+    "username": "customer",
+    "password": "$2b$10$Ql8lSGQiKHUobFedAxfi0ec3LzR0TfOTFmSYAjTNtQJYcPrzC1QRa",
+    "role": "customer",
+    "isVerified": true,
+    "phone": "+918888888888"
+  }
+]

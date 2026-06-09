@@ -1,0 +1,35 @@
+[
+  {
+    "id": "lr4318b3ymq64ohp7",
+    "_id": "lr4318b3ymq64ohp7",
+    "createdAt": "2026-06-09T04:16:49.051Z",
+    "updatedAt": "2026-06-09T04:16:49.051Z",
+    "title": "The Ultimate Tech Upgrade Sale",
+    "imageURL": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1600&q=80",
+    "link": "/products?category=Laptops",
+    "position": "hero",
+    "isActive": true
+  },
+  {
+    "id": "2f7w65elcmq64ohp7",
+    "_id": "2f7w65elcmq64ohp7",
+    "createdAt": "2026-06-09T04:16:49.051Z",
+    "updatedAt": "2026-06-09T04:16:49.051Z",
+    "title": "Step Up Your Fit Routine",
+    "imageURL": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1600&q=80",
+    "link": "/products?category=Fitness%20Equipment",
+    "position": "hero",
+    "isActive": true
+  },
+  {
+    "id": "xklzjfhthmq64ohp7",
+    "_id": "xklzjfhthmq64ohp7",
+    "createdAt": "2026-06-09T04:16:49.051Z",
+    "updatedAt": "2026-06-09T04:16:49.051Z",
+    "title": "Summery Wardrobe Refresh",
+    "imageURL": "https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=1600&q=80",
+    "link": "/products?category=Mens%20Clothing",
+    "position": "hero",
+    "isActive": true
+  }
+]
