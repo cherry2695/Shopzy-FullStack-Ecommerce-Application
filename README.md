@@ -35,21 +35,15 @@ Shopzy is a modern AI-powered full-stack e-commerce application built to provide
 
 ### Frontend
 
-* React 19
-* TypeScript
-* Vite
-* HTML5
-* CSS3
+* React 19, TypeScript, Vite, HTML5, CSS3
 
 ### Backend
 
-* Node.js
-* Express.js
+* Node.js, Express.js
 
 ### Database
 
-* MongoDB
-* Mongoose
+* MongoDB, Mongoose
 
 ### Authentication
 
@@ -58,10 +52,6 @@ Shopzy is a modern AI-powered full-stack e-commerce application built to provide
 ### AI Integration
 
 * Google Gemini AI
-
-### Templating Engine
-
-* EJS
 
 ## 🎯 Key Highlights
 
@@ -78,5 +68,8 @@ Shopzy is a modern AI-powered full-stack e-commerce application built to provide
 ### 🏠 Home Page
 ![Home Page](./screenshots/home-page.png)
 
-### 🏠 Product Page
+### ⌚ Listing Page
 ![Product Page](./screenshots/listing-page.png)
+
+### 🛒 All Products Page
+![All-Product Page](./screenshots/All-Products.png)
