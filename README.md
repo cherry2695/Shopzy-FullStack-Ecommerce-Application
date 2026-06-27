@@ -76,4 +76,4 @@ Shopzy is a modern AI-powered full-stack e-commerce application built to provide
 
 ## 🌐 Live Demo
 
-[![Live Demo](https://shopzy-844756831111.asia-southeast1.run.app)
+![Live Demo](https://shopzy-844756831111.asia-southeast1.run.app)
