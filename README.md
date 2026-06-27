@@ -66,10 +66,10 @@ Shopzy is a modern AI-powered full-stack e-commerce application built to provide
 ## 📸 Project Screenshots
 
 ### 🏠 Home Page
-![Dashboard](src/assets/images/WeatherSphere_Dashboard.png)
+![Home Page](./assets/home-page.png)
 
-### 🗺️ Weather Maps
-![Weather Maps](src/assets/images/WeatherSphere_Maps.png)
+### ⌚ Listing Page
+![Product Page](./screenshots/listing-page.png)
 
-### 📈 Analytics
-![Analytics](src/assets/images/Weathersphere_Analytics.png)
+### 🛒 All Products Page
+![All-Product Page](./screenshots/All-Products.png)
